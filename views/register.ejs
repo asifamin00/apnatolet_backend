@@ -1,4 +1,5 @@
 <%- include('partials/head') -%>
+
 <body class="bg-gradient-primary">
     <div class="container">
         <div class="card shadow-lg o-hidden border-0 my-5">
@@ -10,20 +11,29 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h4 class="text-dark mb-4">Create an Account!</h4>
+                                <h4 class="text-dark mb-4">Create an Account for editer roll</h4>
                             </div>
-                            <form class="user">
+                             <form class="user" method="POST"action=""> 
+                                
+                                
                                 <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="First Name" name="first_name"></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleLastName" placeholder="Last Name" name="last_name"></div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="FirstName" placeholder="First Name" name="first_name" required></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="LastName" placeholder="Last Name" name="last_name" required></div>
                                 </div>
-                                <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address" name="email"></div>
                                 <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Password" name="password"></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password" name="password_repeat"></div>
-                                </div><button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account</button>
-                                <hr><a class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Register with Google</a><a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook</a>
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="email" id="email" placeholder="Email" name="email" required></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="number" id="phone" placeholder="Moile_number" name="phone" required></div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="confirm_password" placeholder="confirm_password" name="confirm_password" required></div>
+                                </div>
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account</button>
+                                <!-- <hr><a class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Register with Google</a><a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook</a> -->
+                                
                                 <hr>
+                            
                             </form>
                             <div class="text-center"><a class="small" href="forgot-password">Forgot Password?</a></div>
                             <div class="text-center"><a class="small" href="login">Already have an account? Login!</a></div>
@@ -33,9 +43,12 @@
             </div>
         </div>
     </div>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/bs-init.js"></script>
-    <script src="/js/theme.js"></script>
+  
+   
+    
 </body>
-
+<script src="/js/signup.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/bs-init.js"></script> 
+ <script src="/js/theme.js"></script>
 </html>

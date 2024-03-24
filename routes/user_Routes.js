@@ -19,4 +19,15 @@ userRouter.post('/register',signup)
 
 userRouter.post('/login',signin)
 
+userRouter.get('/logout', (req,res)=> {
+  
+    
+    res.cookie("token", '',{maxAge:1});   
+     
+     res.redirect('/');
+    
+} )
+
+
+
 module.exports=userRouter

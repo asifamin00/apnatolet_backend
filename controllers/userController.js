@@ -7,10 +7,21 @@ const jwt = require("jsonwebtoken")
 const SECRET_KEY=process.env.AUTH_SECRET
 
 
-const dashbord=(req,res )=>{
-
-    
-res.render('index')
+const dashbord=async(req,res )=>{
+    try {
+        let token = req.cookies.token
+        if(token){
+            //let token = req.cookies.token
+            let user = jwt.verify(token, SECRET_KEY)
+            
+            let existingUser=await userModel.findOne({email:user.email})
+            
+            
+            res.render('index',{existingUser})
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
@@ -70,16 +81,30 @@ const signin = async (req,res)=>{
                 return res.status(400).json({message:"password mismatch"})
             }
 
-             const token = jwt.sign({email:existingUser.email,id:existingUser._id},SECRET_KEY)
-             res.status(200)
+            //  const token = jwt.sign({email:existingUser.email,id:existingUser._id},SECRET_KEY)
+             
+            // res.cookie("token", token);
             
-            // res.cookie("token", token)
-                //,roll:existingUser.roll
-            //const token = jwt.sign(user, process.env.MY_SECRET, { expiresIn: "1h" });
-                //.json({user:existingUser.username,email:existingUser.email})
-            res.cookie("token", token);
+            // return res.redirect("/");
+
+            const token = jwt.sign(
+                {
+                    email:existingUser.email,id:existingUser._id
+                },
+                SECRET_KEY,
+                {
+                  expiresIn: process.env.TOKEN_EXP,
+                }
+              );
+              const options = {
+                expires: new Date(Date.now() + 86400000),
+              };
+           
+
+            res.cookie("token", token,options);
             
-            return res.redirect("/");
+              res.redirect("/");
+            
 
 
 }

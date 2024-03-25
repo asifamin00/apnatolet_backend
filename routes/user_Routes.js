@@ -6,6 +6,10 @@ const userRouter=express.Router()
 
 userRouter.get('/login', (req,res)=>{
     res.render('login')})
+
+    userRouter.get('/pending', (req,res)=>{
+        res.render('pending')})
+
 userRouter.get('/register', (req,res)=>{
     res.render('register')
 })
@@ -23,7 +27,7 @@ userRouter.get('/logout', (req,res)=> {
   
     
     res.cookie("token", '',{maxAge:1});   
-     
+    req.session.destroy();
      res.redirect('/');
     
 } )

@@ -9,12 +9,12 @@ const auth = (req, res, next)=>{
         
         const token = req.cookies.token
         
-        if(token){
+        if(token ){
             
             let user = jwt.verify(token, SECRET_KEY)
             
             req.userId = user.id
-           
+            
 
         }
         else{

@@ -33,7 +33,8 @@ const signup=async(req,res)=>{
     try {
         const existingUser= await userModel.findOne({email:email})
         if(existingUser){
-            return res.status(400).json({message:"Üser alredy exists"})
+            req.flash('error_msg', 'Üser alredy exists')
+            return res.redirect('/register')//res.status(400).json({message:"Üser alredy exists"})
 
         }
 
@@ -50,9 +51,10 @@ const signup=async(req,res)=>{
             createdBy:'self'
         })
 
-        const token = jwt.sign({email:result.email,id:result._id},SECRET_KEY)
-    
-        return res.status(200).json({user:result,token:token})
+        const token = jwt.sign({email:result.email,id:result._id,status:result.status},SECRET_KEY)
+        req.flash('success_msg', 'successfully register.')
+        return res.redirect('/register')
+        //return res.status(200).json({user:result,token:token})
 
        
 
@@ -61,35 +63,44 @@ const signup=async(req,res)=>{
     } catch (error) {
 
         console.log(error + 'asif49')
-        return res.status(500).json({message:"Something went wrong"})
+        req.flash('error_msg', error)
+        return res.redirect('/register')
+       // return res.status(500).json({message:"Something went wrong"})
         
     }
 
 }
 
 const signin = async (req,res)=>{
-    
+    //const res.locals.user = null;
     const {email,password}=req.body
     try {
         const existingUser= await userModel.findOne({email:email})
         if(!existingUser){
-            return res.status(404).json({message:"Üser not found"})
+            req.flash('error_msg', 'Üser not found')
+            return res.redirect('/login')
+            //return res.status(404).json({message:"Üser not found"})
 
         }
        const matchPassword = await bcrypt.compare(password,existingUser.password)
             if(!matchPassword){
-                return res.status(400).json({message:"password mismatch"})
+                req.flash('error_msg', 'password mismatch')
+                return res.redirect('/login')
+                //return res.json({message:"password mismatch"})
             }
 
-            //  const token = jwt.sign({email:existingUser.email,id:existingUser._id},SECRET_KEY)
-             
-            // res.cookie("token", token);
             
-            // return res.redirect("/");
+            if(existingUser.status =="pending"){
+                req.flash('error_msg', 'pendin approval')
+                return res.redirect('/login')
+                //return res.render('pending')
+                //return res.status(400).json({message:"pendin approval"})
+            }
 
+            
             const token = jwt.sign(
                 {
-                    email:existingUser.email,id:existingUser._id
+                    email:existingUser.email,id:existingUser._id,status:existingUser.status
                 },
                 SECRET_KEY,
                 {
@@ -100,7 +111,7 @@ const signin = async (req,res)=>{
                 expires: new Date(Date.now() + 86400000),
               };
            
-
+            res.locals.user_i = existingUser.email;
             res.cookie("token", token,options);
             
               res.redirect("/");
@@ -110,7 +121,9 @@ const signin = async (req,res)=>{
 }
 catch(error){
     console.log(error + '84')
-    return res.status(500).json({message:"something went wrong"})
+    req.flash('error_msg', 'something went wrong')
+    return res.redirect('/login')
+    //return res.status(500).json({message:"something went wrong"})
 
 }
 }

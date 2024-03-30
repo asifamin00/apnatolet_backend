@@ -16,8 +16,8 @@
                                         <h4 class="text-dark mb-4">Welcome Back!</h4>
                                         <%- include('partials/messages') -%>
                                     </div>
-                                    <form class="user" method="POST"action="/login">
-                                        <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" required></div>
+                                    <form class="user" method="POST" autocomplete="on" target="_self"id="form" >
+                                        <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email"   > </div>
                                         <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password" required></div>
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox small">
@@ -37,6 +37,14 @@
             </div>
         </div>
     </div>
+    <!-- <script>
+        const form = document.getElementById('form')
+        form.addEventListener('submit',function(e){
+            e.preventDefault()
+
+
+        })
+    </script> -->
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/bs-init.js"></script>
     <script src="/js/theme.js"></script>

@@ -1,9 +1,11 @@
 
+const otpGenerator = require('otp-generator')
+const nodemailer = require('nodemailer')
 const userModel = require("../models/userSch")
 const bcrypt=require("bcrypt")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
-
+//const User =require(./)
 const SECRET_KEY=process.env.AUTH_SECRET
 
 
@@ -52,7 +54,7 @@ const signup=async(req,res)=>{
         })
 
         const token = jwt.sign({email:result.email,id:result._id,status:result.status},SECRET_KEY)
-        req.flash('success_msg', 'successfully register.')
+        req.flash('success_msg', 'Successfully register.')
         return res.redirect('/register')
         //return res.status(200).json({user:result,token:token})
 
@@ -78,23 +80,23 @@ const signin = async (req,res)=>{
         const existingUser= await userModel.findOne({email:email})
         if(!existingUser){
             req.flash('error_msg', 'Üser not found')
+            req.flash('e_email',email)
             return res.redirect('/login')
             //return res.status(404).json({message:"Üser not found"})
 
         }
        const matchPassword = await bcrypt.compare(password,existingUser.password)
             if(!matchPassword){
-                req.flash('error_msg', 'password mismatch')
+                req.flash('error_msg', 'Password mismatch')
                 return res.redirect('/login')
                 //return res.json({message:"password mismatch"})
             }
 
             
             if(existingUser.status =="pending"){
-                req.flash('error_msg', 'pendin approval')
+                req.flash('error_msg', 'Pendin approval')
                 return res.redirect('/login')
-                //return res.render('pending')
-                //return res.status(400).json({message:"pendin approval"})
+               
             }
 
             
@@ -121,11 +123,117 @@ const signin = async (req,res)=>{
 }
 catch(error){
     console.log(error + '84')
-    req.flash('error_msg', 'something went wrong')
+    req.flash('error_msg', 'Something went wrong')
     return res.redirect('/login')
-    //return res.status(500).json({message:"something went wrong"})
+    
 
 }
 }
 
-module.exports={signin,signup,dashbord}
+const forgotPassword=async (req,res)=>{
+    const {email}=req.body
+   
+        const existingUser= await userModel.findOne({email:email})
+        if(!existingUser){
+            req.flash('error_msg', 'Üser not found')            
+            return res.redirect('/forgot-password')
+        }
+        const otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets:false,
+             specialChars: false 
+           })
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.G_MAIL,
+              pass: process.env.G_PASS
+            }
+          })
+
+        const mailOptions = {
+        from:process.env.G_MAIL,
+        to: email,
+        subject: 'OTP FOR RESETPASSWORD',
+        text:'Your OTP is for apnaTolet is:\t'+ otp 
+        }
+
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          })
+
+
+          existingUser.resetPasswordToken = otp;
+          existingUser.resetPasswordExpires = Date.now() + 1800000; //   1/2 hours
+
+          existingUser.save(otp)
+          req.flash('success_msg', 'Please cheek email FOR OTP')
+          console.log(otp)//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+          res.redirect('otp')
+        
+
+
+          
+         
+        
+}
+
+
+const otp_check=async (req,res)=>  {
+    const {_otp,password,confirm_password}=req.body
+    
+    var user_s= await userModel.findOne({resetPasswordToken: _otp, resetPasswordExpires : {$gt : Date.now() } })//userModel.findOne({resetPasswordToken:_otp,email:email})
+
+    if(user_s == null)
+    {
+        req.flash('error_msg', 'OTP incurect!');
+             return  res.redirect('/otp');
+    }
+
+   
+
+     
+     if(user_s.status == "pending"){
+        req.flash('error_msg', 'You are not active user ,status pending!');
+        return  res.redirect('/otp');
+     }
+
+     if(!user_s.Roll == 2017 && 9012 ){
+        req.flash('error_msg', 'This is admin penal other not allowwd ');
+        res.redirect('/otp');
+     }
+    
+
+     if(password !== confirm_password) {
+        req.flash('error_msg', "Password don't match.");
+        return res.redirect('/otp');
+    }
+   
+    
+    const hashedPassword = await bcrypt.hash(password,10)
+
+    user_s.resetPasswordToken=''
+    user_s.resetPasswordExpires=''
+    user_s.password=hashedPassword
+      user_s.save()
+      req.flash('success_msg', 'Password successfully changed')
+     return res.redirect('/login')
+
+     
+    
+     
+
+     
+
+     
+    
+
+
+
+}
+
+module.exports={signin,signup,dashbord,forgotPassword,otp_check}

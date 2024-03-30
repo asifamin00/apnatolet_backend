@@ -1,13 +1,13 @@
 const express=require('express')
-const{signup,signin,dashbord}=require('../controllers/userController')
+const{signup,signin,dashbord,forgotPassword,otp_check}=require('../controllers/userController')
 const auth=require('../middlewares/auth')
 
 const userRouter=express.Router()
 
 userRouter.get('/login', (req,res)=>{
-    res.render('login')})
+res.render('login')})
 
-    userRouter.get('/pending', (req,res)=>{
+userRouter.get('/pending', (req,res)=>{
         res.render('pending')})
 
 userRouter.get('/register', (req,res)=>{
@@ -31,6 +31,15 @@ userRouter.get('/logout', (req,res)=> {
      res.redirect('/');
     
 } )
+
+userRouter.get('/otp', (req,res)=>{
+    res.render('otp')
+
+})
+
+userRouter.post('/forgot-password',forgotPassword);
+    
+userRouter.post('/otp',otp_check);
 
 
 

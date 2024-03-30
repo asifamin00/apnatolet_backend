@@ -1,41 +1,41 @@
-const mongoose=require('mongoose')
-const UserSchema=mongoose.Schema({
-    userFname:{
-        type:String,
-        required:true
+const mongoose = require('mongoose')
+const UserSchema = mongoose.Schema({
+    userFname: {
+        type: String,
+        required: true
     },
-    userLname:{
-        type:String,
-        required:true
+    userLname: {
+        type: String,
+        required: true
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        required:true
+    email: {
+        type: String,
+        required: true
     },
-    Phone:{
-        type:Number,
-        required:true
+    Phone: {
+        type: Number,
+        required: true
     },
-    Roll:{
-        type:Number,
-        required:true
+    Roll: {
+        type: Number,
+        required: true
     },
-    status:{
-        type:String,
-        required:true
+    status: {
+        type: String,
+        required: true
     },
-    createdBy:{
-        type:String,
-        required:true
+    createdBy: {
+        type: String,
+        required: true
     },
-    resetPasswordToken : String,
-    resetPasswordExpires : Date
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 
-     
-},{timestamps:true})
-module.exports=mongoose.model("userSch", UserSchema)
+
+}, { timestamps: true })
+module.exports = mongoose.model("userSch", UserSchema)
 //Roll.admin=2017,Roll.editer=9012,Roll.field=7210,Roll.agent=2346,Roll.woner=1298,Roll.user=1714,

@@ -172,7 +172,6 @@ const forgotPassword = async (req, res) => {
 
     existingUser.save(otp)
     req.flash('success_msg', 'Please cheek email FOR OTP')
-    console.log(otp)//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     res.redirect('otp')
 
 
@@ -186,7 +185,7 @@ const forgotPassword = async (req, res) => {
 const otp_check = async (req, res) => {
     const { _otp, password, confirm_password } = req.body
 
-    var user_s = await userModel.findOne({ resetPasswordToken: _otp, resetPasswordExpires: { $gt: Date.now() } })//userModel.findOne({resetPasswordToken:_otp,email:email})
+    var user_s = await userModel.findOne({ resetPasswordToken: _otp, resetPasswordExpires: { $gt: Date.now() } })
 
     if (user_s == null) {
         req.flash('error_msg', 'OTP incurect!');

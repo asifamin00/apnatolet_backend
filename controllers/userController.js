@@ -5,7 +5,7 @@ const userModel = require("../models/userSch")
 const bcrypt=require("bcrypt")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
-//const User =require(./)
+
 const SECRET_KEY=process.env.AUTH_SECRET
 
 
@@ -13,7 +13,7 @@ const dashbord=async(req,res )=>{
     try {
         let token = req.cookies.token
         if(token){
-            //let token = req.cookies.token
+           
             let user = jwt.verify(token, SECRET_KEY)
             
             let existingUser=await userModel.findOne({email:user.email})
@@ -36,7 +36,7 @@ const signup=async(req,res)=>{
         const existingUser= await userModel.findOne({email:email})
         if(existingUser){
             req.flash('error_msg', 'Üser alredy exists')
-            return res.redirect('/register')//res.status(400).json({message:"Üser alredy exists"})
+            return res.redirect('/register')
 
         }
 
@@ -56,7 +56,7 @@ const signup=async(req,res)=>{
         const token = jwt.sign({email:result.email,id:result._id,status:result.status},SECRET_KEY)
         req.flash('success_msg', 'Successfully register.')
         return res.redirect('/register')
-        //return res.status(200).json({user:result,token:token})
+       
 
        
 
@@ -67,7 +67,7 @@ const signup=async(req,res)=>{
         console.log(error + 'asif49')
         req.flash('error_msg', error)
         return res.redirect('/register')
-       // return res.status(500).json({message:"Something went wrong"})
+       
         
     }
 
@@ -89,7 +89,7 @@ const signin = async (req,res)=>{
             if(!matchPassword){
                 req.flash('error_msg', 'Password mismatch')
                 return res.redirect('/login')
-                //return res.json({message:"password mismatch"})
+               
             }
 
             
@@ -224,16 +224,6 @@ const otp_check=async (req,res)=>  {
      return res.redirect('/login')
 
      
-    
-     
-
-     
-
-     
-    
-
-
-
 }
 
 module.exports={signin,signup,dashbord,forgotPassword,otp_check}

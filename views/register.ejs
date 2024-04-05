@@ -1,4 +1,5 @@
 <%- include('partials/head') -%>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <body class="bg-gradient-primary">
     <div class="container">
@@ -30,9 +31,14 @@
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
                                     <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="confirm_password" placeholder="confirm_password" name="confirm_password" required></div>
                                 </div>
-                                <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account</button>
+                                <!-- <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account</button> -->
                                 <!-- <hr><a class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Register with Google</a><a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook</a> -->
-                                
+                                <div class="g-recaptcha"
+                                        data-sitekey="6Lel4Z4UAAAAAOa8LO1Q9mqKRUiMYl_00o5mXJrR"></div>
+                                        <hr>
+                                    <p>
+                                        <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account</button> 
+                                    </p>
                                 <hr>
                             
                             </form>

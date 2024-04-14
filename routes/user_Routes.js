@@ -1,5 +1,5 @@
 const express = require('express')
-const { signup, signin, dashbord, forgotPassword, otp_check } = require('../controllers/userController')
+const { signup, signin, dashbord, forgotPassword, otp_check,createUser } = require('../controllers/userController')
 const auth = require('../middlewares/auth')
 
 const userRouter = express.Router()
@@ -15,6 +15,8 @@ userRouter.get('/pending', (req, res) => {
 userRouter.get('/register', (req, res) => {
     res.render('register')
 })
+userRouter.post('/creatuser', createUser)
+
 userRouter.get('/forgot-password', (req, res) => {
     res.render('forgot-password')
 })

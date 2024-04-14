@@ -10,20 +10,20 @@ const SECRET_KEY = process.env.AUTH_SECRET
 
 
 const dashbord = async (req, res) => {
-    try {
-        let token = req.cookies.token
-        if (token) {
+  try {
+    let token = req.cookies.token
+    if (token) {
 
-            let user = jwt.verify(token, SECRET_KEY)
+      let user = jwt.verify(token, SECRET_KEY)
 
-            let existingUser = await userModel.findOne({ email: user.email })
+      let existingUser = await userModel.findOne({ email: user.email })
 
 
-            res.render('index', { existingUser })
-        }
-    } catch (error) {
-        console.log(error)
+      res.render('index', { existingUser })
     }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 
@@ -31,140 +31,140 @@ const signup = async (req, res) => {
 
 
 
-    const { first_name, last_name, email, phone, password } = req.body
-    try {
-        const existingUser = await userModel.findOne({ email: email })
-        if (existingUser) {
-            req.flash('error_msg', 'Üser alredy exists')
-            return res.redirect('/register')
-
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10)
-
-        const result = await userModel.create({
-            userFname: first_name,
-            userLname: last_name,
-            Phone: phone,
-            email: email,
-            password: hashedPassword,
-            Roll: 9012,
-            status: "pending",
-            createdBy: 'self'
-        })
-
-        const token = jwt.sign({ email: result.email, id: result._id, status: result.status }, SECRET_KEY)
-        req.flash('success_msg', 'Successfully register.')
-        return res.redirect('/register')
-
-
-
-
-
-
-    } catch (error) {
-
-        console.log(error + 'asif49')
-        req.flash('error_msg', error)
-        return res.redirect('/register')
-
+  const { first_name, last_name, email, phone, password } = req.body
+  try {
+    const existingUser = await userModel.findOne({ email: email })
+    if (existingUser) {
+      req.flash('error_msg', 'Üser alredy exists')
+      return res.redirect('/register')
 
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const result = await userModel.create({
+      userFname: first_name,
+      userLname: last_name,
+      Phone: phone,
+      email: email,
+      password: hashedPassword,
+      Roll: 9012,
+      status: "pending",
+      createdBy: 'self'
+    })
+
+    const token = jwt.sign({ email: result.email, id: result._id, status: result.status }, SECRET_KEY)
+    req.flash('success_msg', 'Successfully register.')
+    return res.redirect('/register')
+
+
+
+
+
+
+  } catch (error) {
+
+    console.log(error + 'asif49')
+    req.flash('error_msg', error)
+    return res.redirect('/register')
+
+
+  }
 
 }
 
 const signin = async (req, res) => {
-    //const res.locals.user = null;
-    const { email, password } = req.body
-    try {
-        const existingUser = await userModel.findOne({ email: email })
-        if (!existingUser) {
-            req.flash('error_msg', 'Üser not found')
-            req.flash('e_email', email)
-            return res.redirect('/login')
-            //return res.status(404).json({message:"Üser not found"})
-
-        }
-        const matchPassword = await bcrypt.compare(password, existingUser.password)
-        if (!matchPassword) {
-            req.flash('error_msg', 'Password mismatch')
-            return res.redirect('/login')
-
-        }
-
-
-        if (existingUser.status == "pending") {
-            req.flash('error_msg', 'Pending approval')
-            return res.redirect('/login')
-
-        }
-
-
-        const token = jwt.sign(
-            {
-                email: existingUser.email, id: existingUser._id, status: existingUser.status
-            },
-            SECRET_KEY,
-            {
-                expiresIn: process.env.TOKEN_EXP,
-            }
-        );
-        const options = {
-            expires: new Date(Date.now() + 86400000),
-        };
-
-        res.locals.user_i = existingUser.email;
-        res.cookie("token", token, options);
-
-        res.redirect("/");
-
-
+  //const res.locals.user = null;
+  const { email, password } = req.body
+  try {
+    const existingUser = await userModel.findOne({ email: email })
+    if (!existingUser) {
+      req.flash('error_msg', 'Üser not found')
+      req.flash('e_email', email)
+      return res.redirect('/login')
+      //return res.status(404).json({message:"Üser not found"})
 
     }
-    catch (error) {
-        console.log(error + '84')
-        req.flash('error_msg', 'Something went wrong')
-        return res.redirect('/login')
-
+    const matchPassword = await bcrypt.compare(password, existingUser.password)
+    if (!matchPassword) {
+      req.flash('error_msg', 'Password mismatch')
+      return res.redirect('/login')
 
     }
+
+
+    if (existingUser.status == "pending") {
+      req.flash('error_msg', 'Pending approval')
+      return res.redirect('/login')
+
+    }
+
+
+    const token = jwt.sign(
+      {
+        email: existingUser.email, id: existingUser._id, status: existingUser.status
+      },
+      SECRET_KEY,
+      {
+        expiresIn: process.env.TOKEN_EXP,
+      }
+    );
+    const options = {
+      expires: new Date(Date.now() + 86400000),
+    };
+
+    res.locals.user_i = existingUser.email;
+    res.cookie("token", token, options);
+
+    res.redirect("/");
+
+
+
+  }
+  catch (error) {
+    console.log(error + '84')
+    req.flash('error_msg', 'Something went wrong')
+    return res.redirect('/login')
+
+
+  }
 }
 
 const forgotPassword = async (req, res) => {
-    const { email } = req.body
+  const { email } = req.body
 
-    const existingUser = await userModel.findOne({ email: email })
-    if (!existingUser) {
-        req.flash('error_msg', 'Üser not found')
-        return res.redirect('/forgot-password')
+  const existingUser = await userModel.findOne({ email: email })
+  if (!existingUser) {
+    req.flash('error_msg', 'Üser not found')
+    return res.redirect('/forgot-password')
+  }
+  const otp = otpGenerator.generate(6, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false
+  })
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.G_MAIL,
+      pass: process.env.G_PASS
     }
-    const otp = otpGenerator.generate(6, {
-        upperCaseAlphabets: false,
-        lowerCaseAlphabets: false,
-        specialChars: false
-    })
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.G_MAIL,
-            pass: process.env.G_PASS
-        }
-    })
-    const dateObj = new Date();
-    const localDate = dateObj.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-      });
+  })
+  const dateObj = new Date();
+  const localDate = dateObj.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
 
-    const mailOptions = {
-        from: process.env.G_MAIL,
-        to: email,
-        subject: 'OTP FOR RESETPASSWORD',
-       html: `<!DOCTYPE html>
+  const mailOptions = {
+    from: process.env.G_MAIL,
+    to: email,
+    subject: 'OTP FOR RESETPASSWORD',
+    html: `<!DOCTYPE html>
        <html lang="en">
          <head>
            <meta charset="UTF-8" />
@@ -380,23 +380,23 @@ const forgotPassword = async (req, res) => {
          </body>
        </html>
        `
+  }
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
     }
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    })
+  })
 
 
-    existingUser.resetPasswordToken = otp;
-    existingUser.resetPasswordExpires = Date.now() + 1800000; //   1/2 hours
+  existingUser.resetPasswordToken = otp;
+  existingUser.resetPasswordExpires = Date.now() + 1800000; //   1/2 hours
 
-    existingUser.save(otp)
-    req.flash('success_msg', 'Please cheek email FOR OTP')
-    res.redirect('otp')
+  existingUser.save(otp)
+  req.flash('success_msg', 'Please cheek email FOR OTP')
+  res.redirect('otp')
 
 
 
@@ -407,45 +407,83 @@ const forgotPassword = async (req, res) => {
 
 
 const otp_check = async (req, res) => {
-    const { _otp, password, confirm_password } = req.body
+  const { _otp, password, confirm_password } = req.body
 
-    var user_s = await userModel.findOne({ resetPasswordToken: _otp, resetPasswordExpires: { $gt: Date.now() } })
+  var user_s = await userModel.findOne({ resetPasswordToken: _otp, resetPasswordExpires: { $gt: Date.now() } })
 
-    if (user_s == null) {
-        req.flash('error_msg', 'OTP incurect!');
-        return res.redirect('/otp');
-    }
-
-
+  if (user_s == null) {
+    req.flash('error_msg', 'OTP incurect!');
+    return res.redirect('/otp');
+  }
 
 
-    if (user_s.status == "pending") {
-        req.flash('error_msg', 'You are not active user ,status pending!');
-        return res.redirect('/otp');
-    }
-
-    if (!user_s.Roll == 2017 && 9012) {
-        req.flash('error_msg', 'This is admin penal other not allowwd ');
-        res.redirect('/otp');
-    }
 
 
-    if (password !== confirm_password) {
-        req.flash('error_msg', "Password don't match.");
-        return res.redirect('/otp');
-    }
+  if (user_s.status == "pending") {
+    req.flash('error_msg', 'You are not active user ,status pending!');
+    return res.redirect('/otp');
+  }
+
+  if (!user_s.Roll == 2017 && 9012) {
+    req.flash('error_msg', 'This is admin penal other not allowwd ');
+    res.redirect('/otp');
+  }
 
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+  if (password !== confirm_password) {
+    req.flash('error_msg', "Password don't match.");
+    return res.redirect('/otp');
+  }
 
-    user_s.resetPasswordToken = ''
-    user_s.resetPasswordExpires = ''
-    user_s.password = hashedPassword
-    user_s.save()
-    req.flash('success_msg', 'Password successfully changed')
-    return res.redirect('/login')
+
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  user_s.resetPasswordToken = ''
+  user_s.resetPasswordExpires = ''
+  user_s.password = hashedPassword
+  user_s.save()
+  req.flash('success_msg', 'Password successfully changed')
+  return res.redirect('/login')
 
 
 }
 
-module.exports = { signin, signup, dashbord, forgotPassword, otp_check }
+const createUser = async (req, res) => {
+
+  const { first_name, last_name, email, phone, role, createdBy } = req.body
+  try {
+
+
+    
+    const existingUser = await userModel.findOne({
+      $or: [{ email: email }, { Phone: phone }]
+    });
+    console.log(existingUser)
+    if (existingUser) {
+      
+      return res.sendStatus(400)
+      
+    }
+    const result = await userModel.create({
+      userFname: first_name,
+      userLname: last_name,
+      Phone: phone,
+      password:'123',
+      email: email,
+      Roll: role,
+      status: "pending",
+      createdBy: createdBy
+    })
+    
+    console.log(result)
+    return res.sendStatus(201)
+
+  } catch (error) {
+
+    res.sendStatus(403)
+    
+    return
+  }
+}
+
+module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser }

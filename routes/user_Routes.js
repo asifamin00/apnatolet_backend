@@ -1,5 +1,5 @@
 const express = require('express')
-const { signup, signin, dashbord, forgotPassword, otp_check,createUser } = require('../controllers/userController')
+const { signup, signin, dashbord, forgotPassword, otp_check,createUser,edituser,delete_user,approve_user } = require('../controllers/userController')
 const auth = require('../middlewares/auth')
 
 const userRouter = express.Router()
@@ -16,6 +16,12 @@ userRouter.get('/register', (req, res) => {
     res.render('register')
 })
 userRouter.post('/creatuser', createUser)
+
+
+userRouter.put('/useredit/:id', edituser);
+userRouter.delete('/delete', delete_user);
+userRouter.put('/approving', approve_user);
+
 
 userRouter.get('/forgot-password', (req, res) => {
     res.render('forgot-password')

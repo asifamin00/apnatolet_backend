@@ -14,11 +14,13 @@ const UserSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     Phone: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     Roll: {
         type: Number,
@@ -29,6 +31,10 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     createdBy: {
+        type: String,
+        required: true
+    },
+    approved_by: {
         type: String,
         required: true
     },

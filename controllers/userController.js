@@ -18,8 +18,10 @@ const dashbord = async (req, res) => {
 
       let existingUser = await userModel.findOne({ email: user.email })
 
+      let alluser = await userModel.find({})
 
-      res.render('index', { existingUser })
+
+      res.render('index', { existingUser,alluser})
     }
   } catch (error) {
     console.log(error)
@@ -452,9 +454,6 @@ const createUser = async (req, res) => {
 
   const { first_name, last_name, email, phone, role, createdBy } = req.body
   try {
-
-
-    
     const existingUser = await userModel.findOne({
       $or: [{ email: email }, { Phone: phone }]
     });
@@ -472,18 +471,85 @@ const createUser = async (req, res) => {
       email: email,
       Roll: role,
       status: "pending",
-      createdBy: createdBy
+      createdBy: createdBy,
+      approved_by:'Approval_pending'
     })
     
-    console.log(result)
+   
     return res.sendStatus(201)
 
   } catch (error) {
+    console.log(error)
 
     res.sendStatus(403)
     
     return
   }
 }
+const edituser = (req, res)=> {
+  let searchQuery = {_id : req.params.id};
 
-module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser }
+  console.log(searchQuery)
+
+  userModel.updateOne(searchQuery, {$set: {
+    userFname : req.body.first_name,
+    userLname : req.body.last_name,
+      
+  }})
+  .then(user_user => {
+    req.flash('success_msg', 'Update successfully ')
+      
+    res.redirect('/');
+     
+      
+  })
+  .catch(err => {req.flash('error_msg', 'ERROR: '+err)
+      res.redirect('/');
+  });
+  
+}
+
+const delete_user= (req, res)=> {
+  const _id=req.body.id
+
+  userModel.deleteOne({_id})
+      .then(user_user=>{
+         
+          res.sendStatus(202)
+      })
+      .catch(err => {
+          req.flash('error_msg', 'ERROR: '+err)
+          res.redirect('/');
+      });
+}
+
+const approve_user=async (req, res)=> {
+  const pass = otpGenerator.generate(8, {
+    upperCaseAlphabets: true,
+    lowerCaseAlphabets: true,
+    specialChars: true
+  })
+
+ const hashedPassword = await bcrypt.hash(pass, 10)
+const _id=req.body.id
+const curid=req.body.curid
+
+
+userModel.updateOne({_id}, {$set: {
+ status:'Approved',
+ approved_by:curid,
+ password:hashedPassword
+    
+}}).then(user_user => {
+
+  req.flash('success_msg', 'Approved.')
+  res.sendStatus(202)
+  
+  
+})
+
+
+}
+
+
+module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser,edituser,delete_user,approve_user }

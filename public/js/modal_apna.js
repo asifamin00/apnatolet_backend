@@ -1,5 +1,6 @@
 
 
+
 //Creat user js
 const form = document.getElementById('userinfo');
 
@@ -30,7 +31,73 @@ form.addEventListener('submit', async (e) => {
       alert('Wrong data entry, Phone no must be 10 digit and no space');
     }
   })
-
+  window.location.reload()
 });
+
+//end
+//approve user js
+function approving_user(uid,cuid){
+  
+  fetch('/approving', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+       'id': uid,
+       'curid':cuid
+    }) 
+
+  }).then((response) => {
+    if (response.status == 202) {
+      alert('User Approved!!');
+      location.reload();
+    }
+    
+    if (response.status == 400) {
+      alert('bad connection');
+    }
+  })
+}
+
+//end
+//delete user js
+function delete_user(uid)
+  {
+  
+    let person = prompt("Please type DELETE for Deleting user premanetly ","UNDELETE");
+    if (person == 'DELETE' ) {
+
+      fetch('/delete', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({'id': uid  })
+      }).then((response) => {
+          if (response.status == 202) {
+            alert('User Deleted!!')
+            location.reload();
+          }
+        })
+      
+     
+    
+    } else {
+
+    alert('Cancel')
+      
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+  
+ 
 
 //end

@@ -20,8 +20,10 @@ const dashbord = async (req, res) => {
 
       let alluser = await userModel.find({})
 
+      let pending_count=await userModel.find({status:"pending"}).count()
 
-      res.render('index', { existingUser,alluser})
+      res.render('index', { existingUser,alluser,pending_count})
+      
     }
   } catch (error) {
     console.log(error)
@@ -50,9 +52,10 @@ const signup = async (req, res) => {
       Phone: phone,
       email: email,
       password: hashedPassword,
-      Roll: 9012,
+      role: 9012,
       status: "pending",
-      createdBy: 'self'
+      createdBy: 'self',
+      approved_by:'self'
     })
 
     const token = jwt.sign({ email: result.email, id: result._id, status: result.status }, SECRET_KEY)
@@ -82,9 +85,15 @@ const signin = async (req, res) => {
     const existingUser = await userModel.findOne({ email: email })
     if (!existingUser) {
       req.flash('error_msg', 'Üser not found')
-      req.flash('e_email', email)
+      
       return res.redirect('/login')
-      //return res.status(404).json({message:"Üser not found"})
+      
+
+    }
+    if(existingUser.role!=2017 && existingUser.role!=9012){
+      req.flash('error_msg', 'Üser not allowed!! Only Admin and Editer can login')
+      
+      return res.redirect('/login')
 
     }
     const matchPassword = await bcrypt.compare(password, existingUser.password)
@@ -144,7 +153,9 @@ const forgotPassword = async (req, res) => {
     upperCaseAlphabets: false,
     lowerCaseAlphabets: false,
     specialChars: false
+    
   })
+  console.log(otp)
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -426,7 +437,7 @@ const otp_check = async (req, res) => {
     return res.redirect('/otp');
   }
 
-  if (!user_s.Roll == 2017 && 9012) {
+  if (!user_s.role == 2017 && 9012) {
     req.flash('error_msg', 'This is admin penal other not allowwd ');
     res.redirect('/otp');
   }
@@ -457,7 +468,7 @@ const createUser = async (req, res) => {
     const existingUser = await userModel.findOne({
       $or: [{ email: email }, { Phone: phone }]
     });
-    console.log(existingUser)
+    
     if (existingUser) {
       
       return res.sendStatus(400)
@@ -469,7 +480,7 @@ const createUser = async (req, res) => {
       Phone: phone,
       password:'123',
       email: email,
-      Roll: role,
+      role: role,
       status: "pending",
       createdBy: createdBy,
       approved_by:'Approval_pending'
@@ -489,11 +500,15 @@ const createUser = async (req, res) => {
 const edituser = (req, res)=> {
   let searchQuery = {_id : req.params.id};
 
-  console.log(searchQuery)
+  
 
   userModel.updateOne(searchQuery, {$set: {
     userFname : req.body.first_name,
     userLname : req.body.last_name,
+    Phone: req.body.phone,
+    email : req.body.email,
+    status:'pending',
+    approved_by:'Approval_pending'
       
   }})
   .then(user_user => {
@@ -503,7 +518,7 @@ const edituser = (req, res)=> {
      
       
   })
-  .catch(err => {req.flash('error_msg', 'ERROR: '+err)
+  .catch(err => {req.flash('error_msg', 'Conflict with other user data!! ')
       res.redirect('/');
   });
   

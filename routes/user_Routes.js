@@ -15,12 +15,12 @@ userRouter.get('/pending', (req, res) => {
 userRouter.get('/register', (req, res) => {
     res.render('register')
 })
-userRouter.post('/creatuser', createUser)
+userRouter.post('/creatuser',auth, createUser)
 
 
-userRouter.put('/useredit/:id', edituser);
-userRouter.delete('/delete', delete_user);
-userRouter.put('/approving', approve_user);
+userRouter.put('/useredit/:id',auth, edituser);
+userRouter.delete('/delete',auth, delete_user);
+userRouter.put('/approving',auth, approve_user);
 
 
 userRouter.get('/forgot-password', (req, res) => {

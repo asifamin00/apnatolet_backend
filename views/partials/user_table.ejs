@@ -1,0 +1,96 @@
+<div class="container-fluid"  >
+
+    <h1>user</h1>
+    <%- include('partials/messages') -%>
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+          <tr>
+            
+              <th>Id</th> 
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>email</th>
+              <th>phone</th>
+              <th>Property</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>createdBy</th>
+              <th>approved_by</th> 
+          </tr>
+      </thead>
+      <tfoot>
+          <tr>
+             <th>Id</th> 
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>email</th>
+            <th>phone</th>
+            <th>Property</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>createdBy</th>
+           <th>approved_by</th> 
+          </tr>
+      </tfoot>
+      <tbody>
+          <% i=4 %>
+          <% alluser.forEach((alluser)=> { %>
+             <% i=i+1%>
+             <%=i%>
+              <div class="modal fade" id="exampleModala<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" >Edit_User</h1>
+                       
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <form  action="/useredit/<%= alluser.id %>?_method=PUT" method="POST">
+                              <input type="hidden" name="_method" value="PUT">
+                          <div class="mb-3">
+                              <input type="text" class="form-control" id="" name="id" value="<%=alluser.id %>" hidden>
+                            <label for="recipient-name" class="col-form-label">User firstname</label>
+                            <input type="text" class="form-control" id="" name="first_name" value="<%=alluser.userFname %>">
+                          </div>
+                          <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">User lastname</label>
+                              <input type="text" class="form-control" id="" name="last_name" value="<%=alluser.userLname %>">
+                            </div>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Phone No</label>
+                              <input type="text" class="form-control" id="" name="phone" value="<%=alluser.Phone %>" >
+                            </div>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Email</label>
+                              <input type="text" class="form-control" id="" name="email" value="<%=alluser.email %>" >
+                            </div>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">createdBy</label>                            
+                              <input type="text" class="form-control" id="" name="createdBy"  value="<%=alluser.createdBy %>" disabled>
+                            </div>
+                            <div class="mb-3">
+                             <label for="recipient-name" class="col-form-label">Approved_by</label>                            
+                              <input type="text" class="form-control" id="" name="createdBy"  value="<%=alluser.approved_by %>" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Role</label>                            
+                              <input type="text" class="form-control" id="" name="role"  value="<% if (alluser.role==1714) { %>User<% }%><% if (alluser.role==1298) { %>owner<% }%><% if (alluser.role==2346) { %>Agent<% }%><% if (alluser.role==7210) { %>F.O<% }%><% if (alluser.role==9012) { %>Editer<% }%><% if (alluser.role==2017) { %>Admin<% }%>"disabled>
+                              
+                            </div>
+  
+                          
+  
+                          
+                       
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Submint</button>
+                      </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>

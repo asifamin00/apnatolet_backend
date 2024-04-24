@@ -25,13 +25,15 @@ form.addEventListener('submit', async (e) => {
       alert('User already exists:');
     }
     if (response.status == 201) {
+
       alert('New user created ');
+      window.location.reload()
     }
     if (response.status == 403) {
       alert('Wrong data entry, Phone no must be 10 digit and no space');
     }
   })
-  window.location.reload()
+  
 });
 
 //end
@@ -86,18 +88,14 @@ function delete_user(uid)
     }
 
   }
+//end
 
-
-
-
-
-
-
-
-
-
+//start_property
+function Property_butten(uid)
+  {
+  alert(uid)
+    
+    } 
 
   
- 
-
-//end
+  //end

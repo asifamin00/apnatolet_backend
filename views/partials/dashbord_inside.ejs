@@ -1,0 +1,250 @@
+<div class="container-fluid"  >
+
+    <h1>user</h1>
+    <%- include('partials/messages') -%>
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+          <tr>
+            
+              <th>Id</th> 
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>email</th>
+              <th>phone</th>
+              <th>Property</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>createdBy</th>
+              <th>approved_by</th> 
+          </tr>
+      </thead>
+      <tfoot>
+          <tr>
+             <th>Id</th> 
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>email</th>
+            <th>phone</th>
+            <th>Property</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>createdBy</th>
+           <th>approved_by</th> 
+          </tr>
+      </tfoot>
+      <tbody>
+          <% i=4 %>
+          <% alluser.forEach((alluser)=> { %>
+             <% i=i+1%>
+             <%=i%>
+              <div class="modal fade" id="exampleModala<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" >Edit_User</h1>
+                       
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <form  action="/useredit/<%= alluser.id %>?_method=PUT" method="POST">
+                              <input type="hidden" name="_method" value="PUT">
+                          <div class="mb-3">
+                              <input type="text" class="form-control" id="" name="id" value="<%=alluser.id %>" hidden>
+                            <label for="recipient-name" class="col-form-label">User firstname</label>
+                            <input type="text" class="form-control" id="" name="first_name" value="<%=alluser.userFname %>">
+                          </div>
+                          <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">User lastname</label>
+                              <input type="text" class="form-control" id="" name="last_name" value="<%=alluser.userLname %>">
+                            </div>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Phone No</label>
+                              <input type="text" class="form-control" id="" name="phone" value="<%=alluser.Phone %>" >
+                            </div>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Email</label>
+                              <input type="text" class="form-control" id="" name="email" value="<%=alluser.email %>" >
+                            </div>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">createdBy</label>                            
+                              <input type="text" class="form-control" id="" name="createdBy"  value="<%=alluser.createdBy %>" disabled>
+                            </div>
+                            <div class="mb-3">
+                             <label for="recipient-name" class="col-form-label">Approved_by</label>                            
+                              <input type="text" class="form-control" id="" name="createdBy"  value="<%=alluser.approved_by %>" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">Role</label>                            
+                              <input type="text" class="form-control" id="" name="role"  value="<% if (alluser.role==1714) { %>User<% }%><% if (alluser.role==1298) { %>owner<% }%><% if (alluser.role==2346) { %>Agent<% }%><% if (alluser.role==7210) { %>F.O<% }%><% if (alluser.role==9012) { %>Editer<% }%><% if (alluser.role==2017) { %>Admin<% }%>"disabled>
+                              
+                            </div>
+  
+                          
+  
+                          
+                       
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Submint</button>
+                      </div>
+                    </form>
+                    </div>
+                  
+              
+
+
+        
+               <!-- modal1 -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">User Profile</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">First name</label>
+                <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.userFname %>" disabled>
+              </div>
+              <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Last name</label>
+                  <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.userLname %>" disabled>
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Phone no</label>
+                  <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.Phone %>" disabled>
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Email</label>
+                  <input type="text" class="form-control" id="recipient-name"value="<%=existingUser.email %>"  disabled>
+                </div>
+                <div class="mb-3">                            
+                      <label for="recipient-name" class="col-form-label">Role</label>
+                      <input type="text" class="form-control" id="" value="<% if (existingUser.role===9012) { %>Editer<% } else { %>Admin<% } %>" disabled>
+                    </div>                           
+             
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                      
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal2 -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel2">Change password</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Current password</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+              <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">New password</label>
+                  <input type="text" class="form-control" id="recipient-name">
+                </div>
+              
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"id="myButton2">Change password</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--modal3-->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel2">CreatUser</h1>
+           
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="userinfo">
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">User firstname</label>
+                <input type="text" class="form-control" id="" name="first_name">
+              </div>
+              <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">User lastname</label>
+                  <input type="text" class="form-control" id="" name="last_name">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Phone No</label>
+                  <input type="text" class="form-control" id="" name="phone">
+                </div>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Email</label>
+                  <input type="text" class="form-control" id="" name="email">
+                </div>
+                <div class="mb-3">                            
+                  <input type="text" class="form-control" id="" name="createdBy"  value="<%=existingUser.userFname %>_<%=existingUser.userLname %>" hidden>
+                </div>
+
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">User Role</label>
+                  <select class="form-select form-select-sm" name="role" >
+                                                 
+                      <% if (existingUser.role==2017) { %><option value="9012" >Editer</option><% }%>
+                      <option value="7210">Fo</option>
+                      <option value="2346">Agent</option>
+                      <option value="1298">owner</option>
+                      <option value="1714" selected >user</option>
+                    </select>
+                </div>
+
+              
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="Submint" value="Submit">Submint</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    <tr>
+      <td><%= alluser.id %></td> 
+       <td><%= alluser.userFname %></td>
+       <td><%= alluser.userLname %></td>
+       <td><%= alluser.email %></td>
+       <td><%= alluser.Phone %></td>
+       <td><a class="btn btn-warning" onclick="delete_user('<%= alluser.id %>')" <% if (alluser.role==2017 ||  alluser.role==7210 || alluser.role==1714) { %>hidden<% }%>>Property&nbsp;(<%=pending_count%>)</a></td> 
+       <td><% if (alluser.role==2017) { %>Admin<% }%>
+           <% if (alluser.role==9012) { %>Editer<% }%>
+           <% if (alluser.role==7210) { %>F.O<% }%>
+           <% if (alluser.role==2346) { %>Agent<% }%>
+           <% if (alluser.role==1298) { %>owner<% }%>
+           <% if (alluser.role==1714) { %>User<% }%>
+       </td>
+      
+       <td ><% if (alluser.status=="pending") { %><a span style="color:red;"  <% if (existingUser.role==2017) { %> href= '#' onclick="approving_user('<%= alluser.id %>','<%=existingUser.userFname %> <%=existingUser.userLname %>')"<% }%>>Pending</span></a><% }else { %> <span style="color:Green;" >Approved</span> <% } %></td>
+       <td><%= alluser.createdBy %></td>
+       <td><%= alluser.approved_by %></td>
+          <td> <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModala<%=i%>"<% if (existingUser.role!=2017) { %>hidden<% }%> <% if (alluser.id==existingUser.id) { %>hidden<% }else { %> "" <% } %>>EDIT</a>
+            <a class="btn btn-danger"<% if (existingUser.role!=2017) { %>hidden<% }%> onclick="delete_user('<%= alluser.id %>')" <% if (alluser.id==existingUser.id) { %>hidden<% }else { %> "" <% } %>>DELETE</a>
+       </td>
+   </tr>
+   <% if (alluser.id==existingUser.id) { %>hidden<% }else { %> "" <% } %>
+   <% }) %>
+
+
+         </tbody>
+         </table>
+           
+
+  </div>

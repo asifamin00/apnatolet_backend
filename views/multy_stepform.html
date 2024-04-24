@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Step Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <form id="multi-step-form">
+        <div class="step active" id="step-1">
+          <h3>Step 1</h3>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <button class="btn btn-primary next-btn">Next</button>
+        </div>
+        <div class="step" id="step-2">
+          <h3>Step 2</h3>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" required>
+          </div>
+          <button class="btn btn-primary prev-btn">Previous</button>
+          <button class="btn btn-primary next-btn">Next</button>
+        </div>
+        <div class="step" id="step-3">
+          <h3>Step 3</h3>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" rows="3" required></textarea>
+          </div>
+          <button class="btn btn-primary prev-btn">Previous</button>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var currentStep = 1;
+    
+    $('.next-btn').click(function() {
+      $('#step-' + currentStep).removeClass('active');
+      currentStep++;
+      $('#step-' + currentStep).addClass('active');
+    });
+    
+    $('.prev-btn').click(function() {
+      $('#step-' + currentStep).removeClass('active');
+      currentStep--;
+      $('#step-' + currentStep).addClass('active');
+    });
+    
+    $('#multi-step-form').submit(function(e) {
+      e.preventDefault();
+      // Here you can submit the form data via AJAX or perform any other action
+      alert('Form submitted successfully!');
+    });
+  });
+</script>
+</body>
+</html>

@@ -490,23 +490,22 @@
                   </tbody>
                   </table>
         </div>
-        <!----end_user_table-->
-        <!--Property-->
+        
         <div class="row register-form">
           <div class="col-md-8 offset-md-2">
-            <form class="custom-form">
+            <form class="custom-form" id="prop_form">
               <div class="mb-3">
                 <h3>What kind of property do have</h3>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault3" id="flexRadioDefault1" checked>
-                  <label class="form-check-label" for="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="kind_of_prop" id="Residential" value="Residential" checked>
+                  <label class="form-check-label" for="">
                     Residential
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault3" id="flexRadioDefault2">
-                  <label class="form-check-label" for="flexRadioDefault2">
+                  <input class="form-check-input" type="radio" name="kind_of_prop" id="Commercial"value="Commercial">
+                  <label class="form-check-label" for="">
                     Commercial
                   </label>
                 </div>
@@ -516,72 +515,78 @@
                 <h3> Property Type</h3>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault1" checked>
-                  <label class="form-check-label" for="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="prop_type" id="Flat_Apartment" value="Flat_Apartment" checked onchange="handleChange(2)">
+                  <label class="form-check-label" for="">
                     Flat/Apartment
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault2">
-                  <label class="form-check-label" for="flexRadioDefault2">
+                  <input class="form-check-input" type="radio" name="prop_type" id="Independent_House_Villa" value="Independent_House_Villa"onchange="handleChange(2)">
+                  <label class="form-check-label" for="">
                     Independent House/Villa
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="prop_type" id="Independent House/Villa" value="Independent House/Villa"onchange="handleChange(2)">
+                  <label class="form-check-label" for="">
                     Studio Apartment
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault2">
-                  <label class="form-check-label" for="flexRadioDefault2">
+                  <input class="form-check-input" type="radio" name="prop_type" id="prop_type"value="Serviced Apartment"onchange="handleChange(2)">
+                  <label class="form-check-label" for="">
                     Serviced Apartment
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="prop_type" id="prop_type" value="Serviced Apartment"onchange="handleChange(2)">
+                  <label class="form-check-label" for="">
                     Shop
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault1" id="flexRadioDefault2">
-                  <label class="form-check-label" for="flexRadioDefault2">
+                  <input class="form-check-input" type="radio" name="prop_type" id="other" onchange="handleChange(3);"  >
+                  <label class="form-check-label" for="">
                     Other
                   </label>
+                  <div >
+                    <input type="text" class="form-control" name="prop_type" id="otherval" value=""  style="display: none; width: 20%;" >
+                  </div>
+                 
                 </div>
+               
               </div>
               <hr>
               <div class="mb-3">
                 <h3>Property Address</h3>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="">
-                  <label for="floatingInput">House no/Flat no</label>
+                  <input type="text" class="form-control" id="House_no" name="House_no"placeholder="House no/Flat no" value="">
+                  <label for="">House no/Flat no</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="">
-                  <label for="floatingPassword">Society/Apartment Name</label>
+                  <input type="text" class="form-control" id="Society" placeholder="Society/Apartment Name" Name="Society" value"">
+                  <label for="">Society/Apartment Name</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
-                  <label for="floatingInput">Locality</label>
+                  <input type="text" class="form-control" id="Locality" placeholder="Locality" name="Locality" value="">
+                  <label for="">Locality</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">Pin code</label>
+                  <input type="text" class="form-control" id="Pin_code" placeholder="Pin code" Name="Pin_code" value="">
+                  <label for="">Pin code</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">City</label>
+                  <input type="text" class="form-control" id="City" placeholder="City" name="City" value="">
+                  <label for="">City</label>
                 </div>
                 <h3>GPS Location</h3>
                 <div class="row">
                   <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Latitude" aria-label="Latitude">
+                    <input type="text" class="form-control" placeholder="Latitude" aria-label="Latitude" id="Latitude"name="Latitude"value="">				
+					
                   </div>
                   <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Longitude" aria-label="Longitude">
+                    <input type="text" class="form-control" placeholder="Longitude" aria-label="Longitude" id="Longitude"Name="Longitude"value="">
                   </div>
                 </div>
 
@@ -591,28 +596,28 @@
               <label class="col-md-4 control-label" for="radios"><i class="fa fa-bed"
                   style="font-size:36px"></i>&nbsp;&nbsp; No.of Bedrooms</label>
               <div class="col-md-8">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom1"value="1">
+                <label class="form-check-label" for="">
                   1
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom2" value="2"checked>
+                <label class="form-check-label" for="">
                   2
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom3"value="3">
+                <label class="form-check-label" for="">
                   3
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom4"value="4">
+                <label class="form-check-label" for="">
                   4
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom5"value="5">
+                <label class="form-check-label" for="">
                   5
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom6"value="5+">
+                <label class="form-check-label" for="">
                   5+
                 </label>
 
@@ -622,21 +627,21 @@
               <label class="col-md-4 control-label" for="radios"><i class='fas fa-toilet'
                   style='font-size:36px'></i>&nbsp;&nbsp;No.of Bathrooms</label>
               <div class="col-md-4">
-                <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms1"value="1">
+                <label class="form-check-label" for="">
                   1
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms2"value="2" checked>
+                <label class="form-check-label" for="">
                   2
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms3"value="3">
+                <label class="form-check-label" for="">
                   3
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  4+
+                <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms3p"value="3+">
+                <label class="form-check-label" for="">
+                  3+
                 </label>
 
 
@@ -645,20 +650,20 @@
               <label class="col-md-4 control-label" for="radios"><i class='fas fa-ruler-horizontal'
                   style='font-size:36px'></i>&nbsp;&nbsp;No.of Balconies</label>
               <div class="col-md-4">
-                <input class="form-check-input" type="radio" name="flexRadioDefault21" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Balconies" id="Balconies1" value="1">
+                <label class="form-check-label" for="">
                   1
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault21" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Balconies" id="Balconies2" value="2" checked>
+                <label class="form-check-label" for="">
                   2
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault21" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Balconies" id="Balconies3"value="3">
+                <label class="form-check-label" for="">
                   3
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault21" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Balconies" id="Balconies4p"value="4+">
+                <label class="form-check-label" for="">
                   4+
                 </label>
               </div>
@@ -666,34 +671,34 @@
                 <h5>Add Bult-up Area/super Bult-up Area</h5>
                 <div class="input-group " style="width: 50%;">
                   <input type="number" class="form-control" placeholder="Add Bult-up Area" aria-label="Add Bult-up Area"
-                    aria-describedby="basic-addon2">
-                  <span class="input-group-text" id="basic-addon2">sq.ft</span>
+                    aria-describedby="basic-addon2"Name="Bult_up_Area"value=""id="Bult_up_Area">
+                  <span class="input-group-text"  >sq.ft</span>
                 </div>
               
                 <br>
                 <h5>Other Rooms</h5>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminateDisabled">
-                  <label class="form-check-label" for="flexCheckIndeterminateDisabled">
+                  <input class="form-check-input" type="checkbox" value="Pooja room" id="Other_Rooms" Name="Other_Rooms[]">
+                  <label class="form-check-label" for="">
                     Pooja room
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled">
-                  <label class="form-check-label" for="flexCheckDisabled">
+                  <input class="form-check-input" type="checkbox" value="Study room" id="Other_Rooms" Name="Other_Rooms[]">
+                  <label class="form-check-label" for="">
                     Study room
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled">
-                  <label class="form-check-label" for="flexCheckCheckedDisabled">
+                  <input class="form-check-input" type="checkbox" value="Store room" id="Other_Rooms" Name="Other_Rooms[]">
+                  <label class="form-check-label" for="">
                     Store room
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled">
-                  <label class="form-check-label" for="flexCheckCheckedDisabled">
+                  <input class="form-check-input" type="checkbox" value="Servent Room" id="Other_Rooms" Name="Other_Rooms[]">
+                  <label class="form-check-label" for="">
                     Servent Room
                   </label>
                 </div>
@@ -703,19 +708,19 @@
                   <h3>Furnishing</h3>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault4" id="">
+                    <input class="form-check-input" type="radio" name="FullyFurnishrd" id="Furnishing" value="Fully Furnishrd" onchange="furwnishing(2)">
                     <label class="form-check-label">
                       Fully Furnishrd
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault4" id="" checked>
+                    <input class="form-check-input" type="radio" name="FullyFurnishrd" id="Furnishing" value="Semi Furnishrd"  onchange="furwnishing(2)">
                     <label class="form-check-label">
                       Semi Furnishrd
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault4" id="">
+                    <input class="form-check-input" type="radio" name="FullyFurnishrd" id="Furnishing" value=" Un Furnishrd" checked onchange="furwnishing(4)">
                     <label class="form-check-label">
                       Un Furnishrd
                     </label>
@@ -723,116 +728,115 @@
                 </div>
 
 
-
-                <div class="card card-body col-md-4">
+                <div class="card card-body col-md-4" id="furnishing" style="display: none;">
                   <h5>Select Item in furnishing or Semi Furnishing </h5>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="oik">
-                    <label class="form-check-label" for="lmn">
+                    <input class="form-check-input furnishing" type="checkbox" value="TV" Name="furnishing_item[]" id="TV">
+                    <label class="form-check-label" for="">
                       TV
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="olk">
-                    <label class="form-check-label" for="ujn">
+                    <input class="form-check-input furnishing" type="checkbox" value="AC"Name="furnishing_item[]" id="AC">
+                    <label class="form-check-label" for="">
                       AC
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="jk">
-                    <label class="form-check-label" for="ok">
+                    <input class="form-check-input furnishing" type="checkbox" value="FAN"Name="furnishing_item[]" id="FAN">
+                    <label class="form-check-label" for="">
                       FAN
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="nh">
-                    <label class="form-check-label" for="nh">
+                    <input class="form-check-input furnishing" type="checkbox" value="LIGHT"Name="furnishing_item[]" id="LIGHT">
+                    <label class="form-check-label" for="">
                       LIGHT
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="gb">
-                    <label class="form-check-label" for="ccxxc">
+                    <input class="form-check-input furnishing" type="checkbox" value="WASHING MACHINE"Name="furnishing_item[]" id="WASHING_MACHINE">
+                    <label class="form-check-label" for="">
                       WASHING MACHINE
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="vb">
-                    <label class="form-check-label" for="dddfgvc">
+                    <input class="form-check-input" type="checkbox" value="SOFA"Name="furnishing_item[]" id="SOFA">
+                    <label class="form-check-label" for="">
                       SOFA
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="cccdf">
-                    <label class="form-check-label" for="dfddd">
+                    <input class="form-check-input furnishing" type="checkbox" value="STOVE"Name="furnishing_item[]" id="STOVE">
+                    <label class="form-check-label" for="">
                       STOVE
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="ccccccc">
-                    <label class="form-check-label" for="ccc">
+                    <input class="form-check-input furnishing" type="checkbox" value="WATER PURIFIER"Name="furnishing_item[]" id="WATER_PURIFIER">
+                    <label class="form-check-label" for="">
                       WATER PURIFIER
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="ee">
-                    <label class="form-check-label" for="dssd">
+                    <input class="form-check-input furnishing" type="checkbox" value="GEYSER"Name="furnishing_item[]" id="GEYSER">
+                    <label class="form-check-label" for="">
                       GEYSER
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="rrr">
-                    <label class="form-check-label" for="feds">
+                    <input class="form-check-input furnishing" type="checkbox" value="TV UNIT"Name="furnishing_item[]" id="TV_UNIT">
+                    <label class="form-check-label" for="">
                       TV UNIT
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="ttt">
-                    <label class="form-check-label" for="eded">
+                    <input class="form-check-input furnishing" type="checkbox" value="FRIGE" id="FRIGE"Name="furnishing_item[]">
+                    <label class="form-check-label" for="">
                       FRIGE
                     </label>
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="ttttt">
-                    <label class="form-check-label" for="eeede">
+                    <input class="form-check-input furnishing" type="checkbox" value="MICROWAVE"Name="furnishing_item[]" id="MICROWAVE">
+                    <label class="form-check-label" for="">
                       MICROWAVE
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="yyyyyy">
-                    <label class="form-check-label" for="flexCheckDisabled">
+                    <input class="form-check-input furnishing" type="checkbox" value="EXHAUST FAN"Name="furnishing_item[]" id="EXHAUST_FAN">
+                    <label class="form-check-label" for="">
                       EXHAUST FAN
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="yyyu">
-                    <label class="form-check-label" for="ee">
+                    <input class="form-check-input furnishing" type="checkbox" value="CHIMNEY" id="CHIMNEY" Name="furnishing_item[]">
+                    <label class="form-check-label" for="">
                       CHIMNEY
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="aaaa">
-                    <label class="form-check-label" for="eeeeee">
+                    <input class="form-check-input furnishing" type="checkbox" value="DINNING TABLE"Name="furnishing_item[]" id="DINNING_TABLE">
+                    <label class="form-check-label" for="">
                       DINNING TABLE
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="yyyyyy">
-                    <label class="form-check-label" for="flexCheckDisabled">
+                    <input class="form-check-input furnishing" type="checkbox" value="MODULAR KITCHEN"Name="furnishing_item[]" id="MODULAR_KITCHEN">
+                    <label class="form-check-label" for="">
                       MODULAR KITCHEN
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="yyyu">
-                    <label class="form-check-label" for="ee">
+                    <input class="form-check-input furnishing" type="checkbox" value="CURTAIN"Name="furnishing_item[]" id="CURTAIN">
+                    <label class="form-check-label" for="">
                       CURTAIN
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="aaaa">
-                    <label class="form-check-label" for="eeeeee">
+                    <input class="form-check-input furnishing" type="checkbox" value="WARDROBE"Name="furnishing_item[]" id="WARDROBE">
+                    <label class="form-check-label" for="">
                       WARDROBE
                     </label>
                   </div>
@@ -844,15 +848,15 @@
                 <label class="col-md-8 control-label" for="radios"><i class='fas fa-taxi' style='font-size:36px'></i>
                   No.Covered parking</label>
                 <div class="col-md-4">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Covered_parking" id="Covered_parking0" value="0">
                   <label class="form-check-label" for="">
                     0
                   </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Covered_parking" id="Covered_parking1"value="1" checked>
                   <label class="form-check-label" for="">
                     1
                   </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Covered_parking" id="Covered_parking2"value="2">
                   <label class="form-check-label" for="">
                     2
                   </label>
@@ -864,15 +868,15 @@
               <label class="col-md-8 control-label" for="radios"><i class='fas fa-taxi' style='font-size:36px'></i>
                 No.Open parking</label>
               <div class="col-md-4">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Open_parking" id="Open_parking"value="0" checked>
                 <label class="form-check-label" for="">
                   0
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Open_parking" id="Open_parking"value="1">
                 <label class="form-check-label" for="">
                   1
                 </label>
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="Open_parking" id="Open_parking"value="2">
                 <label class="form-check-label" for="">
                   2
                 </label>
@@ -881,76 +885,64 @@
               <h3>Floor Details</h3>
               <div class="row">
                 <div class="col-md-2">
-                  <input type="text" class="form-control" placeholder="Total floor" aria-label="Total floor">
+                  <input type="text" class="form-control" placeholder="Total floor" aria-label="Total floor" Name="Total_floor" id="Total_floor" value="">
                 </div>
                 <div class="col-md-2">
                   <input type="text" class="form-control" placeholder="Property on floor"
-                    aria-label="Property on floor">
+                    aria-label="Property on floor"Name="Property on floor" id="Property_on_floor" value="">
                 </div>
                 <br>
                 <br>
 
                 <h5>Maindoor Facing Direction</h5>
                 <div class="col-md-4">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing1" value="North" checked>
                   <label class="form-check-label" for="">
                     North
                   </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing2"value="South">
                   <label class="form-check-label" for="">
                     South
                   </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing3"value="East">
                   <label class="form-check-label" for="">
                     East
                   </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing4"value="West">
                   <label class="form-check-label" for="">
-                    East
+                    West
                   </label>
 
                 </div>
                 <h5>Age of property</h5>
-                <div class="col-md-4">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="">
-                    0-1
-                  </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="">
-                    1-5
-                  </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="">
-                    5-10
-                  </label>
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  <label class="form-check-label" for="">
-                    10+year
-                  </label>
-
+             
+                <div class="col-md-2">
+                  <input type="month" value="" id="ageBulding" onchange="ageBuld(value)"/>
+                 
+                  <h3 id="result"></h3>
                 </div>
+                
                 <br>
                 <br>
                 <h5>Willing to rent out to</h5>
                 <div class="col-md-8">
-                  <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing1" value="Family">
                   <label class="form-check-label" for="">
                     Family
                   </label>
-                  <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing2"value="Single">
                   <label class="form-check-label" for="">
                     Single
                   </label>
-                  <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing3"value="Single Womain">
                   <label class="form-check-label" for="">
                     Single Womain
                   </label>
-                  <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing4"value="Non vegetarian">
                   <label class="form-check-label" for="">
                     Non vegetarian
                   </label>
-                  <input class="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1">
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing5"value="Pets">
                   <label class="form-check-label" for="">
                     Pets
                   </label>
@@ -960,25 +952,25 @@
                 <br>
                 <h5>Available from</h5>
                 <div class="col-md-2">
-                  <input type="date" id="" name="">
+                  <input type="date" id="Available" name="Available">
                 </div>
                 <br>
                 <h3>Add photos of your property</h3>
                 <div class="mb-3">
-                  <label for="formFileMultiple" class="form-label">Multiple photos input </label>
-                  <input class="form-control" type="file" id="formFileMultiple" multiple>
+                  <label for="" class="form-label">Multiple photos input </label>
+                  <input class="form-control" type="file" id="files" multiple name="files"  ><!--onchange="photodiv()"-->
                 </div>
+                <div id="preview"></div>
                 <hr>
               </div>
 
 
 
-
+            <input type="submit" value = "Get" id="submit">
 
             </form>
           </div>
         </div>
-
         <!---Property_end-->
 
       </div>
@@ -989,7 +981,7 @@
     </div>
     <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
-
+    <script src="/js/prop.js"></script>
     <script src="/js/mulystepform.js"></script>
     <script src="/js/modal_apna.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

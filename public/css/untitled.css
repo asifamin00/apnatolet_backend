@@ -226,6 +226,18 @@ p {
   width: 100%;
   object-fit: cover
 }
+#preview {
+  margin-top: 20px;
+}
+.preview-image {
+  display: inline-block;
+  margin-right: 10px;
+}
+.preview-image img {
+  max-width: 100px;
+  max-height: 100px;
+  display: block;
+}
 
 
 

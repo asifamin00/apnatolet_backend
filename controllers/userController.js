@@ -566,5 +566,12 @@ userModel.updateOne({_id}, {$set: {
 
 }
 
+const newpropo=(req,res)=>{
+  console.log(req.body);
+  res.send('File uploaded successfully');
 
-module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser,edituser,delete_user,approve_user }
+}
+
+
+
+module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser,edituser,delete_user,approve_user,newpropo }

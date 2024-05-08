@@ -1,5 +1,6 @@
 //start_property
 const propForm = document.getElementById('prop_form');
+document.getElementById('preloader').style.display = 'none';
 ////////////////////////////////
 function handleChange(src) {
   if (src === 2) {
@@ -104,7 +105,10 @@ propForm.addEventListener('submit', (e) => {
 
   e.preventDefault();
 
+ 
+    document.getElementById('preloader').style.display = 'block';
 
+  
    const prop_kind=document.querySelector('input[name="kind_of_prop"]:checked').value
    const prop_type=document.querySelector('input[name="prop_type"]:checked').value
 
@@ -127,7 +131,8 @@ propForm.addEventListener('submit', (e) => {
    const Total_floor=document.getElementById('Total_floor').value
    const Property_on_floor=document.getElementById('Property_on_floor').value
    const ageBulding=document.getElementById('ageBulding').value
-   const Available=document.getElementById('Available').value
+   const Available=document.getElementById('Available').value 
+   const add_info=document.getElementById('otherval').value
 
    //console.log(prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,Pin_code,City,Latitude,Longitude,Total_floor,Property_on_floor,ageBulding,Available,Bult_up_Area)
   
@@ -153,6 +158,14 @@ propForm.addEventListener('submit', (e) => {
    for (let i = 0; i < checkbox_Willing.length; i++) {
     if(checkbox_Willing[i].checked){
         Willing.push(checkbox_Willing[i].value)
+    }    
+   }
+
+   let amenities=[]
+   let checkbox_amenities=document.getElementsByName('amenities[]')
+   for (let i = 0; i < checkbox_amenities.length; i++) {
+    if(checkbox_amenities[i].checked){
+      amenities.push(checkbox_amenities[i].value)
     }    
    }
 
@@ -185,6 +198,8 @@ propForm.addEventListener('submit', (e) => {
     formData.append("furnicheckbox",furnicheckbox);
     formData.append("otherRoom",otherRoom);
     formData.append("Willing", Willing);
+    formData.append("amenities", amenities);
+    formData.append("add_info", add_info);
 
     const files = document.getElementById("files");
     // const formData = new FormData();
@@ -200,7 +215,19 @@ propForm.addEventListener('submit', (e) => {
     //headers: { 'Content-Type': 'multipart/form-data' },
     method: 'POST',
     body: formData
+   }).then((res) => {
+
+   
+      document.getElementById('preloader').style.display = 'none';
+ 
+
+    if(res.status == 201){
+    
+    }
+
+    console.log(res.status)
    })
+   
    
   
 

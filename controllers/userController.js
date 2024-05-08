@@ -2,9 +2,13 @@
 const otpGenerator = require('otp-generator')
 const nodemailer = require('nodemailer')
 const userModel = require("../models/userSch")
+const propModel = require("../models/propertySchema")
+const fs = require('fs');
 const bcrypt = require("bcrypt")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
+const { v4:uuidv4 }=require('uuid');
+const cloudinary=require("cloudinary").v2
 
 const SECRET_KEY = process.env.AUTH_SECRET
 
@@ -566,11 +570,116 @@ userModel.updateOne({_id}, {$set: {
 
 }
 
-const newpropo=(req,res)=>{
-  console.log(req.body);
-  res.send('File uploaded successfully');
+const newpropo=async (req, res) => {
+  const uploadedImages = [];
 
-}
+   for(let i =0; i < req.files.length; i++) {
+      const random =uuidv4();
+      const x=await cloudinary.uploader.upload(req.files[i].path,{ 
+          
+          public_id: random + req.files[i],
+          overlay: { 
+            font_family: 'Arial',
+            font_size: 20,
+            color:'red',
+            text: 'apnaTOLET.com',
+           
+            x: 100,
+            y: 10
+          },
+          opacity:70,
+          gravity: 'south_east',
+
+
+      
+        },)
+
+      uploadedImages.push({'url':x.secure_url });//,'ogfilename':x.original_filename
+     
+      fs.unlink((req.files[i].path),
+      function(err){ 
+        if (err) console.log(err); 
+        else console.log("\nDeleted file");
+      }) 
+    
+    
+     
+      
+  }
+  // Sets multer to intercept files named "files" on uploaded form data
+ 
+     // res.json({ message: "File(s) uploaded successfully" });
+
+      // console.log(uploadedImages)
+      // console.log(req.body)
+      const {prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,
+        Pin_code,City,Latitude,Longitude,Bult_up_Area,Total_floor,Property_on_floor,ageBulding,Available,furnicheckbox,otherRoom,Willing,amenities,add_info}= req.body
+      const image=JSON.stringify(uploadedImages)
+     
+
+      try {
+       
+    
+        
+    
+        const result = await propModel.create({
+          user_id:'kl',
+          atlprop_id:'lk',
+          prop_kind: prop_kind,
+          prop_type: prop_type,
+          Bedrooms: Bedrooms,
+          Bathrooms: Bathrooms,
+          Balconies: Balconies,
+          Furnishing: String,
+          Coveredparking: Coveredparking,
+          openparking: openparking,
+          Facing:Facing,
+          House_no: House_no,
+          Society: Society,
+          Locality: Locality,
+          Pin_code: Pin_code,
+          City: City,
+          Latitude: Latitude,
+          Longitude: Longitude,
+          Bult_up_Area:Bult_up_Area,
+          Total_floor:Total_floor,
+          Property_on_floor: Property_on_floor,
+          ageBulding: ageBulding,
+          Available: Available,
+          furnicheckbox:[furnicheckbox],
+          otherRoom: [otherRoom],
+          Willing: [Willing],
+          image:image,
+          amenities:[amenities],
+          add_info:add_info,
+        approved_by:'Approval_pending',
+        status: "pending"
+        })
+    
+        res.sendStatus(201)
+    
+    console.log(result)
+   
+    
+    
+    
+      } catch (error) {
+    
+        console.log(error + 'asif49')
+        req.flash('error_msg', error)
+       
+    
+    
+      }
+
+
+
+
+
+
+
+
+  }
 
 
 

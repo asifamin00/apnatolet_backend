@@ -1,6 +1,9 @@
 <%- include('partials/head') -%>
 
-  <body id="page-top">
+  <body id="page-top" >
+    <div id="preloader">
+      <center><img  src="../uploads/imag_loader.gif" alt=""></center>
+  </div>
 
     <div id="wrapper">
       <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
@@ -544,16 +547,7 @@
                     Shop
                   </label>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="prop_type" id="other" onchange="handleChange(3);"  >
-                  <label class="form-check-label" for="">
-                    Other
-                  </label>
-                  <div >
-                    <input type="text" class="form-control" name="prop_type" id="otherval" value=""  style="display: none; width: 20%;" >
-                  </div>
-                 
-                </div>
+                
                
               </div>
               <hr>
@@ -579,6 +573,7 @@
                   <input type="text" class="form-control" id="City" placeholder="City" name="City" value="">
                   <label for="">City</label>
                 </div>
+                <div class="vl2"></div>
                 <h3>GPS Location</h3>
                 <div class="row">
                   <div class="col-md-3">
@@ -592,6 +587,7 @@
 
               </div>
               <hr>
+              <div class="vl2"></div>
               <h3>Tell us about your property</h3>
               <label class="col-md-4 control-label" for="radios"><i class="fa fa-bed"
                   style="font-size:36px"></i>&nbsp;&nbsp; No.of Bedrooms</label>
@@ -667,15 +663,16 @@
                   4+
                 </label>
               </div>
-                <br><br>
+                <hr>
+                <div class="vl2"></div>
                 <h5>Add Bult-up Area/super Bult-up Area</h5>
                 <div class="input-group " style="width: 50%;">
                   <input type="number" class="form-control" placeholder="Add Bult-up Area" aria-label="Add Bult-up Area"
                     aria-describedby="basic-addon2"Name="Bult_up_Area"value=""id="Bult_up_Area">
                   <span class="input-group-text"  >sq.ft</span>
                 </div>
-              
-                <br>
+                <div class="vl2"></div>
+                <hr>
                 <h5>Other Rooms</h5>
 
                 <div class="form-check">
@@ -684,26 +681,30 @@
                     Pooja room
                   </label>
                 </div>
+                <div class="vl"></div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Study room" id="Other_Rooms" Name="Other_Rooms[]">
                   <label class="form-check-label" for="">
                     Study room
                   </label>
                 </div>
+                <div class="vl"></div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Store room" id="Other_Rooms" Name="Other_Rooms[]">
                   <label class="form-check-label" for="">
                     Store room
                   </label>
                 </div>
+                <div class="vl"></div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="Servent Room" id="Other_Rooms" Name="Other_Rooms[]">
                   <label class="form-check-label" for="">
                     Servent Room
                   </label>
                 </div>
+                <div class="vl"></div>
                 <br>
-                <h5>Furnishing</h5>
+                <hr>
                 <div class="mb-3">
                   <h3>Furnishing</h3>
 
@@ -882,6 +883,7 @@
                 </label>
 
               </div>
+              <div class="vl2"></div>
               <h3>Floor Details</h3>
               <div class="row">
                 <div class="col-md-2">
@@ -890,12 +892,11 @@
                 <div class="col-md-2">
                   <input type="text" class="form-control" placeholder="Property on floor"
                     aria-label="Property on floor"Name="Property on floor" id="Property_on_floor" value="">
-                </div>
-                <br>
-                <br>
-
+                </div>               
+               </div>
+               <div class="vl2"></div>
                 <h5>Maindoor Facing Direction</h5>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <input class="form-check-input" type="radio" name="Facing" id="Facing1" value="North" checked>
                   <label class="form-check-label" for="">
                     North
@@ -912,9 +913,89 @@
                   <label class="form-check-label" for="">
                     West
                   </label>
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing1" value="North" >
+                  <label class="form-check-label" for="">
+                    NE
+                  </label>
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing2"value="South">
+                  <label class="form-check-label" for="">
+                    NW
+                  </label>
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing3"value="East">
+                  <label class="form-check-label" for="">
+                    SW
+                  </label>
+                  <input class="form-check-input" type="radio" name="Facing" id="Facing4"value="West">
+                  <label class="form-check-label" for="">
+                    SE
+                  </label>
 
                 </div>
-                <h5>Age of property</h5>
+                <hr>
+                <br>
+                <h3>Amenities</h3>
+                <div class="col-md-10">
+                  <input class="form-check-input " type="checkbox" name="amenities[]" id="amentys" value="Swimming_pool" >
+                  <label class="form-check-label " for="">
+                   Swimming pool
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys"value="Power Backup">
+                  <label class="form-check-label" for="">
+                    Power Backup
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys"value="CCTV">
+                  <label class="form-check-label" for="">
+                   CCTV
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys"value="Clubhouse">
+                  <label class="form-check-label" for="">
+                    Clubhouse
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Party room" >
+                  <label class="form-check-label" for="">
+                    Party room
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys"value="Games Room">
+                  <label class="form-check-label" for="">
+                    Games Room
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys"value="Walking paths">
+                  <label class="form-check-label" for="">
+                    Walking paths
+                  </label>
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys"value="Gym">
+                  <label class="form-check-label" for="">
+                    Gym
+                  </label>
+
+                </div>
+                <h3>Additional info</h3>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Add_info" id="Add_info" onchange="handleChange(3);"  >
+                  <label class="form-check-label" for="">
+                   YES
+                  </label>
+                  <div >
+                    <textarea placeholder='Additional info ' maxlength='1000' minlength='100'class="form-control" name="Add_info" id="otherval" value=""  style="display: none;"  ></textarea>
+                  </div>
+                 
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Add_info" id="Add_info" onchange="handleChange(2) ;"  >
+                  <label class="form-check-label" for="">
+                   NO
+                  </label>
+                  </div>
+
+                <hr>
+                <h3>Age of property</h3>
              
                 <div class="col-md-2">
                   <input type="month" value="" id="ageBulding" onchange="ageBuld(value)"/>
@@ -924,25 +1005,29 @@
                 
                 <br>
                 <br>
-                <h5>Willing to rent out to</h5>
+                <h3>Willing to rent out to</h3>
                 <div class="col-md-8">
-                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing1" value="Family">
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing1" value="Family" checked>
                   <label class="form-check-label" for="">
                     Family
                   </label>
-                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing2"value="Single">
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing2"value="Single" checked>
                   <label class="form-check-label" for="">
                     Single
                   </label>
-                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing3"value="Single Womain">
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing3"value="Single Womain" checked>
                   <label class="form-check-label" for="">
                     Single Womain
                   </label>
-                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing4"value="Non vegetarian">
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing4"value="Non vegetarian" checked>
                   <label class="form-check-label" for="">
                     Non vegetarian
                   </label>
-                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing5"value="Pets">
+                  <div class="vl"></div>
+                  <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing5"value="Pets" checked>
                   <label class="form-check-label" for="">
                     Pets
                   </label>
@@ -950,23 +1035,34 @@
                 </div>
                 <br>
                 <br>
-                <h5>Available from</h5>
+                <hr>
+                <h3>Available from</h3>
                 <div class="col-md-2">
                   <input type="date" id="Available" name="Available">
                 </div>
                 <br>
+                <hr>
+                <br>
                 <h3>Add photos of your property</h3>
                 <div class="mb-3">
-                  <label for="" class="form-label">Multiple photos input </label>
-                  <input class="form-control" type="file" id="files" multiple name="files"  ><!--onchange="photodiv()"-->
+                  <label for="" class="form-label">(Multiple photos input) for better result please upload at least 4 pictures. </label>
+                  <input class="form-control" type="file" id="files" multiple name="files" placeholder="pictures" >
+                  <p>Max-size 1MB, Max-inputs 10 picture</p><!--onchange="photodiv()"-->
                 </div>
+               
                 <div id="preview"></div>
                 <hr>
-              </div>
+              
 
-
-
-            <input type="submit" value = "Get" id="submit">
+       
+         <div class="md-6">
+          <button type="submit" class="btn btn-warning  btn-lg">Submit</button>
+         
+          
+         </div>
+       
+        
+              
 
             </form>
           </div>

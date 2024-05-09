@@ -133,6 +133,7 @@ propForm.addEventListener('submit', (e) => {
    const ageBulding=document.getElementById('ageBulding').value
    const Available=document.getElementById('Available').value 
    const add_info=document.getElementById('otherval').value
+   const rent=document.getElementById('rent').value
 
    //console.log(prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,Pin_code,City,Latitude,Longitude,Total_floor,Property_on_floor,ageBulding,Available,Bult_up_Area)
   
@@ -200,6 +201,7 @@ propForm.addEventListener('submit', (e) => {
     formData.append("Willing", Willing);
     formData.append("amenities", amenities);
     formData.append("add_info", add_info);
+    formData.append("rent", rent);
 
     const files = document.getElementById("files");
     // const formData = new FormData();

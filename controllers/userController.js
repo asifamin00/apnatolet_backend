@@ -3,6 +3,7 @@ const otpGenerator = require('otp-generator')
 const nodemailer = require('nodemailer')
 const userModel = require("../models/userSch")
 const propModel = require("../models/propertySchema")
+const counterModel = require("../models/counterSch")
 const fs = require('fs');
 const bcrypt = require("bcrypt")
 const { cache } = require("ejs")
@@ -613,18 +614,44 @@ const newpropo=async (req, res) => {
       // console.log(uploadedImages)
       // console.log(req.body)
       const {prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,
-        Pin_code,City,Latitude,Longitude,Bult_up_Area,Total_floor,Property_on_floor,ageBulding,Available,furnicheckbox,otherRoom,Willing,amenities,add_info}= req.body
+        Pin_code,City,Latitude,Longitude,Bult_up_Area,Total_floor,Property_on_floor,ageBulding,Available,furnicheckbox,otherRoom,Willing,amenities,add_info,rent}= req.body
       const image=JSON.stringify(uploadedImages)
      
 
       try {
+
+        // const propId=await counterModel.create({
+        //   id:'autoval',
+        //   seq:1
+
+        // })
+        
+        const sid=await counterModel.updateOne(
+          {id:'autoval'},
+          {'$inc':{'seq':1}},
+          {new:true},
+              
+
+        )
+
+        const newPropid=await counterModel.findOne({id:'autoval' })
+
+        newPropid.seq
+
+        
+
+        
+
+
+        
        
-    
+        
+        
         
     
         const result = await propModel.create({
           user_id:'kl',
-          atlprop_id:'lk',
+          atlprop_id:newPropid.seq,
           prop_kind: prop_kind,
           prop_type: prop_type,
           Bedrooms: Bedrooms,
@@ -651,6 +678,7 @@ const newpropo=async (req, res) => {
           Willing: [Willing],
           image:image,
           amenities:[amenities],
+          rent:rent,
           add_info:add_info,
         approved_by:'Approval_pending',
         status: "pending"
@@ -658,7 +686,7 @@ const newpropo=async (req, res) => {
     
         res.sendStatus(201)
     
-    console.log(result)
+     console.log(result)
    
     
     

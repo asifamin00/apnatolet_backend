@@ -630,7 +630,7 @@ const newpropo=async (req, res) => {
           Bedrooms: Bedrooms,
           Bathrooms: Bathrooms,
           Balconies: Balconies,
-          Furnishing: String,
+          Furnishing: Furnishing,
           Coveredparking: Coveredparking,
           openparking: openparking,
           Facing:Facing,

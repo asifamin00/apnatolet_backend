@@ -31,6 +31,9 @@ const mongoose=require('mongoose')
     image:String,
     amenities: [String],
     add_info:String,
+    approved_by:String,
+    status: String,
+    live:String,
     created: {type: Date, default: Date.now}
    
 })

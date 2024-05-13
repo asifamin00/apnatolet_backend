@@ -681,7 +681,8 @@ const newpropo=async (req, res) => {
           rent:rent,
           add_info:add_info,
         approved_by:'Approval_pending',
-        status: "pending"
+        status: "pending",
+        live:'off'
         })
     
         res.sendStatus(201)

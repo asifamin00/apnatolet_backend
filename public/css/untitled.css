@@ -10,8 +10,18 @@
 
 /* multy step form */
 * {
-  margin: 0;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
   padding: 0
+}
+.fixed-top {
+  position: fixed;
+  top: 100;
+  right: 0;
+  left: 0;
+  z-index: 600;
 }
 
 html {
@@ -316,7 +326,11 @@ p {
 
 /* property card end */
 
-
+.carousel-inner {
+  position: relative;
+  width: 30%;
+  overflow: hidden;
+}
 
 
 

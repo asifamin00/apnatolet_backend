@@ -119,7 +119,7 @@ propForm.addEventListener('submit', (e) => {
    const Coveredparking=document.querySelector('input[name="Covered_parking"]:checked').value
    const openparking=document.querySelector('input[name="Open_parking"]:checked').value
    const Facing =document.querySelector('input[name="Facing"]:checked').value
-
+   const user_id=document.getElementById('user_id').value
    const House_no=document.getElementById('House_no').value
    const Society=document.getElementById('Society').value
    const Locality=document.getElementById('Locality').value
@@ -202,6 +202,7 @@ propForm.addEventListener('submit', (e) => {
     formData.append("amenities", amenities);
     formData.append("add_info", add_info);
     formData.append("rent", rent);
+    formData.append("user_id", user_id);
 
     const files = document.getElementById("files");
     // const formData = new FormData();
@@ -220,15 +221,18 @@ propForm.addEventListener('submit', (e) => {
    }).then((res) => {
 
    
-      document.getElementById('preloader').style.display = 'none';
+     
  
 
     if(res.status == 201){
-    
+    alert('created sussesfully')
+    document.getElementById('preloader').style.display = 'none';
+    window.location.replace("http://localhost:5000/prop_con");
     }
 
     console.log(res.status)
    })
+
    
    
   
@@ -237,6 +241,7 @@ propForm.addEventListener('submit', (e) => {
    
 
 });
+
 
 
 //end

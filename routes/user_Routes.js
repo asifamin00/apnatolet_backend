@@ -1,6 +1,8 @@
 const express = require('express')
 const userRouter = express.Router()
-const { signup, signin, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user, approve_user, newpropo } = require('../controllers/userController')
+const { signup, signin, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
+     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov } = require('../controllers/userController')
+     
 const auth = require('../middlewares/auth')
 const fs = require('fs');
 const multer = require('multer')
@@ -64,6 +66,12 @@ userRouter.get('/forgot-password', (req, res) => {
 })
 
 userRouter.get('/', auth, dashbord)
+userRouter.get('/dashbord', auth, dashbord)
+userRouter.get('/user_con', auth, user_con)
+userRouter.get('/prop_con', auth, prop_con)
+userRouter.get('/new_prop_ent', auth, new_prop_ent)
+userRouter.get('/prop_aprov', auth, prop_aprov)
+
 
 userRouter.post('/register', signup)
 

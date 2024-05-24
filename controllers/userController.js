@@ -4,12 +4,17 @@ const nodemailer = require('nodemailer')
 const userModel = require("../models/userSch")
 const propModel = require("../models/propertySchema")
 const counterModel = require("../models/counterSch")
+//const helper = require('../user_prop');
 const fs = require('fs');
 const bcrypt = require("bcrypt")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
 const { v4:uuidv4 }=require('uuid');
+const { myFunc } = require('../user_prop')
 const cloudinary=require("cloudinary").v2
+
+
+
 
 const SECRET_KEY = process.env.AUTH_SECRET
 
@@ -24,10 +29,159 @@ const dashbord = async (req, res) => {
       let existingUser = await userModel.findOne({ email: user.email })
 
       let alluser = await userModel.find({})
+      let allprop = await propModel.find({})
 
       let pending_count=await userModel.find({status:"pending"}).count()
 
-      res.render('index', { existingUser,alluser,pending_count})
+      res.render('dashbord', { existingUser,alluser,pending_count,allprop})
+      
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const user_con = async (req, res) => {
+  try {
+    let token = req.cookies.token
+    if (token) {
+
+      let user = jwt.verify(token, SECRET_KEY)
+     
+      let existingUser = await userModel.findOne({ email: user.email })
+
+      let alluser = await userModel.find({})
+      let allprop = await propModel.find({})
+
+      let pending_count=await userModel.find({status:"pending"}).count()
+
+      res.render('user_con', { existingUser,alluser,pending_count,allprop })
+      
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// async function jointtwo(ids)   {
+
+//  let Phone_no_user=await userModel.findOne({_id:ids})
+
+//   let opi=JSON.stringify(Phone_no_user.Phone)
+//  return(opi)
+// }
+
+
+
+
+// const jointtwo= async (ids)=>{await userModel.findOne({_id:ids})
+// return jointtwo
+// }
+
+
+
+const prop_con = async (req, res) => {
+  try {
+    let token = req.cookies.token
+    if (token) {
+
+      let user = jwt.verify(token, SECRET_KEY)
+
+      let existingUser = await userModel.findOne({ email: user.email })
+
+      let alluser = await userModel.find({})
+      
+      
+
+        const pipeline = [
+    {
+      $lookup: {
+        from: 'usersches',           // The collection to join
+        localField: 'user_id',   // Field from the orders collection
+        foreignField: '_id',         // Field from the customers collection
+        as: 'propt_info'          // Alias for the joined data
+      }
+      
+    },
+
+    {
+      $addFields:{
+         users:{$first:"$propt_info"},
+        }
+    },
+
+    
+  {  $project: {
+      "atlprop_id": 1,
+      "image": 1,
+      "prop_kind": 1, 
+      "Bedrooms":1,
+      "prop_type":1,
+      "rent":1,
+      "users.Phone":1,
+      "approved_by":1,
+      "status":1,
+      "live":1
+      
+    }
+  }
+  ]
+  const allprop= await propModel.aggregate(pipeline)
+ const allpropp=(allprop)
+ console.log(allpropp)
+
+   
+        
+
+     
+
+      let pending_count=await userModel.find({status:"pending"}).count()
+     
+      res.render('prop_con', { existingUser,alluser,pending_count,allprop})
+    
+      
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const new_prop_ent = async (req, res) => {
+  try {
+    let token = req.cookies.token
+    if (token) {
+
+      let user = jwt.verify(token, SECRET_KEY)
+
+      let existingUser = await userModel.findOne({ email: user.email })
+
+      let alluser = await userModel.find({})
+      let allprop = await propModel.find({})
+
+      let pending_count=await userModel.find({status:"pending"}).count()
+
+      res.render('new_prop_ent', { existingUser,alluser,pending_count,allprop})
+      
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+const prop_aprov = async (req, res) => {
+  try {
+    let token = req.cookies.token
+    if (token) {
+
+      let user = jwt.verify(token, SECRET_KEY)
+
+      let existingUser = await userModel.findOne({ email: user.email })
+
+      let alluser = await userModel.find({})
+      let allprop = await propModel.find({})
+
+      let pending_count=await userModel.find({status:"pending"}).count()
+
+      res.render('prop_aprov', { existingUser,alluser,pending_count,allprop})
       
     }
   } catch (error) {
@@ -95,8 +249,8 @@ const signin = async (req, res) => {
       
 
     }
-    if(existingUser.role!=2017 && existingUser.role!=9012){
-      req.flash('error_msg', 'Üser not allowed!! Only Admin and Editer can login')
+    if(existingUser.role!=2017 && existingUser.role!=9012 && existingUser.role!=9013){
+      req.flash('error_msg', 'Üser not allowed!! Only Admin  Editer & SubEditer can login')
       
       return res.redirect('/login')
 
@@ -132,7 +286,7 @@ const signin = async (req, res) => {
     res.locals.user_i = existingUser.email;
     res.cookie("token", token, options);
 
-    res.redirect("/");
+    res.redirect("/dashbord");
 
 
 
@@ -491,7 +645,7 @@ const createUser = async (req, res) => {
       approved_by:'Approval_pending'
     })
     
-   
+    // console.log(result)
     return res.sendStatus(201)
 
   } catch (error) {
@@ -519,12 +673,12 @@ const edituser = (req, res)=> {
   .then(user_user => {
     req.flash('success_msg', 'Update successfully ')
       
-    res.redirect('/');
+    res.redirect('/user_con');
      
       
   })
   .catch(err => {req.flash('error_msg', 'Conflict with other user data!! ')
-      res.redirect('/');
+      res.redirect('/user_con');
   });
   
 }
@@ -539,7 +693,7 @@ const delete_user= (req, res)=> {
       })
       .catch(err => {
           req.flash('error_msg', 'ERROR: '+err)
-          res.redirect('/');
+          res.redirect('/user_con');
       });
 }
 
@@ -578,7 +732,7 @@ const newpropo=async (req, res) => {
       const random =uuidv4();
       const x=await cloudinary.uploader.upload(req.files[i].path,{ 
           
-          public_id: random + req.files[i],
+          public_id: random ,
           overlay: { 
             font_family: 'Arial',
             font_size: 20,
@@ -595,7 +749,7 @@ const newpropo=async (req, res) => {
       
         },)
 
-      uploadedImages.push({'url':x.secure_url });//,'ogfilename':x.original_filename
+      uploadedImages.push({url:x.secure_url,pid:random });//,'ogfilename':x.original_filename
      
       fs.unlink((req.files[i].path),
       function(err){ 
@@ -614,10 +768,10 @@ const newpropo=async (req, res) => {
       // console.log(uploadedImages)
       // console.log(req.body)
       const {prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,
-        Pin_code,City,Latitude,Longitude,Bult_up_Area,Total_floor,Property_on_floor,ageBulding,Available,furnicheckbox,otherRoom,Willing,amenities,add_info,rent}= req.body
-      const image=JSON.stringify(uploadedImages)
-     
-
+        Pin_code,City,Latitude,Longitude,Bult_up_Area,Total_floor,Property_on_floor,ageBulding,Available,furnicheckbox,otherRoom,Willing,
+        amenities,add_info,rent,user_id}= req.body
+      // const image=JSON.stringify(uploadedImages) 
+      const image= uploadedImages
       try {
 
         // const propId=await counterModel.create({
@@ -638,19 +792,8 @@ const newpropo=async (req, res) => {
 
         newPropid.seq
 
-        
-
-        
-
-
-        
-       
-        
-        
-        
-    
-        const result = await propModel.create({
-          user_id:'kl',
+        const result2 = await propModel.create({
+          user_id:user_id,
           atlprop_id:newPropid.seq,
           prop_kind: prop_kind,
           prop_type: prop_type,
@@ -685,11 +828,14 @@ const newpropo=async (req, res) => {
         live:'off'
         })
     
-        res.sendStatus(201)
+        
+       
     
-     console.log(result)
+    //  console.log(user_id)
    
-    
+     res.sendStatus(201)
+
+     
     
     
       } catch (error) {
@@ -701,15 +847,12 @@ const newpropo=async (req, res) => {
     
       }
 
-
-
-
-
-
-
-
   }
 
 
 
-module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser,edituser,delete_user,approve_user,newpropo }
+
+
+
+module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser,edituser,delete_user,
+  approve_user,newpropo,user_con,prop_con,new_prop_ent,prop_aprov }

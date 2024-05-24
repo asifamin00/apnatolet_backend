@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 
   const PropertySchema=({
-    user_id:String,
+    user_id:mongoose.Schema.ObjectId,
     atlprop_id:String,
     prop_kind: String,
     prop_type: String,
@@ -28,7 +28,7 @@ const mongoose=require('mongoose')
     otherRoom: [String],
     Willing: [String],
     rent:Number,
-    image:String,
+    image:Array,
     amenities: [String],
     add_info:String,
     approved_by:String,

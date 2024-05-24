@@ -1,7 +1,13 @@
-<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 fixed-left"style="position: fixed; z-index: 9;">
-    <div class="container-fluid d-flex flex-column p-0" style='margin-top: 200px;'>
+<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+    <div class="container-fluid d-flex flex-column p-3"><a
+        class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-5" href="#">
+        <div class="sidebar-brand-icon rotate-n-0"><img class="rounded-circle" src="/img/dogs/logo.jpg" sizes="50">
+        </div>
+        <div class="sidebar-brand-text "></div>
+
+      </a>
       <hr class="sidebar-divider ">
-      <ul class="navbar-nav text-light" id=""><span>
+      <ul class="navbar-nav text-light" id="accordionSidebar"><span>
         <!-- id="main_menu"id="user_table"id="propperty_table" -->
 
           <li class="nav-item"><a class="nav-link" href="/dashbord"> 
@@ -16,11 +22,11 @@
               <!-- <i class="far fa-user-circle"></i> -->
               <h5>Property table</h5></a>
             </li>
-        
             <li class="nav-item" ><a class="nav-link" href="/new_prop_ent">
               <!-- <i class="far fa-user-circle"></i> -->
-              <h5>New Property</h5></a>
+              <h5>New Property entry</h5></a>
             </li>
+            
           
 
 
@@ -46,6 +52,7 @@
 
       </ul>
 
-     
+      <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle"
+          type="button"></button></div>
     </div>
   </nav>

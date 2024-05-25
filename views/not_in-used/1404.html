@@ -1,0 +1,74 @@
+<!---start property table-->
+              <div class="container-fluid col-sm-11" id='propperty_table_main'
+                style="display: block; padding-top:5rem;margin-left: 200px;">
+
+
+                <h1>Propperty_Table</h1>
+                <div class="mb-3"><%- include('partials/messages') -%></div>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+
+
+                      <th>prop_apnt_id</th>
+                      <th>Phone no </th>
+                      <th>Titel</th>
+                      <th>Approved By</th>
+                      <th>Status</th>
+                      <th>Live</th>
+
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+
+                      <th>prop_apnt_id</th>
+                      <th>Phone no</th>
+                      <th>Title</th>
+                      <th>Approved By</th>
+                      <th>Status</th>
+                      <th>Live</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <%let l=-1%>
+                      <% allprop.forEach((allprop)=> { %>
+                        <% ++l l %>
+                          <%=l%>
+                            <tr>
+
+                              <td>
+                                APNTL.<%= allprop.atlprop_id %>
+                              </td>
+                              <td>
+                                <%=allprop.users.Phone%>
+                              </td>
+                              <td>
+                                <% if(allprop.Bedrooms> 1) { %> <%=allprop.Bedrooms%>
+                                    <% }%>
+                                      <% if(allprop.Bedrooms> 1) { %> BHK <% }%>
+                                          <%= allprop.prop_kind %>&nbsp;<%= allprop.prop_type %>&nbsp;<br>For
+                                              rent,&nbsp;Rs<%= allprop.rent %> per month.
+                              </td>
+                              <td>
+                                <%= allprop.approved_by %>
+                              </td>
+                              <td>
+                                <%= allprop.status %>
+                              </td>
+                              <td>
+                                <%= allprop.live %>
+                              </td>
+
+
+
+
+                            </tr>
+
+                            <% }) %>
+
+
+                  </tbody>
+                </table>
+              </div>
+              <!---end property table-->

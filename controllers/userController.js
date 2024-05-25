@@ -9,9 +9,9 @@ const fs = require('fs');
 const bcrypt = require("bcrypt")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
-const { v4:uuidv4 }=require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const { myFunc } = require('../user_prop')
-const cloudinary=require("cloudinary").v2
+const cloudinary = require("cloudinary").v2
 
 
 
@@ -31,10 +31,10 @@ const dashbord = async (req, res) => {
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
 
-      let pending_count=await userModel.find({status:"pending"}).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('dashbord', { existingUser,alluser,pending_count,allprop})
-      
+      res.render('dashbord', { existingUser, alluser, pending_count, allprop })
+
     }
   } catch (error) {
     console.log(error)
@@ -47,37 +47,21 @@ const user_con = async (req, res) => {
     if (token) {
 
       let user = jwt.verify(token, SECRET_KEY)
-     
+
       let existingUser = await userModel.findOne({ email: user.email })
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
 
-      let pending_count=await userModel.find({status:"pending"}).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('user_con', { existingUser,alluser,pending_count,allprop })
-      
+      res.render('user_con', { existingUser, alluser, pending_count, allprop })
+
     }
   } catch (error) {
     console.log(error)
   }
 }
-
-// async function jointtwo(ids)   {
-
-//  let Phone_no_user=await userModel.findOne({_id:ids})
-
-//   let opi=JSON.stringify(Phone_no_user.Phone)
-//  return(opi)
-// }
-
-
-
-
-// const jointtwo= async (ids)=>{await userModel.findOne({_id:ids})
-// return jointtwo
-// }
-
 
 
 const prop_con = async (req, res) => {
@@ -90,56 +74,49 @@ const prop_con = async (req, res) => {
       let existingUser = await userModel.findOne({ email: user.email })
 
       let alluser = await userModel.find({})
-      
-      
 
-        const pipeline = [
-    {
-      $lookup: {
-        from: 'usersches',           // The collection to join
-        localField: 'user_id',   // Field from the orders collection
-        foreignField: '_id',         // Field from the customers collection
-        as: 'propt_info'          // Alias for the joined data
-      }
-      
-    },
 
-    {
-      $addFields:{
-         users:{$first:"$propt_info"},
+
+      const prop_table_pipeline = [
+        {
+          $lookup: {
+            from: 'usersches',           // The collection to join
+            localField: 'user_id',   // Field from the orders collection
+            foreignField: '_id',         // Field from the customers collection
+            as: 'propt_info'          // Alias for the joined data
+          }
+
+        },
+
+        {
+          $addFields: {
+            users: { $first: "$propt_info" },
+          }
+        },
+
+
+        {
+          $project: {
+            "atlprop_id": 1,
+            "image": 1,
+            "prop_kind": 1,
+            "Bedrooms": 1,
+            "prop_type": 1,
+            "rent": 1,
+            "users.Phone": 1,
+            "approved_by": 1,
+            "status": 1,
+            "live": 1
+
+          }
         }
-    },
+      ]
+      const allprop = await propModel.aggregate(prop_table_pipeline)
+      const allpropp = (allprop)
+      console.log(allpropp)
+      let pending_count = await userModel.find({ status: "pending" }).count()
 
-    
-  {  $project: {
-      "atlprop_id": 1,
-      "image": 1,
-      "prop_kind": 1, 
-      "Bedrooms":1,
-      "prop_type":1,
-      "rent":1,
-      "users.Phone":1,
-      "approved_by":1,
-      "status":1,
-      "live":1
-      
-    }
-  }
-  ]
-  const allprop= await propModel.aggregate(pipeline)
- const allpropp=(allprop)
- console.log(allpropp)
-
-   
-        
-
-     
-
-      let pending_count=await userModel.find({status:"pending"}).count()
-     
-      res.render('prop_con', { existingUser,alluser,pending_count,allprop})
-    
-      
+      res.render('prop_con', { existingUser, alluser, pending_count, allprop })
     }
   } catch (error) {
     console.log(error)
@@ -154,14 +131,17 @@ const new_prop_ent = async (req, res) => {
       let user = jwt.verify(token, SECRET_KEY)
 
       let existingUser = await userModel.findOne({ email: user.email })
-
+      const user_id=req.params.id
+      console.log(user_id )
       let alluser = await userModel.find({})
-      let allprop = await propModel.find({})
+      let allprop_user = await propModel.find({user_id:user_id})
+      let username= await userModel.findOne({_id:user_id})
+      console.log(allprop_user )
 
-      let pending_count=await userModel.find({status:"pending"}).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('new_prop_ent', { existingUser,alluser,pending_count,allprop})
-      
+      res.render('new_prop_ent', { existingUser, alluser, pending_count, allprop_user, username })
+
     }
   } catch (error) {
     console.log(error)
@@ -173,16 +153,96 @@ const prop_aprov = async (req, res) => {
     if (token) {
 
       let user = jwt.verify(token, SECRET_KEY)
+      const idm = req.params.id
 
       let existingUser = await userModel.findOne({ email: user.email })
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
 
-      let pending_count=await userModel.find({status:"pending"}).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('prop_aprov', { existingUser,alluser,pending_count,allprop})
-      
+
+      const prop_approv_pipeline = [
+        {
+          $match: {
+            atlprop_id: idm
+          }
+        },
+        {
+          $lookup: {
+            from: 'usersches',           // The collection to join
+            localField: 'user_id',   // Field from the orders collection
+            foreignField: '_id',         // Field from the customers collection
+            as: 'propt_info'          // Alias for the joined data
+          }
+
+        },
+
+
+
+        {
+          $addFields: {
+            users: { $first: "$propt_info" },
+          }
+        },
+
+
+        {
+          $project: {
+            "atlprop_id": 1,
+            "image": 1,
+            "prop_kind": 1,
+            "Bedrooms": 1,
+            "prop_type": 1,
+            "rent": 1,
+            "users.Phone": 1,
+            "users.userFname": 1,
+            "users.userLname": 1,
+            "users.role": 1,
+            "approved_by": 1,
+            "status": 1,
+            "live": 1,
+            "Bathrooms": 1,
+            "Balconies": 1,
+            "Furnishing": 1,
+            "Coveredparking": 1,
+            "openparking": 1,
+            "Facing": 1,
+            "House_no": 1,
+            "Society": 1,
+            "Locality": 1,
+            "Pin_code": 1,
+            "City": 1,
+            "Latitude": 1,
+            "Longitude": 1,
+            "Total_floor": 1,
+            "Property_on_floor": 1,
+            "ageBulding": 1,
+            "Available": 1,
+            "furnicheckbox": 1,
+            "otherRoom": 1,
+            "Willing": 1,
+            "amenities": 1,
+            "add_info": 1,
+            "created": 1,
+            "Bult_up_Area":1
+
+
+          }
+        }
+
+
+      ]
+      const prop_approv = await propModel.aggregate(prop_approv_pipeline)
+      console.log(prop_approv[0].image[0].url)
+      console.log(prop_approv)
+
+
+
+
+      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv })
+
     }
   } catch (error) {
     console.log(error)
@@ -214,25 +274,17 @@ const signup = async (req, res) => {
       role: 9012,
       status: "pending",
       createdBy: 'self',
-      approved_by:'self'
+      approved_by: 'self'
     })
 
     const token = jwt.sign({ email: result.email, id: result._id, status: result.status }, SECRET_KEY)
     req.flash('success_msg', 'Successfully register.')
     return res.redirect('/register')
-
-
-
-
-
-
   } catch (error) {
 
     console.log(error + 'asif49')
     req.flash('error_msg', error)
     return res.redirect('/register')
-
-
   }
 
 }
@@ -244,14 +296,14 @@ const signin = async (req, res) => {
     const existingUser = await userModel.findOne({ email: email })
     if (!existingUser) {
       req.flash('error_msg', 'Üser not found')
-      
+
       return res.redirect('/login')
-      
+
 
     }
-    if(existingUser.role!=2017 && existingUser.role!=9012 && existingUser.role!=9013){
+    if (existingUser.role != 2017 && existingUser.role != 9012 && existingUser.role != 9013) {
       req.flash('error_msg', 'Üser not allowed!! Only Admin  Editer & SubEditer can login')
-      
+
       return res.redirect('/login')
 
     }
@@ -268,8 +320,6 @@ const signin = async (req, res) => {
       return res.redirect('/login')
 
     }
-
-
     const token = jwt.sign(
       {
         email: existingUser.email, id: existingUser._id, status: existingUser.status
@@ -295,8 +345,6 @@ const signin = async (req, res) => {
     console.log(error + '84')
     req.flash('error_msg', 'Something went wrong')
     return res.redirect('/login')
-
-
   }
 }
 
@@ -312,7 +360,7 @@ const forgotPassword = async (req, res) => {
     upperCaseAlphabets: false,
     lowerCaseAlphabets: false,
     specialChars: false
-    
+
   })
   console.log(otp)
   const transporter = nodemailer.createTransport({
@@ -627,24 +675,24 @@ const createUser = async (req, res) => {
     const existingUser = await userModel.findOne({
       $or: [{ email: email }, { Phone: phone }]
     });
-    
+
     if (existingUser) {
-      
+
       return res.sendStatus(400)
-      
+
     }
     const result = await userModel.create({
       userFname: first_name,
       userLname: last_name,
       Phone: phone,
-      password:'123',
+      password: '123',
       email: email,
       role: role,
       status: "pending",
       createdBy: createdBy,
-      approved_by:'Approval_pending'
+      approved_by: 'Approval_pending'
     })
-    
+
     // console.log(result)
     return res.sendStatus(201)
 
@@ -652,207 +700,224 @@ const createUser = async (req, res) => {
     console.log(error)
 
     res.sendStatus(403)
-    
+
     return
   }
 }
-const edituser = (req, res)=> {
-  let searchQuery = {_id : req.params.id};
+const edituser = (req, res) => {
+  let searchQuery = { _id: req.params.id };
 
-  
 
-  userModel.updateOne(searchQuery, {$set: {
-    userFname : req.body.first_name,
-    userLname : req.body.last_name,
-    Phone: req.body.phone,
-    email : req.body.email,
-    status:'pending',
-    approved_by:'Approval_pending'
-      
-  }})
-  .then(user_user => {
-    req.flash('success_msg', 'Update successfully ')
-      
-    res.redirect('/user_con');
-     
-      
+
+  userModel.updateOne(searchQuery, {
+    $set: {
+      userFname: req.body.first_name,
+      userLname: req.body.last_name,
+      Phone: req.body.phone,
+      email: req.body.email,
+      status: 'pending',
+      approved_by: 'Approval_pending'
+
+    }
   })
-  .catch(err => {req.flash('error_msg', 'Conflict with other user data!! ')
+    .then(user_user => {
+      req.flash('success_msg', 'Update successfully ')
+
       res.redirect('/user_con');
-  });
-  
+
+
+    })
+    .catch(err => {
+      req.flash('error_msg', 'Conflict with other user data!! ')
+      res.redirect('/user_con');
+    });
+
 }
 
-const delete_user= (req, res)=> {
-  const _id=req.body.id
+const delete_user = (req, res) => {
+  const _id = req.body.id
 
-  userModel.deleteOne({_id})
-      .then(user_user=>{
-         
-          res.sendStatus(202)
-      })
-      .catch(err => {
-          req.flash('error_msg', 'ERROR: '+err)
-          res.redirect('/user_con');
-      });
+  userModel.deleteOne({ _id })
+    .then(user_user => {
+
+      res.sendStatus(202)
+    })
+    .catch(err => {
+      req.flash('error_msg', 'ERROR: ' + err)
+      res.redirect('/user_con');
+    });
 }
 
-const approve_user=async (req, res)=> {
+const approve_user = async (req, res) => {
   const pass = otpGenerator.generate(8, {
     upperCaseAlphabets: true,
     lowerCaseAlphabets: true,
     specialChars: true
   })
 
- const hashedPassword = await bcrypt.hash(pass, 10)
-const _id=req.body.id
-const curid=req.body.curid
+  const hashedPassword = await bcrypt.hash(pass, 10)
+  const _id = req.body.id
+  const curid = req.body.curid
 
 
-userModel.updateOne({_id}, {$set: {
- status:'Approved',
- approved_by:curid,
- password:hashedPassword
-    
-}}).then(user_user => {
+  userModel.updateOne({ _id }, {
+    $set: {
+      status: 'Approved',
+      approved_by: curid,
+      password: hashedPassword
 
-  req.flash('success_msg', 'Approved.')
-  res.sendStatus(202)
-  
-  
-})
+    }
+  }).then(user_user => {
+
+    req.flash('success_msg', 'Approved.')
+    res.sendStatus(202)
+  })
+}
+
+const newpropo = async (req, res) => {
+  const uploadedImages = [];
+
+  for (let i = 0; i < req.files.length; i++) {
+    const random = uuidv4();
+    const x = await cloudinary.uploader.upload(req.files[i].path, {
+
+      public_id: random,
+      overlay: {
+        font_family: 'Arial',
+        font_size: 20,
+        color: 'red',
+        text: 'apnaTOLET.com',
+
+        x: 100,
+        y: 10
+      },
+      opacity: 70,
+      gravity: 'south_east',
+
+
+
+    },)
+
+    uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
+
+    fs.unlink((req.files[i].path),
+      function (err) {
+        if (err) console.log(err);
+        else console.log("\nDeleted file");
+      })
+  }
+
+  const { prop_kind, prop_type, Bedrooms, Bathrooms, Balconies, Furnishing, Coveredparking, openparking, Facing, House_no, Society, Locality,
+    Pin_code, City, Latitude, Longitude, Bult_up_Area, Total_floor, Property_on_floor, ageBulding, Available, furnicheckbox, otherRoom, Willing,
+    amenities, add_info, rent, user_id } = req.body
+
+  const image = uploadedImages
+  try {
+    const sid = await counterModel.updateOne(
+      { id: 'autoval' },
+      { '$inc': { 'seq': 1 } },
+      { new: true },
+
+
+    )
+
+    const newPropid = await counterModel.findOne({ id: 'autoval' })
+
+    newPropid.seq
+
+    const result2 = await propModel.create({
+      user_id: user_id,
+      atlprop_id: newPropid.seq,
+      prop_kind: prop_kind,
+      prop_type: prop_type,
+      Bedrooms: Bedrooms,
+      Bathrooms: Bathrooms,
+      Balconies: Balconies,
+      Furnishing: Furnishing,
+      Coveredparking: Coveredparking,
+      openparking: openparking,
+      Facing: Facing,
+      House_no: House_no,
+      Society: Society,
+      Locality: Locality,
+      Pin_code: Pin_code,
+      City: City,
+      Latitude: Latitude,
+      Longitude: Longitude,
+      Bult_up_Area: Bult_up_Area,
+      Total_floor: Total_floor,
+      Property_on_floor: Property_on_floor,
+      ageBulding: ageBulding,
+      Available: Available,
+      furnicheckbox: [furnicheckbox],
+      otherRoom: [otherRoom],
+      Willing: [Willing],
+      image: image,
+      amenities: [amenities],
+      rent: rent,
+      add_info: add_info,
+      approved_by: 'Approval_pending',
+      status: "pending",
+      live: 'off'
+    })
+
+
+    res.sendStatus(201)
+
+
+
+
+  } catch (error) {
+
+    console.log(error + 'asif49')
+    req.flash('error_msg', error)
+
+
+
+  }
+
+}
+
+const prop_delete = async (req, res) => {
+  try {
+
+    const propaptl_id = req.params.id
+    const prop_details = await propModel.findOne({ atlprop_id: propaptl_id })
+   
+    for (let i = 0; i < prop_details.image.length; i++) {
+
+      
+      const pid=prop_details.image[i].pid
+
+      if (pid) {
+        await cloudinary.uploader.destroy(pid);
+      }
+
+    }
+    const rmProduct = await propModel.findByIdAndDelete(prop_details._id);
+
+
+    req.flash('success_msg', 'Deleted successfully ')
+
+      res.redirect('/prop_con');
+
+
+  } catch (error) {
+    console.log(error)
+
+  }
+
+
 
 
 }
 
-const newpropo=async (req, res) => {
-  const uploadedImages = [];
-
-   for(let i =0; i < req.files.length; i++) {
-      const random =uuidv4();
-      const x=await cloudinary.uploader.upload(req.files[i].path,{ 
-          
-          public_id: random ,
-          overlay: { 
-            font_family: 'Arial',
-            font_size: 20,
-            color:'red',
-            text: 'apnaTOLET.com',
-           
-            x: 100,
-            y: 10
-          },
-          opacity:70,
-          gravity: 'south_east',
-
-
-      
-        },)
-
-      uploadedImages.push({url:x.secure_url,pid:random });//,'ogfilename':x.original_filename
-     
-      fs.unlink((req.files[i].path),
-      function(err){ 
-        if (err) console.log(err); 
-        else console.log("\nDeleted file");
-      }) 
-    
-    
-     
-      
-  }
-  // Sets multer to intercept files named "files" on uploaded form data
- 
-     // res.json({ message: "File(s) uploaded successfully" });
-
-      // console.log(uploadedImages)
-      // console.log(req.body)
-      const {prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,
-        Pin_code,City,Latitude,Longitude,Bult_up_Area,Total_floor,Property_on_floor,ageBulding,Available,furnicheckbox,otherRoom,Willing,
-        amenities,add_info,rent,user_id}= req.body
-      // const image=JSON.stringify(uploadedImages) 
-      const image= uploadedImages
-      try {
-
-        // const propId=await counterModel.create({
-        //   id:'autoval',
-        //   seq:1
-
-        // })
-        
-        const sid=await counterModel.updateOne(
-          {id:'autoval'},
-          {'$inc':{'seq':1}},
-          {new:true},
-              
-
-        )
-
-        const newPropid=await counterModel.findOne({id:'autoval' })
-
-        newPropid.seq
-
-        const result2 = await propModel.create({
-          user_id:user_id,
-          atlprop_id:newPropid.seq,
-          prop_kind: prop_kind,
-          prop_type: prop_type,
-          Bedrooms: Bedrooms,
-          Bathrooms: Bathrooms,
-          Balconies: Balconies,
-          Furnishing: Furnishing,
-          Coveredparking: Coveredparking,
-          openparking: openparking,
-          Facing:Facing,
-          House_no: House_no,
-          Society: Society,
-          Locality: Locality,
-          Pin_code: Pin_code,
-          City: City,
-          Latitude: Latitude,
-          Longitude: Longitude,
-          Bult_up_Area:Bult_up_Area,
-          Total_floor:Total_floor,
-          Property_on_floor: Property_on_floor,
-          ageBulding: ageBulding,
-          Available: Available,
-          furnicheckbox:[furnicheckbox],
-          otherRoom: [otherRoom],
-          Willing: [Willing],
-          image:image,
-          amenities:[amenities],
-          rent:rent,
-          add_info:add_info,
-        approved_by:'Approval_pending',
-        status: "pending",
-        live:'off'
-        })
-    
-        
-       
-    
-    //  console.log(user_id)
-   
-     res.sendStatus(201)
-
-     
-    
-    
-      } catch (error) {
-    
-        console.log(error + 'asif49')
-        req.flash('error_msg', error)
-       
-    
-    
-      }
-
-  }
 
 
 
 
 
-
-module.exports = { signin, signup, dashbord, forgotPassword, otp_check, createUser,edituser,delete_user,
-  approve_user,newpropo,user_con,prop_con,new_prop_ent,prop_aprov }
+module.exports = {
+  signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete
+}

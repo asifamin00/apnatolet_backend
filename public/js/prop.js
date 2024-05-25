@@ -242,6 +242,11 @@ propForm.addEventListener('submit', (e) => {
 
 });
 
+function Prop_apprv_pending(_id){
+
+alert(_id)
+}
+
 
 
 //end

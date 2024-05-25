@@ -7,125 +7,87 @@
 
     <div id="wrapper">
 
-        <%- include('partials/nav') -%>
-    
+      <%- include('partials/nav') -%>
 
 
-      <div class="d-flex flex-column" id="content-wrapper">
-        <div id="content">
+
+        <div class="d-flex flex-column" id="content-wrapper">
+          <div id="content">
 
 
             <%- include('partials/navtop') -%>
 
-
-
-            <!---start property table-->         
-            <div class="container-fluid col-sm-11" id='propperty_table_main'style="display: block; padding-top:5rem;margin-left: 200px;" >
- 
-   
-                <h1>Propperty_Table</h1>
-                <div class="mb-3"><%- include('partials/messages') -%></div>
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-        
-                      
-                      <th>prop_apnt_id</th>
-                      <th>Phone no </th>
-                      <th>Titel</th>
-                      <th>Approved By</th>
-                      <th>Status</th>
-                      <th>Live</th>
-                      
-                    </tr>
+<!---->
+<div class="container"style="display: block; padding-top:8rem;margin-left: 300px;">
+  <div class="row">
+      <div class="col-12">
+        <%- include('partials/messages') -%>
+          <div class="data_table">
+              <table id="example" class="table table-striped table-bordered">
+                  <thead class="table-dark">
+                      <tr>
+                          <th>Prop_id</th>
+                          <th>Phone</th>
+                          <th>Title</th>
+                          <th>Approved_by</th>
+                          <th>Status</th>
+                          <th>Live</th>
+                      </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                     
-                      <th>prop_apnt_id</th>
-                      <th>Phone no</th>
-                      <th>Title</th>
-                      <th>Approved By</th>
-                      <th>Status</th>
-                      <th>Live</th>
-                    </tr>
-                  </tfoot> 
                   <tbody>
-                   <%let l=-1%>
-                      <% allprop.forEach((allprop)=> { %>
-                       <%                   
-                         ++l
-                         l
-                       
-                         %>
-                         <%=l%>
-                            <tr>
-                             
-                              <td>
-                                APNTL.<%= allprop.atlprop_id %>
-                              </td>
-                              <td>                                
-                                <%=allprop.users.Phone%>                                
-                              </td>
-                              <td>
-                              <% if(allprop.Bedrooms > 1) { %> <%=allprop.Bedrooms%> <% }%><% if(allprop.Bedrooms > 1) { %> BHK <% }%>  <%= allprop.prop_kind %>&nbsp;<%= allprop.prop_type %>&nbsp;<br>For rent,&nbsp;Rs<%= allprop.rent %> per month.
-                              </td> 
-                             <td>
-                               <%= allprop.approved_by %>
-                             </td>
-                             <td>
-                               <%= allprop.status %>
-                             </td>
-                             <td>
-                               <%= allprop.live %>
-                             </td>
-                           
-                              
-                            
-                           
-                            </tr>
-                            
-                            <% }) %>
-        
-        
+                    <% allprop.forEach((allprop)=> { %>
+                      <tr>
+                          <td>APNTL.<%= allprop.atlprop_id %></td>
+                          <td><%=allprop.users.Phone%></td>
+                          <td><% if(allprop.Bedrooms> 1) { %> <%=allprop.Bedrooms%>
+                            <% }%>
+                              <% if(allprop.Bedrooms> 1) { %> BHK <% }%>
+                                  <%= allprop.prop_kind %>&nbsp;<%= allprop.prop_type %>&nbsp;<br>For
+                                      rent,&nbsp;Rs<%= allprop.rent %> per month.</td>
+                          <td><%= allprop.approved_by %></td>
+                          <td>
+                            <a class="btn btn-warning" href="/prop_aprov/<%= allprop.atlprop_id %>"><%= allprop.status %></a>
+                            <form style="display: inline;" action="/delete_prop/<%= allprop.atlprop_id %>?_method=DELETE" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button style="cursor: pointer;" type="submit" class="btn btn-danger ml-2">Delete</button>
+                            </form>
+                        </td>
+                        
+                          <td><%= allprop.live %></td>
+                      </tr>
+                      <% }) %>
                   </tbody>
-                </table>
-              </div>
-              <!---end property table-->
-        
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+              
 
 
-
-
-          
-
-
-
-
-
-          
-    
-    
-    
-          
-    
-    
-        </div><!--id="content"end-->
-        <%- include('partials/foot') -%>
-          <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
-      </div><!--class="d-flex flex-column" id="content-wrapper" end-->
+          </div><!--id="content"end-->
+          <%- include('partials/foot') -%>
+            <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </div><!--class="d-flex flex-column" id="content-wrapper" end-->
     </div><!-- </div> id="wrapper"end -->
     <script src="/js/prop.js"></script>
     <script src="/js/maainmenus.js"></script>
     <script src="/js/modal_apna.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" 
-      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>-->    
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>-->
     <script src="/js/chart.min.js"></script>
     <script src="/js/bs-init.js"></script>
     <script src="/js/theme.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/datatables.min.js"></script>
+    <script src="/js/pdfmake.min.js"></script>
+    <script src="/js/vfs_fonts.js"></script>
+    <script src="/js/custom.js"></script>
 
   </body>
 

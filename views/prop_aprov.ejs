@@ -8,228 +8,165 @@
     <div id="wrapper">
 
 
-      <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-        <div class="container-fluid d-flex flex-column p-3"><a
-            class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-            <div class="sidebar-brand-icon rotate-n-0"><img class="rounded-circle" src="/img/dogs/logo.jpg" sizes="50">
-            </div>
-            <div class="sidebar-brand-text "></div>
-    
-          </a>
-          <hr class="sidebar-divider my-3">
-          <ul class="navbar-nav text-light" id="accordionSidebar"><span>
-    
-    
-              <li class="nav-item" id="main_menu"><a class="nav-link" href="#">
-                <!-- <i class="far fa-user-circle"></i> -->
-                <h4>Main menu</h4></a>
-              </li>
-              <li class="nav-item" id="user_table"><a class="nav-link" href="#">
-                <!-- <i class="far fa-user-circle"></i> -->
-                <h5>User table</h5></a>
-              </li>
-                <li class="nav-item" id="propperty_table"><a class="nav-link" href="#">
-                  <!-- <i class="far fa-user-circle"></i> -->
-                  <h5>Property table</h5></a>
-                </li>
-              
-
-
-
-              <li class="nav-item" id="creat_user" ><a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3" >
-                <!-- <i class="far fa-user-circle"></i> -->
-                <h5>CreatUser</h5></a>
-              </li>
-              <li class="nav-item" id="user_apv" ><a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3">
-                <!-- <i class="far fa-user-circle"></i> -->
-                <h5>Pending user apv</h5></a>
-              </li>
-              <li class="nav-item" id="prop_apv" ><a class="nav-link" >
-                <!-- <i class="far fa-user-circle"></i> -->
-                <h5>Pending prop apv</h5></a>
-              </li>
-
-              <li class="nav-item" id="log_out"><a class="nav-link" href="logout">
-                <!-- <i class="far fa-user-circle"></i> -->
-                <h5>Logout</h5></a>
-              </li>
-    
-    
-          </ul>
-    
-          <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle"
-              type="button"></button></div>
-        </div>
-      </nav>
+        <%- include('partials/nav') -%>
 
 
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
 
 
-          <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-            <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop"
-                type="button"><i class="fas fa-bars"></i></button>
-              <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group"><input class="bg-light form-control border-0 small" type="text"
-                    placeholder="Search for ..."><button class="btn btn-primary py-0" type="button"
-                    style="background: #d91442;"><i class="fas fa-search"></i></button></div>
-    
-              </form>
-              <ul class="navbar-nav flex-nowrap ms-auto">
-                <li class="nav-item dropdown no-arrow mx-1">
-                  <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                      data-bs-toggle="dropdown" href="#"><span
-                        class="d-none d-lg-inline me-2 text-gray-600 small"></span></a></div>
-                </li>
-                <li class="nav-item dropdown no-arrow mx-1">
-                  <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                      data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">
-                        <% if (existingUser.role===9012) { %>
-                          <h2>Editer</h2>
-                          <% } if (existingUser.role===9013) { %>
-                            <h2>Sub-Editer</h2>
-                            <% } if (existingUser.role===2017) { %>
-                              <h2>Admin</h2>
-                              <% } %>
-                      </span></a></div>
-                </li>
-                <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                    data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
-                  <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
-                    <form class="me-auto navbar-search w-100">
-                      <div class="input-group"><input class="bg-light form-control border-0 small" type="text"
-                          placeholder="Search for ...">
-                        <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i
-                              class="fas fa-search"></i></button></div>
-    
-                      </div>
-                    </form>
-                  </div>
-                </li>
-                <div class="d-none d-sm-block topbar-divider"></div>
-                <li class="nav-item dropdown no-arrow mx-1">
-                  <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                      data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">
-                        <%=pending_count%>
-                      </span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-people-fill" viewBox="0 0 16 16">
-                        <path
-                          d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
-                      </svg></a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
-                      <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center"
-                        href="#">
-                        <div class="me-3">
-                          <div class="bg-primary icon-circle"><i class="fas fa-file-alt text-white"></i></div>
-                        </div>
-                        <div><span class="small text-gray-500">December 12, 2019</span>
-                          <p>A new monthly report is ready to download!</p>
-                        </div>
-                      </a><a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="me-3">
-                          <div class="bg-success icon-circle"><i class="fas fa-donate text-white"></i></div>
-                        </div>
-                        <div><span class="small text-gray-500">December 7, 2019</span>
-                          <p>$290.29 has been deposited into your account!</p>
-                        </div>
-                      </a><a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="me-3">
-                          <div class="bg-warning icon-circle"><i class="fas fa-exclamation-triangle text-white"></i>
-                          </div>
-                        </div>
-                        <div><span class="small text-gray-500">December 2, 2019</span>
-                          <p>Spending Alert: We've noticed unusually high spending for your account.</p>
-                        </div>
-                      </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                    </div>
-                  </div>
-                </li>
-                <div class="d-none d-sm-block topbar-divider"></div>
-                <li class="nav-item dropdown no-arrow mx-1">
-                  <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                      data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">7</span><svg
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-houses-fill" viewBox="0 0 16 16">
-                        <path
-                          d="M7.207 1a1 1 0 0 0-1.414 0L.146 6.646a.5.5 0 0 0 .708.708L1 7.207V12.5A1.5 1.5 0 0 0 2.5 14h.55a2.5 2.5 0 0 1-.05-.5V9.415a1.5 1.5 0 0 1-.56-2.475l5.353-5.354z" />
-                        <path
-                          d="M8.793 2a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708z" />
-                      </svg></a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
-                      <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center"
-                        href="#">
-                        <div class="dropdown-list-image me-3"><img class="rounded-circle" src="/img/avatars/avatar4.jpeg">
-                          <div class="bg-success status-indicator"></div>
-                        </div>
-                        <div class="fw-bold">
-                          <div class="text-truncate"><span>Hi there! I am wondering if you can help me with a problem
-                              I've been having.</span></div>
-                          <p class="small text-gray-500 mb-0">Emily Fowler - 58m</p>
-                        </div>
-                      </a><a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="dropdown-list-image me-3"><img class="rounded-circle" src="/img/avatars/avatar2.jpeg">
-                          <div class="status-indicator"></div>
-                        </div>
-                        <div class="fw-bold">
-                          <div class="text-truncate"><span>I have the photos that you ordered last month!</span></div>
-                          <p class="small text-gray-500 mb-0">Jae Chun - 1d</p>
-                        </div>
-                      </a><a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="dropdown-list-image me-3"><img class="rounded-circle" src="/img/avatars/avatar3.jpeg">
-                          <div class="bg-warning status-indicator"></div>
-                        </div>
-                        <div class="fw-bold">
-                          <div class="text-truncate"><span>Last month's report looks great, I am very happy with the
-                              progress so far, keep up the good work!</span></div>
-                          <p class="small text-gray-500 mb-0">Morgan Alvarez - 2d</p>
-                        </div>
-                      </a><a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="dropdown-list-image me-3"><img class="rounded-circle" src="/img/avatars/avatar5.jpeg">
-                          <div class="bg-success status-indicator"></div>
-                        </div>
-                        <div class="fw-bold">
-                          <div class="text-truncate"><span>Am I a good boy? The reason I ask is because someone told me
-                              that people say this to all dogs, even if they aren't good...</span></div>
-                          <p class="small text-gray-500 mb-0">Chicken the Dog · 2w</p>
-                        </div>
-                      </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                    </div>
-                  </div>
-                  <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown">
-                  </div>
-                </li>
-                <div class="d-none d-sm-block topbar-divider"></div>
-                <li class="nav-item dropdown no-arrow">
-                  <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false"
-                      data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">
-                        <%=existingUser.userFname %>
-                          <%=existingUser.userLname %>
-                      </span><img class="border rounded-circle img-profile" src="/img/avatars/avatar1.jpeg"></a>
-                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                      <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                          class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
-                      <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal2"><i
-                          class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Change Password</a>
-    
-                      <div class="dropdown-divider"></div><a class="dropdown-item" href="logout"><i
-                          class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
-                    </div>
-                  </div>
-                </li>
-    
-    
-              </ul>
+            <%- include('partials/navtop') -%>
+
+
+
+        
+            
+        <!--start-->
+        <div class="container mt-5" style="display: block; padding-top:8rem;margin-left: 300px;">
+          <div class="row">
+            <div class="">
+              <h4>Property ID:APNTL<%=prop_approv[0].atlprop_id%></h4>
             </div>
-          </nav>
+            <div class="col-md-4">
+              <div class="card">
+                <!-- <img src="<%=prop_approv[0].image[0].url%>" class="card-img-top" alt="Profile Picture"> -->
+                
+                  <div class="carousel slide" data-bs-ride="false" id="carousel-1">
+                      <div class="carousel-inner" col-12>
+                        <% for (var i = 0; i < prop_approv[0].image.length; i++) { %>
+                          <div class="carousel-item <%= i === 0 ? 'active' : '' %>"><img class="w-100 d-block" src="<%=prop_approv[0].image[0].url%>" alt="Slide Image"></div>
+                          <% } %>
+                      </div>
+                      <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
+                      <ol class="carousel-indicators">
+                        <% for (var i = 0; i < prop_approv[0].image.length; i++) { %>
+                          <li data-bs-target="#carousel-1" data-bs-slide-to="<%=i%>" class="<%= i === 0 ? 'active' : '' %>"></li>
+                          
+                          <% } %>
+                      </ol>
+                  </div>
+                 
 
 
 
-          <!-- Body  start-->
-            <!--body end-->
 
 
 
+
+
+                <div class="card-body text-center">
+                  <h5 class="card-title"><% if(prop_approv[0].Bedrooms> 1) { %> <%=prop_approv[0].Bedrooms%><% }%>
+                    <% if(prop_approv[0].Bedrooms> 1) { %> BHK <% }%>
+                    <%= prop_approv[0].prop_kind %>&nbsp;<%= prop_approv[0].prop_type %></h5>
+                  <p class="card-text">Rent, &nbsp;&#8377;<%=prop_approv[0].rent%>  / per month </p>
+
+
+
+                  <!-- <a href="#" class="btn btn-primary">Follow</a>
+                  <a href="#" class="btn btn-outline-primary">Message</a> -->
+                </div>
+              </div>
+            </div>
+           
+            <div class="col-md-4">             
+              <div class="card mb-4">                
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b style="color: crimson;">Prop_kind</b>:&nbsp;<%=prop_approv[0].prop_kind%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Prop_type</b>:&nbsp;<%=prop_approv[0].prop_type%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Bedrooms</b>:&nbsp;<%=prop_approv[0].Bedrooms%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Bathrooms</b>:&nbsp;<%=prop_approv[0].Bathrooms%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Balconies</b>:&nbsp;<%=prop_approv[0].Balconies%></li>
+
+                    
+
+
+                    <li class="list-group-item"><b style="color: crimson;">Furnishing</b>:&nbsp;<%=prop_approv[0].Furnishing%></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card mb-4">                
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                   
+
+                    <li class="list-group-item"><b style="color: crimson;">Coveredparking</b>:&nbsp;<%=prop_approv[0].Coveredparking%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Openparking</b>:&nbsp;<%=prop_approv[0].openparking%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Facing</b>:&nbsp;<%=prop_approv[0].Facing%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Bult_up_Area</b>:&nbsp;<%=prop_approv[0].Bult_up_Area%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Total_floor</b>:&nbsp;<%=prop_approv[0].Total_floor%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Property_on_floor</b>:&nbsp;<%=prop_approv[0].Property_on_floor%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Age of property</b>:&nbsp;<%=prop_approv[0].ageBulding%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Door facing</b>:&nbsp;<%=prop_approv[0].Facing%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Available From</b>:&nbsp;<%=prop_approv[0].Available%></li>
+                  </ul>
+                </div>
+              </div>
+             
+            </div>
+            
+            <div class="col-md-4">             
+              <div class="card mb-4">                
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+
+                  
+
+
+                    <li class="list-group-item"><b style="color: crimson;">Rent:</b> &nbsp;&#8377;<%=prop_approv[0].rent%>  / per month </li>
+                    <li class="list-group-item"><b style="color: crimson;">Phone</b>:&nbsp;<%=prop_approv[0].users.Phone%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Name</b>:&nbsp;<%=prop_approv[0].users.userFname%>&nbsp;<%=prop_approv[0].users.userLname%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Additional info</b>:&nbsp;<%=prop_approv[0].add_info%></li>
+                    
+                  </ul>
+                </div>
+              </div>
+              <div class="card mb-4">                
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b style="color: crimson;">House_no</b>:&nbsp;<%=prop_approv[0].House_no%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Society</b>:&nbsp;<%=prop_approv[0].Society%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Locality</b>:&nbsp;<%=prop_approv[0].Locality%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Pin_code</b>:&nbsp;<%=prop_approv[0].Pin_code%></li>
+                    <li class="list-group-item"><b style="color: crimson;">City</b>:&nbsp;<%=prop_approv[0].City%></li>
+                    <li class="list-group-item"><b style="color: crimson;">GPS</b>:&nbsp;<%=prop_approv[0].Latitude%>&nbsp;<%=prop_approv[0].Longitude%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Created on</b>:&nbsp;<%=prop_approv[0].created%></li>
+                    <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                      <li class="list-group-item">
+                          <li class="list-group-item"><b style="color: crimson;">OtherRooms</b>:&nbsp;<%=prop_approv[0].otherRoom[i]%></li>
+                      
+                      </li>
+                      <% } %>
+                      <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                        <li class="list-group-item">
+                            <li class="list-group-item"><b style="color: crimson;">Amenities</b>:&nbsp;<%=prop_approv[0].amenities[i]%></li>
+                        
+                        </li>
+                        <% } %>
+                        <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                          <li class="list-group-item">
+                              <li class="list-group-item"><b style="color: crimson;">Furnishing items</b>:&nbsp;<%=prop_approv[0].furnicheckbox[i]%></li>
+                          
+                          </li>
+                          <% } %>
+                          <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                            <li class="list-group-item">
+                                <li class="list-group-item"><b style="color: crimson;">Willing to Rent</b>:&nbsp;<%=prop_approv[0].Willing[i]%></li>
+                            
+                            </li>
+                            <% } %> 
+                
+
+                    
+                  </ul>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+        <!--end--->
+        
 
           
 

@@ -281,7 +281,7 @@
                            <td>
                              <%= alluser.Phone %>
                            </td>
-                           <td><a class="btn btn-warning" onclick="Property_butten('<%= alluser.id %>')" <% if
+                           <td><a class="btn btn-warning" href="/new_prop_ent/<%=alluser._id%>" <% if
                                (alluser.role==2017 || alluser.role==7210 || alluser.role==1714) { %>hidden<% }%>
                                  >Property&nbsp;(<%=pending_count%>)</a></td>
                            <td>
@@ -314,6 +314,7 @@
                                  onclick="delete_user('<%= alluser.id %>')" <% if (alluser.id==existingUser.id) { %>
                                      hidden<% }else { %> "" <% } %>>DELETE</a>
                            </td>
+                           
                          </tr>
                          
                          <% }) %>

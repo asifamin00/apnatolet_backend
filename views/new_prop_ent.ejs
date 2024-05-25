@@ -23,12 +23,69 @@
          <!--property entry start-->
          <div class="row register-form" id='Enter_prop' >
             <div class="col-md-8 offset-md-2">
+              <div class="mb-3">
+                <h3> For the user name:</h3><%=username.userFname%>_<%=username.userLname%>--(
+                              <% if (username.role==2017) { %>Admin<% }%>
+                                 <% if (username.role==9012) { %>Editer<% }%>
+                                   <% if (username.role==9013) { %>Sub_Editer<% }%>
+                                     <% if (username.role==7210) { %>F.O<% }%>
+                                         <% if (username.role==2346) { %>Agent<% }%>
+                                             <% if (username.role==1298) { %>owner<% }%>
+                                                 <% if (username.role==1714) { %>User<% }%>)
+              <div class="vl"></div>
+              <hr>
+              </div>
+              <div class="mb-3">
+                <div class="data_table">
+                  <table id="example" class="table table-striped table-bordered">
+                      <thead class="table-dark">
+                          <tr>
+                              <th>Prop_id</th>
+                             
+                              <th>Title</th>
+                              <th>Approved_by</th>
+                              <th>Status</th>
+                              <th>Live</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <% allprop_user.forEach((allprop_user)=> { %>
+                         
+                          <tr>
+                              <td>APNTL.<%= allprop_user.atlprop_id %></td>
+                            
+                              <td><% if(allprop_user.Bedrooms> 1) { %> <%=allprop_user.Bedrooms%>
+                                <% }%>
+                                  <% if(allprop_user.Bedrooms> 1) { %> BHK <% }%>
+                                      <%= allprop_user.prop_kind %>&nbsp;<%= allprop_user.prop_type %>&nbsp;<br>For
+                                          rent,&nbsp;Rs<%= allprop_user.rent %> per month.</td>
+                              <td><%= allprop_user.approved_by %></td>
+                              <td>
+                                <a class="btn btn-warning" href="/prop_aprov/<%= allprop_user.atlprop_id %>"><%= allprop_user.status %></a>
+                                <form style="display: inline;" action="/delete_prop/<%= allprop_user.atlprop_id %>?_method=DELETE" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button style="cursor: pointer;" type="submit" class="btn btn-danger ml-2">Delete</button>
+                                </form>
+                            </td>
+                            
+                              <td><%= allprop_user.live %></td>
+                          </tr>
+                          <% }) %>
+                      </tbody>
+                  </table>
+              </div>
+
+                <div class="vl"></div>
+                <hr>
+              </div>
              
               <form class="custom-form" id="prop_form">
                 <div class="mb-3">
+                  <center><h1>Entry new Property</h1></center>
                   <h3>What kind of property do have</h3>
                   <div>
-                    <input type="text" id="user_id"  value="<%=existingUser.id%>" hidden>
+                    <input type="text" id="user_id"  value="<%=username.id%>" hidden>
                   </div>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="kind_of_prop" id="Residential" value="Residential"
@@ -707,6 +764,11 @@
     <script src="/js/chart.min.js"></script>
     <script src="/js/bs-init.js"></script>
     <script src="/js/theme.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/datatables.min.js"></script>
+    <script src="/js/pdfmake.min.js"></script>
+    <script src="/js/vfs_fonts.js"></script>
+    <script src="/js/custom.js"></script>
 
   </body>
 

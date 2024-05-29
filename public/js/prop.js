@@ -1,4 +1,20 @@
 //start_property
+function setRadioButtonValue(name,value ) {
+  // Get all radio buttons with the given name
+  var radios = document.getElementsByName(name);
+  
+  // Loop through the radio buttons
+  for (var i = 0; i < radios.length; i++) {
+      if (radios[i].value === value) {
+          // Set the checked property to true for the matching value
+          radios[i].checked = true;
+          break;  // Exit the loop once the value is set
+      }
+  }
+}
+
+
+
 const propForm = document.getElementById('prop_form');
 document.getElementById('preloader').style.display = 'none';
 ////////////////////////////////
@@ -144,7 +160,7 @@ propForm.addEventListener('submit', (e) => {
         furnicheckbox.push(checkbox_furni[i].value)
     }    
    }
-
+let furnicheckbox1=JSON.stringify(furnicheckbox)
    let otherRoom=[]
    let checkbox_otrm=document.getElementsByName('Other_Rooms[]')
    for (let i = 0; i < checkbox_otrm.length; i++) {
@@ -152,7 +168,7 @@ propForm.addEventListener('submit', (e) => {
         otherRoom.push(checkbox_otrm[i].value)
     }    
    }
-
+let otherRoom1=JSON.stringify(otherRoom)
 
    let Willing=[]
    let checkbox_Willing=document.getElementsByName('Willing[]')
@@ -161,6 +177,7 @@ propForm.addEventListener('submit', (e) => {
         Willing.push(checkbox_Willing[i].value)
     }    
    }
+    let Willing1=JSON.stringify(Willing)
 
    let amenities=[]
    let checkbox_amenities=document.getElementsByName('amenities[]')
@@ -169,7 +186,7 @@ propForm.addEventListener('submit', (e) => {
       amenities.push(checkbox_amenities[i].value)
     }    
    }
-
+let amenities1=JSON.stringify(amenities)
 
 
 
@@ -196,10 +213,10 @@ propForm.addEventListener('submit', (e) => {
    formData.append("Property_on_floor", Property_on_floor);
    formData.append("ageBulding",ageBulding);
     formData.append("Available",Available);
-    formData.append("furnicheckbox",furnicheckbox);
-    formData.append("otherRoom",otherRoom);
-    formData.append("Willing", Willing);
-    formData.append("amenities", amenities);
+    formData.append("furnicheckbox",furnicheckbox1);
+    formData.append("otherRoom",otherRoom1);
+    formData.append("Willing", Willing1);
+    formData.append("amenities", amenities1);
     formData.append("add_info", add_info);
     formData.append("rent", rent);
     formData.append("user_id", user_id);

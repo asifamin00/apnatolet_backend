@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Radio Button Value</title>
+</head>
+<body>
+    <form id="myForm">
+        <label>
+            <input type="radio" name="gender" value="male"> Male
+        </label>
+        <label>
+            <input type="radio" name="gender" value="female"> Female
+        </label>
+        <label>
+            <input type="radio" name="gender" value="other"> Other
+        </label>
+    </form>
+
+    <script>
+        function setRadioButtonValue(name, value) {
+            // Get all radio buttons with the given name
+            var radios = document.getElementsByName(name);
+            
+            // Loop through the radio buttons
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].value === value) {
+                    // Set the checked property to true for the matching value
+                    radios[i].checked = true;
+                    break;  // Exit the loop once the value is set
+                }
+            }
+        }
+
+        // Example: Set the radio button with the value 'female' to checked
+        setRadioButtonValue('gender', 'female');
+    </script>
+</body>
+</html>

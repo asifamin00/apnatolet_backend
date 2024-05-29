@@ -11,13 +11,721 @@
 
 
 
-        <div class="d-flex flex-column" id="content-wrapper">
+        <div class="d-flex flex-column" id="content-wrapper"style="display: block; padding-top:6rem;margin-left: 200px;">
           <div id="content">
 
 
             <%- include('partials/navtop') -%>
 
-<!---->
+<!--property entry start-->
+<div class="row register-form" id='Enter_prop' >
+  <div class="col-md-8 offset-md-2">
+ 
+    <div class="mb-3">
+     
+
+      <div class="vl"></div>
+      <hr>
+    </div>
+   
+    <form class="custom-form" id="prop_form">
+      <div class="mb-3">
+        <center><h1>Edit Property</h1></center>
+        <h3>What kind of property do have</h3>
+       <div style="color: red;">
+       
+        <%= allprop_edit[0].prop_kind === 'Residential' ? 'checked' : '' %>
+       
+       </div> 
+      
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="kind_of_prop" id="Residential" value="Residential" <%= allprop_edit[0].prop_kind === 'Residential' ? 'checked' : '' %> >
+          <label class="form-check-label" for="">
+            Residential
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="kind_of_prop" id="Commercial" value="Commercial"  <%= allprop_edit[0].prop_kind === 'Commercial' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Commercial
+          </label>
+        </div>
+      </div>
+      <hr>
+      <div class="mb-3">
+        <h3> Property Type</h3>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="Flat_Apartment" value="Flat_Apartment"
+             onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'Flat_Apartment' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Flat/Apartment
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="Independent_House_Villa"
+            value="Independent_House_Villa" onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'Independent_House_Villa' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Independent House/Villa
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="Independent House/Villa"
+            value="Independent House/Villa" onchange="handleChange(2)"<%= allprop_edit[0].prop_type === ' Studio Apartment' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Studio Apartment
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="prop_type" value="Serviced Apartment"
+            onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'Serviced Apartment' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Serviced Apartment
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="prop_type" value="Shop"
+            onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'Shop' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Shop
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="prop_type" value="Show room"
+            onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'Show room' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+            Show room
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="prop_type" value="Hostel "
+            onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'Hostel' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+           Hostel
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="prop_type" id="prop_type" value="PG room"
+            onchange="handleChange(2)"<%= allprop_edit[0].prop_type === 'PG room' ? 'checked' : '' %>>
+          <label class="form-check-label" for="">
+          PG
+          </label>
+        </div>
+
+
+      </div>
+      <hr>
+      <div class="mb-3">
+        <h3>Property Address</h3>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="House_no" name="House_no" placeholder="House no/Flat no"
+            value="<%=allprop_edit[0].House_no%>">
+          <label for="">House no/Flat no</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="Society" placeholder="Society/Apartment Name" Name="Society"
+            value="<%=allprop_edit[0].Society%>">
+          <label for="">Society/Apartment Name</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="Locality" placeholder="Locality" name="Locality" value="<%=allprop_edit[0].Locality%>">
+          <label for="">Locality</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="Pin_code" placeholder="Pin code" Name="Pin_code" value="<%=allprop_edit[0].Pin_code%>">
+          <label for="">Pin code</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="City" placeholder="City" name="City" value="<%=allprop_edit[0].City%>">
+          <label for="">City</label>
+        </div>
+        <div class="vl2"></div>
+        <h3>GPS Location</h3>
+        <div class="row">
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Latitude" aria-label="Latitude" id="Latitude"
+              name="Latitude" value="<%=allprop_edit[0].Latitude%>">
+
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Longitude" aria-label="Longitude" id="Longitude"
+              Name="Longitude" value="<%=allprop_edit[0].Longitude%>">
+          </div>
+        </div>
+
+      </div>
+      <hr>
+      <div class="vl2"></div>
+      <h3>Tell us about your property</h3>
+     
+      <label class="col-md-4 control-label" for="radios"><i class="fa fa-bed"
+          style="font-size:36px"></i>&nbsp;&nbsp; No.of Bedrooms</label>
+      <div class="col-md-8">
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom1" value="0"<%= allprop_edit[0].Bedrooms === '0' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          0
+        </label>
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom1" value="1"<%= allprop_edit[0].Bedrooms === '1' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          1
+        </label>
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom2" value="2"<%= allprop_edit[0].Bedrooms === '2' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          2
+        </label>
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom3" value="3"<%= allprop_edit[0].Bedrooms === '3' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          3
+        </label>
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom4" value="4"<%= allprop_edit[0].Bedrooms === '4' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          4
+        </label>
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom5" value="5"<%= allprop_edit[0].Bedrooms === '5' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          5
+        </label>
+        <input class="form-check-input" type="radio" name="Bedrooms" id="bedroom6" value="5+"<%= allprop_edit[0].Bedrooms === '5+' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          5+
+        </label>
+
+
+      </div>
+      <br>
+      <label class="col-md-4 control-label" for="radios"><i class='fas fa-toilet'
+          style='font-size:36px'></i>&nbsp;&nbsp;No.of Bathrooms</label>
+         
+      <div class="col-md-4">
+        <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms1" value="0"<%= allprop_edit[0].Bathrooms === '0' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          0
+        </label>
+        <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms1" value="1"<%= allprop_edit[0].Bathrooms === '1' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          1
+        </label>
+        <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms2" value="2" <%= allprop_edit[0].Bathrooms === '2' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          2
+        </label>
+        <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms3" value="3"<%= allprop_edit[0].Bathrooms === '3' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          3
+        </label>
+        <input class="form-check-input" type="radio" name="Bathrooms" id="Bathrooms3p" value="3+"<%= allprop_edit[0].Bathrooms === '3+' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          3+
+        </label>
+
+
+      </div>
+      <br>
+      <label class="col-md-4 control-label" for="radios"><i class='fas fa-ruler-horizontal'
+          style='font-size:36px'></i>&nbsp;&nbsp;No.of Balconies</label>
+         
+      <div class="col-md-4">
+        <input class="form-check-input" type="radio" name="Balconies" id="Balconies1" value="0"<%= allprop_edit[0].Balconies === '0' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          0
+        </label>
+        <input class="form-check-input" type="radio" name="Balconies" id="Balconies1" value="1"<%= allprop_edit[0].Balconies === '1' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          1
+        </label>
+        <input class="form-check-input" type="radio" name="Balconies" id="Balconies2" value="2"<%= allprop_edit[0].Balconies === '2' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          2
+        </label>
+        <input class="form-check-input" type="radio" name="Balconies" id="Balconies3" value="3"<%= allprop_edit[0].Balconies === '3' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          3
+        </label>
+        <input class="form-check-input" type="radio" name="Balconies" id="Balconies4p" value="4+"<%= allprop_edit[0].Balconies === '4+' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          4+
+        </label>
+      </div>
+      <hr>
+      <div class="vl2"></div>
+      <h5>Add Bult-up Area/super Bult-up Area</h5>
+      <div class="input-group " style="width: 50%;">
+        <input type="number" class="form-control" placeholder="Add Bult-up Area" aria-label="Add Bult-up Area"
+          aria-describedby="basic-addon2" Name="Bult_up_Area" value="<%=allprop_edit[0].Bult_up_Area%>" id="Bult_up_Area">
+        <span class="input-group-text">sq.ft</span>
+      </div>
+      <div class="vl2"></div>
+      <hr>
+      <h5>Rent per month</h5>
+      <div class="input-group " style="width: 50%;">
+        <input type="number" class="form-control" placeholder="Rent per month" aria-label="Rent per month"
+          aria-describedby="basic-addon2" Name="rent" value="<%=allprop_edit[0].rent%>" id="rent">
+        <span class="input-group-text">Rs.</span>
+      </div>
+      <h5>Deposit</h5>
+      <div class="input-group " style="width: 50%;">
+        <input type="number" class="form-control" placeholder="Initial deposit" aria-label="Initial deposit"
+          aria-describedby="basic-addon2" Name="rent" value="<%=allprop_edit[0].deposit%>" id="rent">
+        <span class="input-group-text">Rs.</span>
+      </div>
+      <div class="vl2"></div>
+      <hr>
+      <h5>Other Rooms</h5>
+      <div style="color: red;">
+        
+      </div>
+      
+    
+    
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Pooja room" id="Other_Rooms" Name="Other_Rooms[]"<% for (let i = 0; i < 4; i++) { %><%= otherRoomt[i] === 'Pooja room' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Pooja room
+        </label>
+      </div>
+      <div class="vl"></div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Study room" id="Other_Rooms" Name="Other_Rooms[]"<% for (let i = 0; i < 4; i++) { %><%= otherRoomt[i] === 'Study room' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Study room
+        </label>
+      </div>
+      <div class="vl"></div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Store room" id="Other_Rooms" Name="Other_Rooms[]"<% for (let i = 0; i < 4; i++) { %><%= otherRoomt[i] === 'Store room' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Store room
+        </label>
+      </div>
+      <div class="vl"></div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="Servent Room" id="Other_Rooms"
+          Name="Other_Rooms[]"<% for (let i = 0; i < 4; i++) { %><%= otherRoomt[i] === 'Servent Room' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Servent Room
+        </label>
+      </div>
+      <div class="vl"></div>
+      <br>
+      <hr>
+      <div class="mb-3">
+        <h3>Furnishing</h3>
+        
+        
+        
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="FullyFurnishrd" id="Furnishing"
+            value="Fully Furnishrd"<%= allprop_edit[0].Furnishing  === 'Fully Furnishrd' ? 'checked' : '' %> >
+          <label class="form-check-label">
+            Fully Furnishrd
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="FullyFurnishrd" id="Furnishing"
+            value="Semi Furnishrd"<%= allprop_edit[0].Furnishing  === 'Semi Furnishrd' ? 'checked' : '' %> >
+          <label class="form-check-label">
+            Semi Furnishrd
+          </label>
+        </div>
+        <div class="form-check">         
+          
+          <input class="form-check-input" type="radio" name="FullyFurnishrd" id="Furnishing" value="Un Furnishrd"<%= allprop_edit[0].Furnishing  === 'Un Furnishrd' ? 'checked' : '' %>>
+          <label class="form-check-label">
+            Un Furnishrd
+          </label>
+        </div>
+      </div>
+
+
+      <div class="card card-body col-md-4" id="furnishing" style="display: block;">
+        <h5>Select Item in furnishing or Semi Furnishing </h5>
+        
+      
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="TV" Name="furnishing_item[]" id="TV" <% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'TV' ? 'checked' : '' %><% } %> >
+          <label class="form-check-label" for="">
+            TV
+          </label>
+          
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="AC" Name="furnishing_item[]" id="AC"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'AC' ? 'checked' : '' %><% } %> >
+          <label class="form-check-label" for="">
+            AC
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="FAN" Name="furnishing_item[]"
+            id="FAN"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'FAN' ? 'checked' : '' %><% } %> >
+          <label class="form-check-label" for="">
+            FAN
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="LIGHT" Name="furnishing_item[]"
+            id="LIGHT"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'LIGHT' ? 'checked' : '' %><% } %> >
+          <label class="form-check-label" for="">
+            LIGHT
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="WASHING MACHINE"
+            Name="furnishing_item[]" id="WASHING_MACHINE"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'WASHING MACHINE' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            WASHING MACHINE
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="SOFA" Name="furnishing_item[]" id="SOFA"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'SOFA' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            SOFA
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="STOVE" Name="furnishing_item[]"
+            id="STOVE"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'STOVE' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            STOVE
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="WATER PURIFIER"
+            Name="furnishing_item[]" id="WATER_PURIFIER"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'WATER PURIFIER' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            WATER PURIFIER
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="GEYSER" Name="furnishing_item[]"
+            id="GEYSER"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'GEYSER' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            GEYSER
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="TV UNIT" Name="furnishing_item[]"
+            id="TV_UNIT"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'TV UNIT' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            TV UNIT
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="FRIGE" id="FRIGE"
+            Name="furnishing_item[]"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'FRIGE' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            FRIGE
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="MICROWAVE" Name="furnishing_item[]"
+            id="MICROWAVE"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'MICROWAVE' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            MICROWAVE
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="EXHAUST FAN" Name="furnishing_item[]"
+            id="EXHAUST_FAN"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'EXHAUST FAN' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            EXHAUST FAN
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="CHIMNEY" id="CHIMNEY"
+            Name="furnishing_item[]"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'CHIMNEY' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            CHIMNEY
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="DINNING TABLE"
+            Name="furnishing_item[]" id="DINNING_TABLE"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'DINNING TABLE' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            DINNING TABLE
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="MODULAR KITCHEN"
+            Name="furnishing_item[]" id="MODULAR_KITCHEN"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'MODULAR KITCHEN' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            MODULAR KITCHEN
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="CURTAIN" Name="furnishing_item[]"
+            id="CURTAIN"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'CURTAIN' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            CURTAIN
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input furnishing" type="checkbox" value="WARDROBE" Name="furnishing_item[]"
+            id="WARDROBE"<% for (let i = 0; i < 18; i++) { %><%= furnicheckboxt[i] === 'WARDROBE' ? 'checked' : '' %><% } %>>
+          <label class="form-check-label" for="">
+            WARDROBE
+          </label>
+        </div>
+
+
+      </div>
+      <br>
+      <h3>Reserved parking</h3>
+      
+      <label class="col-md-8 control-label" for="radios"><i class='fas fa-taxi' style='font-size:36px'></i>
+        No.Covered parking</label>
+      <div class="col-md-4">
+        <input class="form-check-input" type="radio" name="Covered_parking" id="Covered_parking0" value="0"<%= allprop_edit[0].Coveredparking  === 0 ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          0
+        </label>
+        <input class="form-check-input" type="radio" name="Covered_parking" id="Covered_parking1" value="1"
+        <%= allprop_edit[0].Coveredparking  === 1 ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          1
+        </label>
+        <input class="form-check-input" type="radio" name="Covered_parking" id="Covered_parking2" value="2"<%= allprop_edit[0].Coveredparking  === 2 ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          2
+        </label>
+
+
+
+
+      </div>
+      <label class="col-md-8 control-label" for="radios"><i class='fas fa-taxi' style='font-size:36px'></i>
+        No.Open parking</label>
+        
+      <div class="col-md-4">
+        <input class="form-check-input" type="radio" name="Open_parking" id="Open_parking" value="0" <%= allprop_edit[0].openparking  === 0 ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          0
+        </label>
+        <input class="form-check-input" type="radio" name="Open_parking" id="Open_parking" value="1"<%= allprop_edit[0].openparking  === 1 ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          1
+        </label>
+        <input class="form-check-input" type="radio" name="Open_parking" id="Open_parking" value="2"<%= allprop_edit[0].openparking  === 2 ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          2
+        </label>
+
+      </div>
+      <div class="vl2"></div>
+      <h3>Floor Details</h3>
+      <div class="row">
+        <div class="col-md-2">
+          <input type="text" class="form-control" placeholder="Total floor" aria-label="Total floor"
+            Name="Total_floor" id="Total_floor" value="<%=allprop_edit[0].Total_floor%>">
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control" placeholder="Property on floor" aria-label="Property on floor"
+            Name="Property on floor" id="Property_on_floor" value="<%=allprop_edit[0].Property_on_floor%>">
+        </div>
+      </div>
+      
+      <h5>Maindoor Facing Direction</h5>
+     
+      
+      <div class="col-md-6">
+        
+        <input class="form-check-input" type="radio" name="Facing" id="Facing1" value="North" <%= allprop_edit[0].Facing  === 'North' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          North
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing2" value="South"<%= allprop_edit[0].Facing  === 'South' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          South
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing3" value="East"<%= allprop_edit[0].Facing  === 'East' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          East
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing4" value="West"<%= allprop_edit[0].Facing  === 'West' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          West
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing5" value="NE"<%= allprop_edit[0].Facing  === 'NE' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          NE
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing6" value="NW"<%= allprop_edit[0].Facing  === 'NW' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          NW
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing7" value="SW"<%= allprop_edit[0].Facing  === 'SW' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          SW
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="radio" name="Facing" id="Facing8" value="SE"<%= allprop_edit[0].Facing  === 'SE' ? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          SE
+        </label>
+
+      </div>
+      <hr>
+      <br>
+      <h3>Amenities</h3>
+      
+      <div class="col-md-10">
+        <input class="form-check-input " type="checkbox" name="amenities[]" id="amentys" value="Swimming_pool"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Swimming_pool' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label " for="">
+          Swimming pool
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Power Backup"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Power Backup' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Power Backup
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="CCTV"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'CCTV' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          CCTV
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Clubhouse"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Clubhouse' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Clubhouse
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Party room"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Party room' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Party room
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Games Room"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Games Room' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Games Room
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Walking paths"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Walking paths' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Walking paths
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="amenities[]" id="amentys" value="Gym"<% for (let i = 0; i < 8; i++) { %><%= amenitiest[i] === 'Gym' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Gym
+        </label>
+
+      </div>
+      <h3>Additional info</h3>
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="Add_info" id="Add_info" onchange="handleChange(3);"<%= allprop_edit.add_info = true? 'checked' : '' %>>
+        <label class="form-check-label" for="">
+          YES
+          
+        </label>
+        <div>
+          
+          <textarea placeholder=' ' maxlength='100' minlength='1' class="form-control"
+            name="Add_info" id="otherval"  ><%=allprop_edit[0].add_info%></textarea>
+        </div>
+
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="Add_info" id="Add_info" onchange="handleChange(2) ;">
+        <label class="form-check-label" for="">
+          NO
+        </label>
+      </div>
+
+      <hr>
+      <h3>Age of property</h3>
+      
+      <div class="col-md-2">
+        <input type="month"  id="ageBulding" value="<%=ageBuldingq%>" onchange="ageBuld(value)" />
+
+        <h3 id="result"></h3>
+      </div>
+
+      <br>
+      <br>
+      <h3>Willing to rent out to</h3>
+      <%=allprop_edit.Society%>
+      <div class="col-md-8">
+        <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing1" value="Family" <% for (let i = 0; i < 5; i++) { %><%= willingt[i] === 'Family' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Family
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing2" value="Single" <% for (let i = 0; i < 5; i++) { %><%= willingt[i] === 'Single' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Single
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing3" value="Single Womain"
+        <% for (let i = 0; i < 5; i++) { %><%= willingt[i] === 'Single Womain' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Single Womain
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing4" value="Non vegetarian"
+        <% for (let i = 0; i < 5; i++) { %><%= willingt[i] === 'Non vegetarian' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Non vegetarian
+        </label>
+        <div class="vl"></div>
+        <input class="form-check-input" type="checkbox" name="Willing[]" id="Willing5" value="Pets" <% for (let i = 0; i < 5; i++) { %><%= willingt[i] === 'Pets' ? 'checked' : '' %><% } %>>
+        <label class="form-check-label" for="">
+          Pets
+        </label>
+
+      </div>
+      <br>
+      <br>
+      <hr>
+      <h3>Available from</h3>
+      
+      <div class="col-md-2">
+        <input type="date" id="Available" name="Available" value="<%= Availableq%>">
+      </div>
+      <br>
+      <hr>
+      <br>
+      <h3>Add photos of your property</h3>
+      <div class="mb-3">
+        <label for="" class="form-label">(Multiple photos input) for better result please upload at least 4
+          pictures. </label>
+        <input class="form-control" type="file" id="files" multiple name="files" placeholder="pictures">
+        <p>Max-size 1MB, Max-inputs 10 picture</p><!--onchange="photodiv()"-->
+      </div>
+
+      <div id="preview"></div>
+
+      <% for (let i = 0; i < allprop_edit[0].image.length; i++) { %>
+        <div>
+          <img src="<%= allprop_edit[0].image[i].url %>" alt="Image <%= i %>" width="150" >
+        </div>
+        
+    <% } %> 
+
+      <hr>
+
+
+
+      <div class="md-6">
+        <button type="submit" class="btn btn-warning  btn-lg">Submit</button>
+
+
+      </div>
+
+
+
+
+    </form>
+  </div>
+</div>
+<!--property entry end-->
 
               
 
@@ -29,7 +737,7 @@
     </div><!-- </div> id="wrapper"end -->
     <script src="/js/prop.js"></script>
     <script src="/js/maainmenus.js"></script>
-    <script src="/js/modal_apna.js"></script>
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
       integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

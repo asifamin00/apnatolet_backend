@@ -1,9 +1,10 @@
 const express = require('express')
 const userRouter = express.Router()
 const { signup, signin, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov,prop_delete } = require('../controllers/userController')
+     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov,prop_delete,approve_prop,edit_prop } = require('../controllers/userController')
      
 const auth = require('../middlewares/auth')
+const Is_admin_auth = require('../middlewares/Is_admin_auth')
 const fs = require('fs');
 const multer = require('multer')
 const { v4: uuidv4 } = require('uuid');
@@ -72,6 +73,9 @@ userRouter.get('/prop_con', auth, prop_con)
 userRouter.get('/new_prop_ent/:id', auth, new_prop_ent)
 userRouter.get('/prop_aprov/:id', auth, prop_aprov)
 userRouter.delete('/delete_prop/:id', auth, prop_delete);
+userRouter.post('/approve_prop/:id', auth, approve_prop);
+userRouter.get('/edit/:id',  edit_prop)
+
 
 
 

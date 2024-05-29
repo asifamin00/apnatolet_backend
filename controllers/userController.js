@@ -5,12 +5,14 @@ const userModel = require("../models/userSch")
 const propModel = require("../models/propertySchema")
 const counterModel = require("../models/counterSch")
 //const helper = require('../user_prop');
+const moment=require('moment')
 const fs = require('fs');
 const bcrypt = require("bcrypt")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
 const { v4: uuidv4 } = require('uuid');
 const { myFunc } = require('../user_prop')
+const { reduceRight } = require('async')
 const cloudinary = require("cloudinary").v2
 
 
@@ -32,6 +34,10 @@ const dashbord = async (req, res) => {
       let allprop = await propModel.find({})
 
       let pending_count = await userModel.find({ status: "pending" }).count()
+      
+
+
+
 
       res.render('dashbord', { existingUser, alluser, pending_count, allprop })
 
@@ -52,8 +58,14 @@ const user_con = async (req, res) => {
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
+      
 
       let pending_count = await userModel.find({ status: "pending" }).count()
+
+
+
+
+
 
       res.render('user_con', { existingUser, alluser, pending_count, allprop })
 
@@ -235,13 +247,21 @@ const prop_aprov = async (req, res) => {
 
       ]
       const prop_approv = await propModel.aggregate(prop_approv_pipeline)
-      console.log(prop_approv[0].image[0].url)
-      console.log(prop_approv)
+      otherRoomt=JSON.parse(prop_approv[0].otherRoom[0])
+      amenitiest=JSON.parse(prop_approv[0].amenities[0])
+      willingt=JSON.parse(prop_approv[0].Willing[0])
+      furnicheckboxt=JSON.parse(prop_approv[0].furnicheckbox[0])
+
+      let ageBuldingt=prop_approv[0].ageBulding
+      let age=new Date()
+      let  differenceInDays = Math.ceil((age - ageBuldingt) / (1000 * 60 * 60 * 24 * 365));
+      let op=moment(prop_approv[0].Available).format('DD,MMMM,YYYY');
+      let Availablet=op
+     
 
 
 
-
-      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv })
+      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv,otherRoomt,amenitiest,differenceInDays ,Availablet})
 
     }
   } catch (error) {
@@ -322,7 +342,7 @@ const signin = async (req, res) => {
     }
     const token = jwt.sign(
       {
-        email: existingUser.email, id: existingUser._id, status: existingUser.status
+        email: existingUser.email, id: existingUser._id, status: existingUser.status,role:existingUser.role
       },
       SECRET_KEY,
       {
@@ -776,36 +796,42 @@ const approve_user = async (req, res) => {
 
 const newpropo = async (req, res) => {
   const uploadedImages = [];
-
-  for (let i = 0; i < req.files.length; i++) {
-    const random = uuidv4();
-    const x = await cloudinary.uploader.upload(req.files[i].path, {
-
-      public_id: random,
-      overlay: {
-        font_family: 'Arial',
-        font_size: 20,
-        color: 'red',
-        text: 'apnaTOLET.com',
-
-        x: 100,
-        y: 10
-      },
-      opacity: 70,
-      gravity: 'south_east',
-
-
-
-    },)
-
-    uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
-
-    fs.unlink((req.files[i].path),
-      function (err) {
-        if (err) console.log(err);
-        else console.log("\nDeleted file");
-      })
+  try {
+    for (let i = 0; i < req.files.length; i++) {
+      const random = uuidv4();
+      const x = await cloudinary.uploader.upload(req.files[i].path, {
+  
+        public_id: random,
+        overlay: {
+          font_family: 'Arial',
+          font_size: 20,
+          color: 'red',
+          text: 'apnaTOLET.com',
+  
+          x: 100,
+          y: 10
+        },
+        opacity: 70,
+        gravity: 'south_east',
+  
+  
+  
+      },)
+  
+      uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
+  
+      fs.unlink((req.files[i].path),
+        function (err) {
+          if (err) console.log(err);
+          else console.log("\nDeleted file");
+        })
+    }
+    
+  } catch (error) {
+    console.log(error)
   }
+
+ 
 
   const { prop_kind, prop_type, Bedrooms, Bathrooms, Balconies, Furnishing, Coveredparking, openparking, Facing, House_no, Society, Locality,
     Pin_code, City, Latitude, Longitude, Bult_up_Area, Total_floor, Property_on_floor, ageBulding, Available, furnicheckbox, otherRoom, Willing,
@@ -912,6 +938,88 @@ const prop_delete = async (req, res) => {
 
 }
 
+const approve_prop=async(req,res)=>{
+
+  const ids=req.params.id
+  const do_value=req.body.do_this
+  const current_user=req.body.approved_by
+
+  let Live=''
+  if(do_value === "Hold"){
+    Live='off'
+  }else{
+    Live='on'
+  }
+  
+  
+  const resultt= await propModel.updateOne({_id:ids}, {
+    $set: {
+
+      status:do_value,
+      approved_by:current_user,
+      live:Live
+      
+
+    }
+  })
+  
+    .then(user_user => {
+      
+      req.flash('success_msg', 'Update successfully ')
+      console.log(resultt)
+
+      res.redirect('/prop_con');
+     
+
+
+    })
+    .catch(err => {
+      req.flash('error_msg', 'Something went wrong!! ')
+      res.redirect('/prop_con');
+    });
+    
+}
+const edit_prop= async (req, res) => {
+  try {
+   
+
+    let token = req.cookies.token
+    if (token) {
+
+      let user = jwt.verify(token, SECRET_KEY)
+
+      let existingUser = await userModel.findOne({ email: user.email })
+      const user_id=req.params.id
+      console.log(user_id )
+      let alluser = await userModel.find({})
+      let allprop_edit = await propModel.find({_id:user_id}) 
+      let willingt=JSON.parse(allprop_edit[0].Willing[0])  
+      let otherRoomt=JSON.parse(allprop_edit[0].otherRoom[0]) 
+      let amenitiest=JSON.parse(allprop_edit[0].amenities[0]) 
+      let furnicheckboxt=JSON.parse(allprop_edit[0].furnicheckbox[0])  
+      let Availableq=moment(allprop_edit[0].Available).format('YYYY-MM-DD');
+      let ageBuldingq=moment(allprop_edit[0].ageBulding).format('YYYY-MM');
+      console.log(furnicheckboxt[1])
+
+      let pending_count = await userModel.find({ status: "pending" }).count()
+
+      res.render('edit', { existingUser, alluser, pending_count, allprop_edit ,willingt,otherRoomt,amenitiest,furnicheckboxt,Availableq,ageBuldingq})
+
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
+
+
+
+  
+
+
+
 
 
 
@@ -919,5 +1027,5 @@ const prop_delete = async (req, res) => {
 
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete,approve_prop,edit_prop
 }

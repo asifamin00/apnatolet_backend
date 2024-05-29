@@ -23,21 +23,26 @@
             
         <!--start-->
         <div class="container mt-5" style="display: block; padding-top:8rem;margin-left: 300px;">
+          <%- include('partials/messages') -%>
           <div class="row">
             <div class="">
               <h4>Property ID:APNTL<%=prop_approv[0].atlprop_id%></h4>
             </div>
             <div class="col-md-4">
               <div class="card">
-                <!-- <img src="<%=prop_approv[0].image[0].url%>" class="card-img-top" alt="Profile Picture"> -->
                 
-                  <div class="carousel slide" data-bs-ride="false" id="carousel-1">
+                <% if (prop_approv[0].image.length == 0) { %>
+                  <img class="w-100 d-block" src="https://res.cloudinary.com/deab8joxa/image/upload/v1716692999/defult_pic_prop_crpk94.webp" alt="Slide Image">
+                  <%} else { %>
+                    <div class="carousel slide" data-bs-ride="false" id="carousel-1">
                       <div class="carousel-inner" col-12>
                         <% for (var i = 0; i < prop_approv[0].image.length; i++) { %>
-                          <div class="carousel-item <%= i === 0 ? 'active' : '' %>"><img class="w-100 d-block" src="<%=prop_approv[0].image[0].url%>" alt="Slide Image"></div>
+                          <div class="carousel-item <%= i === 0 ? 'active' : '' %>"><img class="w-100 d-block" src="<%=prop_approv[0].image[i].url%>" alt="Slide Image"></div>
                           <% } %>
                       </div>
-                      <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
+                      <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon">
+                        
+                      </span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
                       <ol class="carousel-indicators">
                         <% for (var i = 0; i < prop_approv[0].image.length; i++) { %>
                           <li data-bs-target="#carousel-1" data-bs-slide-to="<%=i%>" class="<%= i === 0 ? 'active' : '' %>"></li>
@@ -45,7 +50,9 @@
                           <% } %>
                       </ol>
                   </div>
-                 
+
+                   
+                    <% } %>    
 
 
 
@@ -81,7 +88,7 @@
                     
 
 
-                    <li class="list-group-item"><b style="color: crimson;">Furnishing</b>:&nbsp;<%=prop_approv[0].Furnishing%></li>
+                    
                   </ul>
                 </div>
               </div>
@@ -96,9 +103,9 @@
                     <li class="list-group-item"><b style="color: crimson;">Bult_up_Area</b>:&nbsp;<%=prop_approv[0].Bult_up_Area%></li>
                     <li class="list-group-item"><b style="color: crimson;">Total_floor</b>:&nbsp;<%=prop_approv[0].Total_floor%></li>
                     <li class="list-group-item"><b style="color: crimson;">Property_on_floor</b>:&nbsp;<%=prop_approv[0].Property_on_floor%></li>
-                    <li class="list-group-item"><b style="color: crimson;">Age of property</b>:&nbsp;<%=prop_approv[0].ageBulding%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Age of property</b>:&nbsp;<%=differenceInDays%>.year(s)</li>
                     <li class="list-group-item"><b style="color: crimson;">Door facing</b>:&nbsp;<%=prop_approv[0].Facing%></li>
-                    <li class="list-group-item"><b style="color: crimson;">Available From</b>:&nbsp;<%=prop_approv[0].Available%></li>
+                    <li class="list-group-item"><b style="color: crimson;">Available From</b>:&nbsp;<%=Availablet%></li>
                   </ul>
                 </div>
               </div>
@@ -131,30 +138,62 @@
                     <li class="list-group-item"><b style="color: crimson;">City</b>:&nbsp;<%=prop_approv[0].City%></li>
                     <li class="list-group-item"><b style="color: crimson;">GPS</b>:&nbsp;<%=prop_approv[0].Latitude%>&nbsp;<%=prop_approv[0].Longitude%></li>
                     <li class="list-group-item"><b style="color: crimson;">Created on</b>:&nbsp;<%=prop_approv[0].created%></li>
-                    <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                   
+                   
                       <li class="list-group-item">
-                          <li class="list-group-item"><b style="color: crimson;">OtherRooms</b>:&nbsp;<%=prop_approv[0].otherRoom[i]%></li>
+                        <b style="color: crimson;">Other Rooms:</b>
+                          <ul>
+                            <% for(var i=0; i<otherRoomt.length; i++) { %>
+                                <li>
+                                  <%=otherRoomt[i]%>
+                                </li>
+                            <% } %>
+                        </ul>
                       
-                      </li>
-                      <% } %>
-                      <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                      </li>             
+
+
+
+                     
                         <li class="list-group-item">
-                            <li class="list-group-item"><b style="color: crimson;">Amenities</b>:&nbsp;<%=prop_approv[0].amenities[i]%></li>
+                          <b style="color: crimson;">Amenities:</b>
+                          <ul>
+                            <% for(var i=0; i<amenitiest.length; i++) { %>
+                                <li>
+                                  <%=amenitiest[i]%>
+                                </li>
+                            <% } %>
+                        </ul>
+                           
                         
                         </li>
-                        <% } %>
-                        <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                      
+                      
                           <li class="list-group-item">
-                              <li class="list-group-item"><b style="color: crimson;">Furnishing items</b>:&nbsp;<%=prop_approv[0].furnicheckbox[i]%></li>
+                            <b style="color: crimson;">Furnishing</b>:&nbsp;<%=prop_approv[0].Furnishing%>
+                            <ul>
+                              <% for(var i=0; i<furnicheckboxt.length; i++) { %>
+                                  <li>
+                                    <%=furnicheckboxt[i]%>
+                                  </li>
+                              <% } %>
+                          </ul>
                           
                           </li>
-                          <% } %>
-                          <% for (var i = 0; i < prop_approv[0].otherRoom.length; i++) { %>
+                        
+                          
                             <li class="list-group-item">
-                                <li class="list-group-item"><b style="color: crimson;">Willing to Rent</b>:&nbsp;<%=prop_approv[0].Willing[i]%></li>
+                              <b style="color: crimson;">Willing to Rent</b>
+                              <ul>
+                                <% for(var i=0; i<willingt.length; i++) { %>
+                                    <li>
+                                      <%=willingt[i]%>
+                                    </li>
+                                <% } %>
+                            </ul>
                             
                             </li>
-                            <% } %> 
+                           
                 
 
                     
@@ -163,6 +202,30 @@
               </div>
              
             </div>
+          </div>
+          <div class="btn-group d-flex justify-content-center align-items-center vh-10" role="group" aria-label="Basic mixed styles example" >
+
+            <form style="display: inline;" action="/approve_prop/<%=prop_approv[0]._id%>" method="POST">
+              <input type="hidden" name="do_this" value="Hold">
+              <input type="hidden"  name="approved_by" value="<%=existingUser.userFname %>_<%=existingUser.userLname %>">
+              <button  type="submit" class="btn btn-danger ">Hold</button>
+           </form>
+
+            :&nbsp;
+            
+            <form style="display: inline;" action="/approve_prop/<%=prop_approv[0]._id%>" method="POST">
+              <input type="hidden"  name="do_this" value="Approved">
+              <input type="hidden"  name="approved_by" value="<%=existingUser.userFname %>_<%=existingUser.userLname %>">
+              <button  type="submit" class="btn btn-warning ">Approve</button>
+           </form>
+            :&nbsp;
+            
+           
+           <form>
+            <a style="display: inline;" <button  type="button" class="btn btn-success " href="/edit/<%=prop_approv[0]._id%>">Edit</button></a>
+
+           </form>
+           
           </div>
         </div>
         <!--end--->

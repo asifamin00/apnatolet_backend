@@ -1,30 +1,18 @@
-//start_property
-function setRadioButtonValue(name,value ) {
-  // Get all radio buttons with the given name
-  var radios = document.getElementsByName(name);
-  
-  // Loop through the radio buttons
-  for (var i = 0; i < radios.length; i++) {
-      if (radios[i].value === value) {
-          // Set the checked property to true for the matching value
-          radios[i].checked = true;
-          break;  // Exit the loop once the value is set
-      }
-  }
-}
 
 
 
-const propForm = document.getElementById('prop_form');
+
+
+document.getElementById('preloader').style.display = 'none';
 document.getElementById('preloader').style.display = 'none';
 ////////////////////////////////
 function handleChange(src) {
   if (src === 2) {
-    document.querySelector("#Add_info_text").style.display = "none";
+    document.querySelector("#otherval").style.display = "none";
 
   } else {
 
-    document.querySelector("#Add_info_text").style.display = "block";
+    document.querySelector("#otherval").style.display = "block";
   }
 
   ////////////////////////////////
@@ -116,22 +104,17 @@ fileInput.addEventListener('change', function() {
 
 
 
-
-propForm.addEventListener('submit', (e) => {
+const edit_propForm = document.getElementById('prop_1edit_form');
+edit_propForm.addEventListener('submit', (e) => {
 
   e.preventDefault();
 
- 
-    document.getElementById('preloader').style.display = 'block';
+
+    //document.getElementById('preloader').style.display = 'block';
 
   
    const prop_kind=document.querySelector('input[name="kind_of_prop"]:checked').value
    const prop_type=document.querySelector('input[name="prop_type"]:checked').value
-
-   const Add_info_radio=document.querySelector('input[name="Add_info_radio"]:checked').value
-   const Add_info_text=document.getElementById('Add_info_text').value
-   const deposit=document.getElementById('deposit').value
-
 
    const Bedrooms=document.querySelector('input[name="Bedrooms"]:checked').value
    const Bathrooms=document.querySelector('input[name="Bathrooms"]:checked').value
@@ -153,7 +136,7 @@ propForm.addEventListener('submit', (e) => {
    const Property_on_floor=document.getElementById('Property_on_floor').value
    const ageBulding=document.getElementById('ageBulding').value
    const Available=document.getElementById('Available').value 
-  //  const add_info=document.getElementById('otherval').value
+   const add_info=document.getElementById('otherval').value
    const rent=document.getElementById('rent').value
 
    //console.log(prop_kind,prop_type,Bedrooms,Bathrooms,Balconies,Furnishing,Coveredparking,openparking,Facing,House_no,Society,Locality,Pin_code,City,Latitude,Longitude,Total_floor,Property_on_floor,ageBulding,Available,Bult_up_Area)
@@ -165,7 +148,7 @@ propForm.addEventListener('submit', (e) => {
         furnicheckbox.push(checkbox_furni[i].value)
     }    
    }
-let furnicheckbox1=JSON.stringify(furnicheckbox)
+  let furnicheckbox1=JSON.stringify(furnicheckbox)
    let otherRoom=[]
    let checkbox_otrm=document.getElementsByName('Other_Rooms[]')
    for (let i = 0; i < checkbox_otrm.length; i++) {
@@ -173,7 +156,7 @@ let furnicheckbox1=JSON.stringify(furnicheckbox)
         otherRoom.push(checkbox_otrm[i].value)
     }    
    }
-let otherRoom1=JSON.stringify(otherRoom)
+  let otherRoom1=JSON.stringify(otherRoom)
 
    let Willing=[]
    let checkbox_Willing=document.getElementsByName('Willing[]')
@@ -191,44 +174,40 @@ let otherRoom1=JSON.stringify(otherRoom)
       amenities.push(checkbox_amenities[i].value)
     }    
    }
-let amenities1=JSON.stringify(amenities)
+ let amenities1=JSON.stringify(amenities)
 
 
 
-    const formData = new FormData();
+    let formData1 = new FormData();
     
-    formData.append("prop_kind", prop_kind);
-   formData.append("prop_type", prop_type);
-   formData.append("Bedrooms", Bedrooms);
-   formData.append("Bathrooms", Bathrooms);
-   formData.append("Balconies", Balconies);
-   formData.append("Furnishing", Furnishing);
-   formData.append("Coveredparking", Coveredparking);
-   formData.append("openparking", openparking);
-   formData.append("Facing", Facing);
-    formData.append("House_no", House_no);
-   formData.append("Society", Society);
-   formData.append("Locality", Locality);
-   formData.append("Pin_code", Pin_code);
-   formData.append("City", City);
-   formData.append("Latitude", Latitude);
-   formData.append("Longitude", Longitude);
-   formData.append("Bult_up_Area", Bult_up_Area);
-   formData.append("Total_floor", Total_floor);
-   formData.append("Property_on_floor", Property_on_floor);
-   formData.append("ageBulding",ageBulding);
-    formData.append("Available",Available);
-    formData.append("furnicheckbox",furnicheckbox1);
-    formData.append("otherRoom",otherRoom1);
-    formData.append("Willing", Willing1);
-    formData.append("amenities", amenities1);
-    // formData.append("add_info", add_info);
-    formData.append("rent", rent);
-    formData.append("user_id", user_id);
-
-    formData.append("Add_info_radio", Add_info_radio);
-    formData.append("Add_info_text", Add_info_text);
-    formData.append("deposit", deposit);
+    formData1.append("prop_kind", prop_kind);
+   formData1.append("prop_type", prop_type);
+   formData1.append("Bedrooms", Bedrooms);
+   formData1.append("Bathrooms", Bathrooms);
+   formData1.append("Balconies", Balconies);
+   formData1.append("Furnishing", Furnishing);
+   formData1.append("Coveredparking", Coveredparking);
+   formData1.append("openparking", openparking);
+   formData1.append("Facing", Facing);
+    formData1.append("House_no", House_no);
+   formData1.append("Society", Society);
+   formData1.append("Locality", Locality);
+   formData1.append("Pin_code", Pin_code);
+   formData1.append("City", City);
+   formData1.append("Latitude", Latitude);
+   formData1.append("Longitude", Longitude);
+   formData1.append("Bult_up_Area", Bult_up_Area);
+   formData1.append("Total_floor", Total_floor);
+   formData1.append("Property_on_floor", Property_on_floor);
+   formData1.append("ageBulding",ageBulding);
+    formData1.append("Available",Available);
+    formData1.append("furnicheckbox",furnicheckbox1);
+    formData1.append("otherRoom",otherRoom1);
+    formData1.append("Willing", Willing1);
+    formData1.append("amenities", amenities1);
+    formData1.append("add_info", add_info);
+    formData1.append("rent", rent);
+    formData1.append("user_id", user_id);
 
     const files = document.getElementById("files");
     // const formData = new FormData();
@@ -238,26 +217,33 @@ let amenities1=JSON.stringify(amenities)
     for(let i =0; i < files.files.length; i++) {
         formData.append("files", files.files[i]);
     }
-  const data = Object.fromEntries(formData)
+  //const data = Object.fromEntries(formData)
+  const data=JSON.stringify(formData1)
+  
+ 
 
-   fetch('/newprop', {
-    //headers: { 'Content-Type': 'multipart/form-data' },
-    method: 'POST',
-    body: formData
-   }).then((res) => {
+
+  // fetch('/edit/:id', {
+  //   // headers: { 'Content-Type': 'multipart/form-data' },
+  //   method: 'POST',
+  //   mode: 'cors', 
+  //   //headers: {'Content-Type': 'application/json'},
+  //   body: formData1
+  //  }).then((res) => {
 
    
      
  
 
-    if(res.status == 201){
-    alert('created sussesfully')
-    document.getElementById('preloader').style.display = 'none';
-    window.location.replace("http://localhost:5000/prop_con");
-    }
+  //   if(res.status == 201){
+  //   alert('created sussesfully')
+  
+  //   window.location.replace("http://localhost:5000/prop_con");
+  //   }
 
-    console.log(res.status)
-   })
+  //   console.log(res.status)
+  //  })
+  
 
    
    
@@ -268,10 +254,6 @@ let amenities1=JSON.stringify(amenities)
 
 });
 
-function Prop_apprv_pending(_id){
-
-alert(_id)
-}
 
 
 

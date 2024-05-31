@@ -13,6 +13,8 @@ const jwt = require("jsonwebtoken")
 const { v4: uuidv4 } = require('uuid');
 const { myFunc } = require('../user_prop')
 const { reduceRight } = require('async')
+const { isNull } = require('util')
+const { isArrayBuffer } = require('util/types')
 const cloudinary = require("cloudinary").v2
 
 
@@ -208,6 +210,7 @@ const prop_aprov = async (req, res) => {
             "Bedrooms": 1,
             "prop_type": 1,
             "rent": 1,
+            "deposit":1,
             "users.Phone": 1,
             "users.userFname": 1,
             "users.userLname": 1,
@@ -236,7 +239,7 @@ const prop_aprov = async (req, res) => {
             "otherRoom": 1,
             "Willing": 1,
             "amenities": 1,
-            "add_info": 1,
+            "add_info_text": 1,
             "created": 1,
             "Bult_up_Area":1
 
@@ -835,7 +838,7 @@ const newpropo = async (req, res) => {
 
   const { prop_kind, prop_type, Bedrooms, Bathrooms, Balconies, Furnishing, Coveredparking, openparking, Facing, House_no, Society, Locality,
     Pin_code, City, Latitude, Longitude, Bult_up_Area, Total_floor, Property_on_floor, ageBulding, Available, furnicheckbox, otherRoom, Willing,
-    amenities, add_info, rent, user_id } = req.body
+    amenities, rent, user_id, Add_info_text,Add_info_radio,deposit} = req.body
 
   const image = uploadedImages
   try {
@@ -881,7 +884,9 @@ const newpropo = async (req, res) => {
       image: image,
       amenities: [amenities],
       rent: rent,
-      add_info: add_info,
+      deposit:deposit,
+      add_info_text: Add_info_text,
+      add_info_radio:Add_info_radio,
       approved_by: 'Approval_pending',
       status: "pending",
       live: 'off'
@@ -990,7 +995,7 @@ const edit_prop= async (req, res) => {
 
       let existingUser = await userModel.findOne({ email: user.email })
       const user_id=req.params.id
-      console.log(user_id )
+     
       let alluser = await userModel.find({})
       let allprop_edit = await propModel.find({_id:user_id}) 
       let willingt=JSON.parse(allprop_edit[0].Willing[0])  
@@ -999,7 +1004,7 @@ const edit_prop= async (req, res) => {
       let furnicheckboxt=JSON.parse(allprop_edit[0].furnicheckbox[0])  
       let Availableq=moment(allprop_edit[0].Available).format('YYYY-MM-DD');
       let ageBuldingq=moment(allprop_edit[0].ageBulding).format('YYYY-MM');
-      console.log(furnicheckboxt[1])
+   
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
@@ -1009,6 +1014,145 @@ const edit_prop= async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const hjyu=async (req, res) => {
+  const idl  = req.params.id;
+  
+  const { 
+    kind_of_prop,
+    prop_type,
+    House_no,
+    Society,
+    Locality,
+    Pin_code,
+    City,
+    Latitude,
+    Longitude,
+    Bedrooms,
+    Bathrooms,
+    Balconies,
+    Bult_up_Area,
+    rent,
+    Available,    
+    FullyFurnishrd,    
+    Covered_parking,
+    Open_parking,
+    Total_floor,
+    Property_on_floor,
+    Facing,
+    ageBulding,
+    amenities,
+    Add_info_text,
+    Add_info_radio,
+    Willing,
+    deposit,
+    Other_Rooms,
+    furnishing_item,
+  } =req.body
+  console.log(req.body)
+
+  let ameniti=''
+  function amini(){if(Array.isArray(amenities)){
+    ameniti=JSON.stringify(amenities)
+    
+    }else{
+      
+      ameniti= '['+JSON.stringify(amenities)+']'
+      }}
+      
+      amini()
+
+
+
+      let otherRoom_p=''
+    function other(){if(Array.isArray(Other_Rooms)){
+    otherRoom_p=JSON.stringify(Other_Rooms)
+    
+    }else{
+      
+      otherRoom_p= '['+JSON.stringify(Other_Rooms)+']'
+      }}
+      
+      other()
+
+
+
+      let Willing_p=''
+    function wili(){if(Array.isArray(Willing)){
+      Willing_p=JSON.stringify(Willing)
+    
+    }else{
+      
+      Willing_p= '['+JSON.stringify(Willing)+']'
+      }}
+      
+      wili()
+
+
+      let furnicheckbox_p=''
+      function furni(){if(Array.isArray(furnishing_item)){
+        furnicheckbox_p=JSON.stringify(furnishing_item)
+      
+      }else{
+        
+        furnicheckbox_p= '['+JSON.stringify(furnishing_item)+']'
+        }}
+        
+        furni()
+
+
+
+
+
+
+   
+  // const Willing_p=JSON.stringify(Willing)
+  //const otherRoom_p=JSON.stringify(Other_Rooms)
+  //const furnicheckbox_p=JSON.stringify(furnishing_item)
+
+  const relur= await propModel.updateOne({_id:idl}, {
+    $set: {
+
+   
+      prop_kind: kind_of_prop,
+      prop_type: prop_type,
+      Bedrooms: Bedrooms,
+      Bathrooms: Bathrooms,
+      Balconies: Balconies,
+      Furnishing: FullyFurnishrd,
+      Coveredparking: Covered_parking,
+      openparking: Open_parking,
+      Facing: Facing,
+      House_no: House_no,
+      Society: Society,
+      Locality: Locality,
+      Pin_code: Pin_code,
+      City: City,
+      Latitude: Latitude,
+      Longitude: Longitude,
+      Bult_up_Area: Bult_up_Area,
+      Total_floor: Total_floor,
+      Property_on_floor: Property_on_floor,
+      ageBulding: ageBulding,
+      Available: Available,
+      furnicheckbox: furnicheckbox_p,
+      otherRoom:otherRoom_p,
+      Willing: Willing_p,      
+      amenities: ameniti,
+      rent: rent,
+      deposit:deposit,
+      add_info_text: Add_info_text,
+      add_info_radio:Add_info_radio
+     
+  
+      
+
+    }
+  })
+console.log(relur)
+res.redirect('/prop_con')
+  
 }
 
 
@@ -1027,5 +1171,5 @@ const edit_prop= async (req, res) => {
 
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete,approve_prop,edit_prop
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete,approve_prop,edit_prop,hjyu
 }

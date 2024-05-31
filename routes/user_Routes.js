@@ -1,7 +1,7 @@
 const express = require('express')
 const userRouter = express.Router()
 const { signup, signin, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov,prop_delete,approve_prop,edit_prop } = require('../controllers/userController')
+     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov,prop_delete,approve_prop,edit_prop,hjyu } = require('../controllers/userController')
      
 const auth = require('../middlewares/auth')
 const Is_admin_auth = require('../middlewares/Is_admin_auth')
@@ -74,7 +74,9 @@ userRouter.get('/new_prop_ent/:id', auth, new_prop_ent)
 userRouter.get('/prop_aprov/:id', auth, prop_aprov)
 userRouter.delete('/delete_prop/:id', auth, prop_delete);
 userRouter.post('/approve_prop/:id', auth, approve_prop);
-userRouter.get('/edit/:id',  edit_prop)
+userRouter.get('/edit/:id',auth,edit_prop)
+
+userRouter.post('/edit/:id',auth,hjyu)
 
 
 

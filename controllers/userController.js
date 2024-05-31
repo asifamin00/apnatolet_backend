@@ -1056,10 +1056,18 @@ const hjyu=async (req, res) => {
   function amini(){if(Array.isArray(amenities)){
     ameniti=JSON.stringify(amenities)
     
-    }else{
+    }else if(amenities === undefined ){
       
-      ameniti= '['+JSON.stringify(amenities)+']'
-      }}
+      ameniti='[]'
+
+      }else{
+
+   
+    ameniti= '['+JSON.stringify(amenities)+']'
+      }
+    
+    
+    }
       
       amini()
 
@@ -1069,7 +1077,11 @@ const hjyu=async (req, res) => {
     function other(){if(Array.isArray(Other_Rooms)){
     otherRoom_p=JSON.stringify(Other_Rooms)
     
-    }else{
+    }else if(Other_Rooms === undefined ){
+      
+      otherRoom_p='[]'
+
+      }else{
       
       otherRoom_p= '['+JSON.stringify(Other_Rooms)+']'
       }}
@@ -1082,7 +1094,11 @@ const hjyu=async (req, res) => {
     function wili(){if(Array.isArray(Willing)){
       Willing_p=JSON.stringify(Willing)
     
-    }else{
+    }else if(Willing === undefined ){
+      
+      Willing_p='[]'
+
+      }else{
       
       Willing_p= '['+JSON.stringify(Willing)+']'
       }}
@@ -1094,7 +1110,11 @@ const hjyu=async (req, res) => {
       function furni(){if(Array.isArray(furnishing_item)){
         furnicheckbox_p=JSON.stringify(furnishing_item)
       
-      }else{
+      }else if(furnishing_item === undefined ){
+      
+        furnicheckbox_p='[]'
+  
+        }else{
         
         furnicheckbox_p= '['+JSON.stringify(furnishing_item)+']'
         }}
@@ -1106,7 +1126,7 @@ const hjyu=async (req, res) => {
 
 
 
-   
+   console.log(amenities)
   // const Willing_p=JSON.stringify(Willing)
   //const otherRoom_p=JSON.stringify(Other_Rooms)
   //const furnicheckbox_p=JSON.stringify(furnishing_item)
@@ -1139,7 +1159,7 @@ const hjyu=async (req, res) => {
       furnicheckbox: furnicheckbox_p,
       otherRoom:otherRoom_p,
       Willing: Willing_p,      
-      amenities: ameniti,
+      amenities: [ameniti],
       rent: rent,
       deposit:deposit,
       add_info_text: Add_info_text,

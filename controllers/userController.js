@@ -798,6 +798,7 @@ const approve_user = async (req, res) => {
 }
 
 const newpropo = async (req, res) => {
+  console.log(req.files)
   const uploadedImages = [];
   try {
     for (let i = 0; i < req.files.length; i++) {
@@ -1017,6 +1018,65 @@ const edit_prop= async (req, res) => {
 }
 
 const hjyu=async (req, res) => {
+   
+  const uploadedImages = [];
+  try {
+    for (let i = 0; i < req.files.length; i++) {
+      const random = uuidv4();
+      const x = await cloudinary.uploader.upload(req.files[i].path, {
+  
+        public_id: random,
+        overlay: {
+          font_family: 'Arial',
+          font_size: 20,
+          color: 'red',
+          text: 'apnaTOLET.com',
+  
+          x: 100,
+          y: 10
+        },
+        opacity: 70,
+        gravity: 'south_east',
+  
+  
+  
+      },)
+
+      
+      let pid=random
+  
+          uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
+
+        await propModel.updateOne ({ _id: req.params.id },{ $push: { image: { url:x.secure_url, pid:pid } } })
+
+  
+      fs.unlink((req.files[i].path),
+        function (err) {
+          if (err) console.log(err);
+          else console.log("\nDeleted file");
+        })
+        
+     
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+  if(req.body.deleteImages){
+  for (let i = 0; i < req.body.deleteImages.length; i++) {
+
+      
+    const pid= req.body.deleteImages[i]
+
+    if (pid) {
+      await cloudinary.uploader.destroy(pid);
+    }
+    const rmProduct = await propModel.updateOne({_id:req.params.id},{$pull:{image:{pid:pid}}});
+   
+
+  }
+}
+
   const idl  = req.params.id;
   
   const { 
@@ -1050,7 +1110,7 @@ const hjyu=async (req, res) => {
     Other_Rooms,
     furnishing_item,
   } =req.body
-  console.log(req.body)
+ 
 
   let ameniti=''
   function amini(){if(Array.isArray(amenities)){
@@ -1126,7 +1186,7 @@ const hjyu=async (req, res) => {
 
 
 
-   console.log(amenities)
+   
   // const Willing_p=JSON.stringify(Willing)
   //const otherRoom_p=JSON.stringify(Other_Rooms)
   //const furnicheckbox_p=JSON.stringify(furnishing_item)
@@ -1170,8 +1230,15 @@ const hjyu=async (req, res) => {
 
     }
   })
-console.log(relur)
-res.redirect('/prop_con')
+
+  
+  
+
+
+
+
+
+
   
 }
 

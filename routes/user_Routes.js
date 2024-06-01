@@ -76,7 +76,7 @@ userRouter.delete('/delete_prop/:id', auth, prop_delete);
 userRouter.post('/approve_prop/:id', auth, approve_prop);
 userRouter.get('/edit/:id',auth,edit_prop)
 
-userRouter.post('/edit/:id',auth,hjyu)
+userRouter.post('/edit/:id',upload.array("images", 10),hjyu)
 
 
 

@@ -28,7 +28,7 @@
       <hr>
     </div>
    
-    <form class="custom-form" id="prop_edit_form"method="POST"  multipart/form-data >
+    <form class="custom-form" id="prop_edit_form"method="POST"  enctype="multipart/form-data" >
       <div class="mb-3">
         <center><h1>Edit Property</h1></center>
         <h3>What kind of property do have</h3>
@@ -702,12 +702,24 @@
       <div class="mb-3">
         <label for="" class="form-label">(Multiple photos input) for better result please upload at least 4
           pictures. </label>
-        <input class="form-control" type="file" id="files" multiple name="files" placeholder="pictures">
+        <input class="form-control" type="file"  multiple name="images" >
         <p>Max-size 1MB, Max-inputs 10 picture</p><!--onchange="photodiv()"-->
       </div>
 
       <div id="preview"></div>
+
+      <hr>
+     
+        <div class="mb-3">
+          <% for (let i = 0; i < allprop_edit[0].image.length; i++) { %>
       
+          <img src="<%= allprop_edit[0].image[i].url %>" class="img-thumbnail" alt="">
+          <div class="form-check-inline">
+              <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%= allprop_edit[0].image[i].pid %>">
+          </div>
+          <label for="image-<%=i%>">Delete?</label>
+          <% }%>
+      </div>
 
     
 

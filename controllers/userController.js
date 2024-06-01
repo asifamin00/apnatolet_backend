@@ -1,11 +1,12 @@
 
-const otpGenerator = require('otp-generator')
+
 const nodemailer = require('nodemailer')
 const userModel = require("../models/userSch")
 const propModel = require("../models/propertySchema")
 const counterModel = require("../models/counterSch")
 //const helper = require('../user_prop');
-const moment=require('moment')
+const emailTemp=require('../emailtemplet')
+const moment = require('moment')
 const fs = require('fs');
 const bcrypt = require("bcrypt")
 const { cache } = require("ejs")
@@ -36,7 +37,7 @@ const dashbord = async (req, res) => {
       let allprop = await propModel.find({})
 
       let pending_count = await userModel.find({ status: "pending" }).count()
-      
+
 
 
 
@@ -60,7 +61,7 @@ const user_con = async (req, res) => {
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
-      
+
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
@@ -145,12 +146,12 @@ const new_prop_ent = async (req, res) => {
       let user = jwt.verify(token, SECRET_KEY)
 
       let existingUser = await userModel.findOne({ email: user.email })
-      const user_id=req.params.id
-      console.log(user_id )
+      const user_id = req.params.id
+      console.log(user_id)
       let alluser = await userModel.find({})
-      let allprop_user = await propModel.find({user_id:user_id})
-      let username= await userModel.findOne({_id:user_id})
-      console.log(allprop_user )
+      let allprop_user = await propModel.find({ user_id: user_id })
+      let username = await userModel.findOne({ _id: user_id })
+      console.log(allprop_user)
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
@@ -210,7 +211,7 @@ const prop_aprov = async (req, res) => {
             "Bedrooms": 1,
             "prop_type": 1,
             "rent": 1,
-            "deposit":1,
+            "deposit": 1,
             "users.Phone": 1,
             "users.userFname": 1,
             "users.userLname": 1,
@@ -241,7 +242,7 @@ const prop_aprov = async (req, res) => {
             "amenities": 1,
             "add_info_text": 1,
             "created": 1,
-            "Bult_up_Area":1
+            "Bult_up_Area": 1
 
 
           }
@@ -250,21 +251,21 @@ const prop_aprov = async (req, res) => {
 
       ]
       const prop_approv = await propModel.aggregate(prop_approv_pipeline)
-      otherRoomt=JSON.parse(prop_approv[0].otherRoom[0])
-      amenitiest=JSON.parse(prop_approv[0].amenities[0])
-      willingt=JSON.parse(prop_approv[0].Willing[0])
-      furnicheckboxt=JSON.parse(prop_approv[0].furnicheckbox[0])
+      otherRoomt = JSON.parse(prop_approv[0].otherRoom[0])
+      amenitiest = JSON.parse(prop_approv[0].amenities[0])
+      willingt = JSON.parse(prop_approv[0].Willing[0])
+      furnicheckboxt = JSON.parse(prop_approv[0].furnicheckbox[0])
 
-      let ageBuldingt=prop_approv[0].ageBulding
-      let age=new Date()
-      let  differenceInDays = Math.ceil((age - ageBuldingt) / (1000 * 60 * 60 * 24 * 365));
-      let op=moment(prop_approv[0].Available).format('DD,MMMM,YYYY');
-      let Availablet=op
-     
-
+      let ageBuldingt = prop_approv[0].ageBulding
+      let age = new Date()
+      let differenceInDays = Math.ceil((age - ageBuldingt) / (1000 * 60 * 60 * 24 * 365));
+      let op = moment(prop_approv[0].Available).format('DD,MMMM,YYYY');
+      let Availablet = op
 
 
-      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv,otherRoomt,amenitiest,differenceInDays ,Availablet})
+
+
+      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv, otherRoomt, amenitiest, differenceInDays, Availablet })
 
     }
   } catch (error) {
@@ -345,7 +346,7 @@ const signin = async (req, res) => {
     }
     const token = jwt.sign(
       {
-        email: existingUser.email, id: existingUser._id, status: existingUser.status,role:existingUser.role
+        email: existingUser.email, id: existingUser._id, status: existingUser.status, role: existingUser.role
       },
       SECRET_KEY,
       {
@@ -379,13 +380,8 @@ const forgotPassword = async (req, res) => {
     req.flash('error_msg', 'Üser not found')
     return res.redirect('/forgot-password')
   }
-  const otp = otpGenerator.generate(6, {
-    upperCaseAlphabets: false,
-    lowerCaseAlphabets: false,
-    specialChars: false
-
-  })
-  console.log(otp)
+  
+  console.log(emailTemp.otp)
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -407,222 +403,9 @@ const forgotPassword = async (req, res) => {
     from: process.env.G_MAIL,
     to: email,
     subject: 'OTP FOR RESETPASSWORD',
-    html: `<!DOCTYPE html>
-       <html lang="en">
-         <head>
-           <meta charset="UTF-8" />
-           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-           <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-           <title></title>
-       
-           <link
-             href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-             rel="stylesheet"
-           />
-         </head>
-         <body
-           style="
-             margin: 0;
-             font-family: 'Poppins', sans-serif;
-             background: #ffffff;
-             font-size: 14px;
-           "
-         >
-           <div
-             style="
-               max-width: 680px;
-               margin: 0 auto;
-               padding: 45px 30px 60px;
-               background: #f4f7ff;
-               background-image: url(https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661497957196_595865/email-template-background-banner);
-               background-repeat: no-repeat;
-               background-size: 800px 452px;
-               background-position: top center;
-               font-size: 14px;
-               color: #434343;
-             "
-           >
-             <header>
-               <table style="width: 100%;">
-                 <tbody>
-                   <tr style="height: 0;">
-                     <td>
-                       <img
-                         alt=""
-                         src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1663574980688_114990/archisketch-logo"
-                         height="30px"
-                       />
-                     </td>
-                     <td style="text-align: right;">
-                       <span
-                         style="font-size: 16px; line-height: 30px; color: #ffffff;"
-                         >${localDate}</span
-                       >
-                     </td>
-                   </tr>
-                 </tbody>
-               </table>
-             </header>
-       
-             <main>
-               <div
-                 style="
-                   margin: 0;
-                   margin-top: 70px;
-                   padding: 92px 30px 115px;
-                   background: #ffffff;
-                   border-radius: 30px;
-                   text-align: center;
-                 "
-               >
-                 <div style="width: 100%; max-width: 489px; margin: 0 auto;">
-                   <h1
-                     style="
-                       margin: 0;
-                       font-size: 24px;
-                       font-weight: 500;
-                       color: #1f1f1f;
-                     "
-                   >
-                     Your OTP
-                   </h1>
-                   <p
-                     style="
-                       margin: 0;
-                       margin-top: 17px;
-                       font-size: 16px;
-                       font-weight: 500;
-                     "
-                   >
-                    Hey ${existingUser.userFname},
-                   </p>
-                   <p
-                     style="
-                       margin: 0;
-                       margin-top: 17px;
-                       font-weight: 500;
-                       letter-spacing: 0.56px;
-                     "
-                   >
-                     Thank you for choosing apnatolet. Use the following OTP
-                     to complete the procedure to change your password. OTP is
-                     valid for
-                     <span style="font-weight: 600; color: #1f1f1f;">30 minutes</span>.
-                     Do not share this code with others, including apnatolet
-                     employees.
-                   </p>
-                   <p
-                     style="
-                       margin: 0;
-                       margin-top: 60px;
-                       font-size: 40px;
-                       font-weight: 600;
-                       letter-spacing: 25px;
-                       color: #ba3d4f;
-                     "
-                   >
-                     ${otp}
-                   </p>
-                 </div>
-               </div>
-       
-               <p
-                 style="
-                   max-width: 400px;
-                   margin: 0 auto;
-                   margin-top: 90px;
-                   text-align: center;
-                   font-weight: 500;
-                   color: #8c8c8c;
-                 "
-               >
-                 Need help? Ask at
-                 <a
-                   href="mailto:archisketch@gmail.com"
-                   style="color: #499fb6; text-decoration: none;"
-                   >apnatolet00@gmail.com</a
-                 >
-                 or visit our
-                 <a
-                   href=""
-                   target="_blank"
-                   style="color: #499fb6; text-decoration: none;"
-                   >Help Center</a
-                 >
-               </p>
-             </main>
-       
-             <footer
-               style="
-                 width: 100%;
-                 max-width: 490px;
-                 margin: 20px auto 0;
-                 text-align: center;
-                 border-top: 1px solid #e6ebf1;
-               "
-             >
-               <p
-                 style="
-                   margin: 0;
-                   margin-top: 40px;
-                   font-size: 16px;
-                   font-weight: 600;
-                   color: #434343;
-                 "
-               >
-                 apnatolet
-               </p>
-               <p style="margin: 0; margin-top: 8px; color: #434343;">
-                 Address 540, City, State.
-               </p>
-               <div style="margin: 0; margin-top: 16px;">
-                 <a href="" target="_blank" style="display: inline-block;">
-                   <img
-                     width="36px"
-                     alt="Facebook"
-                     src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661502815169_682499/email-template-icon-facebook"
-                   />
-                 </a>
-                 <a
-                   href=""
-                   target="_blank"
-                   style="display: inline-block; margin-left: 8px;"
-                 >
-                   <img
-                     width="36px"
-                     alt="Instagram"
-                     src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661504218208_684135/email-template-icon-instagram"
-                 /></a>
-                 <a
-                   href=""
-                   target="_blank"
-                   style="display: inline-block; margin-left: 8px;"
-                 >
-                   <img
-                     width="36px"
-                     alt="Twitter"
-                     src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661503043040_372004/email-template-icon-twitter"
-                   />
-                 </a>
-                 <a
-                   href=""
-                   target="_blank"
-                   style="display: inline-block; margin-left: 8px;"
-                 >
-                   <img
-                     width="36px"
-                     alt="Youtube"
-                     src="https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/vrstyler/1661503195931_210869/email-template-icon-youtube"
-                 /></a>
-               </div>
-               <p style="margin: 0; margin-top: 16px; color: #434343;">
-                 Copyright © 2024 Company. All rights reserved.
-               </p>
-             </footer>
-           </div>
-         </body>
-       </html>
-       `
+    html: emailTemp.emailTr
+    
+    
   }
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -634,10 +417,10 @@ const forgotPassword = async (req, res) => {
   })
 
 
-  existingUser.resetPasswordToken = otp;
+  existingUser.resetPasswordToken = emailTemp.otp;
   existingUser.resetPasswordExpires = Date.now() + 1800000; //   1/2 hours
 
-  existingUser.save(otp)
+  existingUser.save(emailTemp.otp)
   req.flash('success_msg', 'Please cheek email FOR OTP')
   res.redirect('otp')
 
@@ -804,42 +587,42 @@ const newpropo = async (req, res) => {
     for (let i = 0; i < req.files.length; i++) {
       const random = uuidv4();
       const x = await cloudinary.uploader.upload(req.files[i].path, {
-  
+
         public_id: random,
         overlay: {
           font_family: 'Arial',
           font_size: 20,
           color: 'red',
           text: 'apnaTOLET.com',
-  
+
           x: 100,
           y: 10
         },
         opacity: 70,
         gravity: 'south_east',
-  
-  
-  
+
+
+
       },)
-  
+
       uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
-  
+
       fs.unlink((req.files[i].path),
         function (err) {
           if (err) console.log(err);
           else console.log("\nDeleted file");
         })
     }
-    
+
   } catch (error) {
     console.log(error)
   }
 
- 
+
 
   const { prop_kind, prop_type, Bedrooms, Bathrooms, Balconies, Furnishing, Coveredparking, openparking, Facing, House_no, Society, Locality,
     Pin_code, City, Latitude, Longitude, Bult_up_Area, Total_floor, Property_on_floor, ageBulding, Available, furnicheckbox, otherRoom, Willing,
-    amenities, rent, user_id, Add_info_text,Add_info_radio,deposit} = req.body
+    amenities, rent, user_id, Add_info_text, Add_info_radio, deposit } = req.body
 
   const image = uploadedImages
   try {
@@ -885,9 +668,9 @@ const newpropo = async (req, res) => {
       image: image,
       amenities: [amenities],
       rent: rent,
-      deposit:deposit,
+      deposit: deposit,
       add_info_text: Add_info_text,
-      add_info_radio:Add_info_radio,
+      add_info_radio: Add_info_radio,
       approved_by: 'Approval_pending',
       status: "pending",
       live: 'off'
@@ -915,11 +698,11 @@ const prop_delete = async (req, res) => {
 
     const propaptl_id = req.params.id
     const prop_details = await propModel.findOne({ atlprop_id: propaptl_id })
-   
+
     for (let i = 0; i < prop_details.image.length; i++) {
 
-      
-      const pid=prop_details.image[i].pid
+
+      const pid = prop_details.image[i].pid
 
       if (pid) {
         await cloudinary.uploader.destroy(pid);
@@ -931,7 +714,7 @@ const prop_delete = async (req, res) => {
 
     req.flash('success_msg', 'Deleted successfully ')
 
-      res.redirect('/prop_con');
+    res.redirect('/prop_con');
 
 
   } catch (error) {
@@ -944,38 +727,38 @@ const prop_delete = async (req, res) => {
 
 }
 
-const approve_prop=async(req,res)=>{
+const approve_prop = async (req, res) => {
 
-  const ids=req.params.id
-  const do_value=req.body.do_this
-  const current_user=req.body.approved_by
+  const ids = req.params.id
+  const do_value = req.body.do_this
+  const current_user = req.body.approved_by
 
-  let Live=''
-  if(do_value === "Hold"){
-    Live='off'
-  }else{
-    Live='on'
+  let Live = ''
+  if (do_value === "Hold") {
+    Live = 'off'
+  } else {
+    Live = 'on'
   }
-  
-  
-  const resultt= await propModel.updateOne({_id:ids}, {
+
+
+  const resultt = await propModel.updateOne({ _id: ids }, {
     $set: {
 
-      status:do_value,
-      approved_by:current_user,
-      live:Live
-      
+      status: do_value,
+      approved_by: current_user,
+      live: Live
+
 
     }
   })
-  
+
     .then(user_user => {
-      
+
       req.flash('success_msg', 'Update successfully ')
       console.log(resultt)
 
       res.redirect('/prop_con');
-     
+
 
 
     })
@@ -983,11 +766,11 @@ const approve_prop=async(req,res)=>{
       req.flash('error_msg', 'Something went wrong!! ')
       res.redirect('/prop_con');
     });
-    
+
 }
-const edit_prop= async (req, res) => {
+const edit_prop = async (req, res) => {
   try {
-   
+
 
     let token = req.cookies.token
     if (token) {
@@ -995,21 +778,21 @@ const edit_prop= async (req, res) => {
       let user = jwt.verify(token, SECRET_KEY)
 
       let existingUser = await userModel.findOne({ email: user.email })
-      const user_id=req.params.id
-     
+      const user_id = req.params.id
+
       let alluser = await userModel.find({})
-      let allprop_edit = await propModel.find({_id:user_id}) 
-      let willingt=JSON.parse(allprop_edit[0].Willing[0])  
-      let otherRoomt=JSON.parse(allprop_edit[0].otherRoom[0]) 
-      let amenitiest=JSON.parse(allprop_edit[0].amenities[0]) 
-      let furnicheckboxt=JSON.parse(allprop_edit[0].furnicheckbox[0])  
-      let Availableq=moment(allprop_edit[0].Available).format('YYYY-MM-DD');
-      let ageBuldingq=moment(allprop_edit[0].ageBulding).format('YYYY-MM');
-   
+      let allprop_edit = await propModel.find({ _id: user_id })
+      let willingt = JSON.parse(allprop_edit[0].Willing[0])
+      let otherRoomt = JSON.parse(allprop_edit[0].otherRoom[0])
+      let amenitiest = JSON.parse(allprop_edit[0].amenities[0])
+      let furnicheckboxt = JSON.parse(allprop_edit[0].furnicheckbox[0])
+      let Availableq = moment(allprop_edit[0].Available).format('YYYY-MM-DD');
+      let ageBuldingq = moment(allprop_edit[0].ageBulding).format('YYYY-MM');
+
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('edit', { existingUser, alluser, pending_count, allprop_edit ,willingt,otherRoomt,amenitiest,furnicheckboxt,Availableq,ageBuldingq})
+      res.render('edit', { existingUser, alluser, pending_count, allprop_edit, willingt, otherRoomt, amenitiest, furnicheckboxt, Availableq, ageBuldingq })
 
     }
   } catch (error) {
@@ -1017,69 +800,69 @@ const edit_prop= async (req, res) => {
   }
 }
 
-const hjyu=async (req, res) => {
-   
+const hjyu = async (req, res) => {
+
   const uploadedImages = [];
   try {
     for (let i = 0; i < req.files.length; i++) {
       const random = uuidv4();
       const x = await cloudinary.uploader.upload(req.files[i].path, {
-  
+
         public_id: random,
         overlay: {
           font_family: 'Arial',
           font_size: 20,
           color: 'red',
           text: 'apnaTOLET.com',
-  
+
           x: 100,
           y: 10
         },
         opacity: 70,
         gravity: 'south_east',
-  
-  
-  
+
+
+
       },)
 
-      
-      let pid=random
-  
-          uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
 
-        await propModel.updateOne ({ _id: req.params.id },{ $push: { image: { url:x.secure_url, pid:pid } } })
+      let pid = random
 
-  
+      uploadedImages.push({ url: x.secure_url, pid: random });//,'ogfilename':x.original_filename
+
+      await propModel.updateOne({ _id: req.params.id }, { $push: { image: { url: x.secure_url, pid: pid } } })
+
+
       fs.unlink((req.files[i].path),
         function (err) {
           if (err) console.log(err);
           else console.log("\nDeleted file");
         })
-        
-     
+
+
     }
-    
+
   } catch (error) {
     console.log(error)
   }
-  if(req.body.deleteImages){
-  for (let i = 0; i < req.body.deleteImages.length; i++) {
+  if (req.body.deleteImages) {
+    for (let i = 0; i < req.body.deleteImages.length; i++) {
 
-      
-    const pid= req.body.deleteImages[i]
 
-    if (pid) {
-      await cloudinary.uploader.destroy(pid);
+      const pid = req.body.deleteImages[i]
+
+      if (pid) {
+        await cloudinary.uploader.destroy(pid);
+      }
+      const rmProduct = await propModel.updateOne({ _id: req.params.id }, { $pull: { image: { pid: pid } } });
+
+
     }
-    const rmProduct = await propModel.updateOne({_id:req.params.id},{$pull:{image:{pid:pid}}});
-   
-
   }
-}
 
-  const idl  = req.params.id;
-  
-  const { 
+  const idl = req.params.id;
+
+  const {
     kind_of_prop,
     prop_type,
     House_no,
@@ -1094,8 +877,8 @@ const hjyu=async (req, res) => {
     Balconies,
     Bult_up_Area,
     rent,
-    Available,    
-    FullyFurnishrd,    
+    Available,
+    FullyFurnishrd,
     Covered_parking,
     Open_parking,
     Total_floor,
@@ -1109,92 +892,99 @@ const hjyu=async (req, res) => {
     deposit,
     Other_Rooms,
     furnishing_item,
-  } =req.body
- 
+  } = req.body
 
-  let ameniti=''
-  function amini(){if(Array.isArray(amenities)){
-    ameniti=JSON.stringify(amenities)
-    
-    }else if(amenities === undefined ){
-      
-      ameniti='[]'
 
-      }else{
+  let ameniti = ''
+  function amini() {
+    if (Array.isArray(amenities)) {
+      ameniti = JSON.stringify(amenities)
 
-   
-    ameniti= '['+JSON.stringify(amenities)+']'
-      }
-    
-    
+    } else if (amenities === undefined) {
+
+      ameniti = '[]'
+
+    } else {
+
+
+      ameniti = '[' + JSON.stringify(amenities) + ']'
     }
-      
-      amini()
+
+
+  }
+
+  amini()
 
 
 
-      let otherRoom_p=''
-    function other(){if(Array.isArray(Other_Rooms)){
-    otherRoom_p=JSON.stringify(Other_Rooms)
-    
-    }else if(Other_Rooms === undefined ){
-      
-      otherRoom_p='[]'
+  let otherRoom_p = ''
+  function other() {
+    if (Array.isArray(Other_Rooms)) {
+      otherRoom_p = JSON.stringify(Other_Rooms)
 
-      }else{
-      
-      otherRoom_p= '['+JSON.stringify(Other_Rooms)+']'
-      }}
-      
-      other()
+    } else if (Other_Rooms === undefined) {
 
+      otherRoom_p = '[]'
 
+    } else {
 
-      let Willing_p=''
-    function wili(){if(Array.isArray(Willing)){
-      Willing_p=JSON.stringify(Willing)
-    
-    }else if(Willing === undefined ){
-      
-      Willing_p='[]'
+      otherRoom_p = '[' + JSON.stringify(Other_Rooms) + ']'
+    }
+  }
 
-      }else{
-      
-      Willing_p= '['+JSON.stringify(Willing)+']'
-      }}
-      
-      wili()
-
-
-      let furnicheckbox_p=''
-      function furni(){if(Array.isArray(furnishing_item)){
-        furnicheckbox_p=JSON.stringify(furnishing_item)
-      
-      }else if(furnishing_item === undefined ){
-      
-        furnicheckbox_p='[]'
-  
-        }else{
-        
-        furnicheckbox_p= '['+JSON.stringify(furnishing_item)+']'
-        }}
-        
-        furni()
+  other()
 
 
 
+  let Willing_p = ''
+  function wili() {
+    if (Array.isArray(Willing)) {
+      Willing_p = JSON.stringify(Willing)
+
+    } else if (Willing === undefined) {
+
+      Willing_p = '[]'
+
+    } else {
+
+      Willing_p = '[' + JSON.stringify(Willing) + ']'
+    }
+  }
+
+  wili()
+
+
+  let furnicheckbox_p = ''
+  function furni() {
+    if (Array.isArray(furnishing_item)) {
+      furnicheckbox_p = JSON.stringify(furnishing_item)
+
+    } else if (furnishing_item === undefined) {
+
+      furnicheckbox_p = '[]'
+
+    } else {
+
+      furnicheckbox_p = '[' + JSON.stringify(furnishing_item) + ']'
+    }
+  }
+
+  furni()
 
 
 
-   
+
+
+
+
   // const Willing_p=JSON.stringify(Willing)
   //const otherRoom_p=JSON.stringify(Other_Rooms)
   //const furnicheckbox_p=JSON.stringify(furnishing_item)
 
-  const relur= await propModel.updateOne({_id:idl}, {
+  const relur = await propModel.updateOne({ _id: idl }, {
     $set: {
 
-   
+
       prop_kind: kind_of_prop,
       prop_type: prop_type,
       Bedrooms: Bedrooms,
@@ -1217,29 +1007,29 @@ const hjyu=async (req, res) => {
       ageBulding: ageBulding,
       Available: Available,
       furnicheckbox: furnicheckbox_p,
-      otherRoom:otherRoom_p,
-      Willing: Willing_p,      
+      otherRoom: otherRoom_p,
+      Willing: Willing_p,
       amenities: [ameniti],
       rent: rent,
-      deposit:deposit,
+      deposit: deposit,
       add_info_text: Add_info_text,
-      add_info_radio:Add_info_radio
-     
-  
-      
+      add_info_radio: Add_info_radio
+
+
+
 
     }
   })
 
-  
-  
 
 
 
 
 
 
-  
+
+
+
 }
 
 
@@ -1247,7 +1037,7 @@ const hjyu=async (req, res) => {
 
 
 
-  
+
 
 
 
@@ -1258,5 +1048,5 @@ const hjyu=async (req, res) => {
 
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete,approve_prop,edit_prop,hjyu
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu
 }

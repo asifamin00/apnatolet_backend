@@ -1,7 +1,10 @@
 const mongoose=require('mongoose')
 
-  const PropertySchema=({
-    user_id:mongoose.Schema.ObjectId,
+  const PropertySchema=new mongoose.Schema({
+    user_id:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"userSch"
+    },
     atlprop_id:String,
     prop_kind: String,
     prop_type: String,
@@ -36,8 +39,8 @@ const mongoose=require('mongoose')
     approved_by:String,
     status: String,
     live:String,
-    created: {type: Date, default: Date.now}
+    
    
-})
+},{ timestamps: true })
 
 module.exports = mongoose.model("propSch", PropertySchema)

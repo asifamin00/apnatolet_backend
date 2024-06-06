@@ -39,10 +39,52 @@ const dashbord = async (req, res) => {
       let pending_count = await userModel.find({ status: "pending" }).count()
 
 
+      
+
+  
+
+
+
 
 
 
       res.render('dashbord', { existingUser, alluser, pending_count, allprop })
+
+      // const prop_table_pipeline = [
+      //   {
+      //     $lookup: {
+      //       from: 'usersches',           // The collection to join
+      //       localField: 'user_id',   // Field from the orders collection
+      //       foreignField: '_id',         // Field from the customers collection
+      //       as: 'propt_info'          // Alias for the joined data
+      //     }
+
+      //   },
+      //   {
+      //     $unwind: "$propt_info"       // Flatten the array to work with individual documents
+      //   },
+      //   {
+      //     $group: {
+      //       _id: {id:"$user_id",
+      //       Ph:"$propt_info.Phone",
+      //       email:"$propt_info.email",
+      //       role:"$propt_info.role",
+      //       status:"$propt_info.status",
+      //       approved_by:"$propt_info.approved_by",
+      //       userFname:"$propt_info.userFname",
+      //       userLname:"$propt_info.userLname",
+      //       updatedAt:"$propt_info.updatedAt",         
+          
+      //     },                                     // Group by the _id from collectionA
+      //       count: { $sum: 1 } , 
+            
+             
+      //     }
+      //   }
+      // ]
+      // const allprop_ds = await propModel.aggregate(prop_table_pipeline)
+
+      // console.log(allprop_ds[0]._id.Ph)
 
     }
   } catch (error) {
@@ -64,13 +106,49 @@ const user_con = async (req, res) => {
 
 
       let pending_count = await userModel.find({ status: "pending" }).count()
+      const prop_table_pipeline = [
+        {
+          $lookup: {
+            from: 'usersches',           // The collection to join
+            localField: 'user_id',   // Field from the orders collection
+            foreignField: '_id',         // Field from the customers collection
+            as: 'propt_info'          // Alias for the joined data
+          }
+
+        },
+        {
+          $unwind: "$propt_info"       // Flatten the array to work with individual documents
+        },
+        {
+          $group: {
+            _id: {id:"$user_id",
+            Ph:"$propt_info.Phone",
+            email:"$propt_info.email",
+            role:"$propt_info.role",
+            status:"$propt_info.status",
+            approved_by:"$propt_info.approved_by",
+            userFname:"$propt_info.userFname",
+            userLname:"$propt_info.userLname",
+            updatedAt:"$propt_info.updatedAt",         
+          
+          },                                     // Group by the _id from collectionA
+            count: { $sum: 1 } , 
+            
+             
+          }
+        }
+      ]
+      const allprop_ds = await propModel.aggregate(prop_table_pipeline)
+
+      console.log(allprop_ds[0]._id.Ph)
 
 
 
 
 
 
-      res.render('user_con', { existingUser, alluser, pending_count, allprop })
+
+      res.render('user_con', { existingUser, alluser,pending_count,allprop,allprop_ds })
 
     }
   } catch (error) {
@@ -128,7 +206,7 @@ const prop_con = async (req, res) => {
       ]
       const allprop = await propModel.aggregate(prop_table_pipeline)
       const allpropp = (allprop)
-      console.log(allpropp)
+     
       let pending_count = await userModel.find({ status: "pending" }).count()
 
       res.render('prop_con', { existingUser, alluser, pending_count, allprop })
@@ -147,11 +225,11 @@ const new_prop_ent = async (req, res) => {
 
       let existingUser = await userModel.findOne({ email: user.email })
       const user_id = req.params.id
-      console.log(user_id)
+      
       let alluser = await userModel.find({})
       let allprop_user = await propModel.find({ user_id: user_id })
       let username = await userModel.findOne({ _id: user_id })
-      console.log(allprop_user)
+ 
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
@@ -499,7 +577,7 @@ const createUser = async (req, res) => {
       approved_by: 'Approval_pending'
     })
 
-    // console.log(result)
+   
     return res.sendStatus(201)
 
   } catch (error) {
@@ -581,7 +659,7 @@ const approve_user = async (req, res) => {
 }
 
 const newpropo = async (req, res) => {
-  console.log(req.files)
+ 
   const uploadedImages = [];
   try {
     for (let i = 0; i < req.files.length; i++) {
@@ -755,7 +833,7 @@ const approve_prop = async (req, res) => {
     .then(user_user => {
 
       req.flash('success_msg', 'Update successfully ')
-      console.log(resultt)
+     
 
       res.redirect('/prop_con');
 
@@ -977,9 +1055,6 @@ const hjyu = async (req, res) => {
 
 
 
-  // const Willing_p=JSON.stringify(Willing)
-  //const otherRoom_p=JSON.stringify(Other_Rooms)
-  //const furnicheckbox_p=JSON.stringify(furnishing_item)
 
   const relur = await propModel.updateOne({ _id: idl }, {
     $set: {

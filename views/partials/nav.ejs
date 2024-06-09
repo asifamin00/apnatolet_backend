@@ -4,20 +4,21 @@
       <ul class="navbar-nav text-light" id=""><span>
         <!-- id="main_menu"id="user_table"id="propperty_table" -->
 
-          <li class="nav-item"><a class="nav-link" href="/dashbord"> 
+          <li class="nav-item"><a class="nav-link" href="/dashbord" id="dashmenucss" > 
             
-            <h4>Main menu</h4></a>
+            <h4 > Main menu</h4></a>
           </li>
-          <li class="nav-item" ><a class="nav-link" href="/user_con">
+          <li class="nav-item" ><a class="nav-link" href="/user_con" id="user_conmenucss">
             <!-- <i class="far fa-user-circle"></i> -->
-            <h5>User table</h5></a>
+            <h5>User with Prop</h5></a>
           </li>
-            <li class="nav-item" ><a class="nav-link" href="/prop_con">
+          
+            <li class="nav-item" ><a class="nav-link" href="/prop_con" id="prop_conmenucss">
               <!-- <i class="far fa-user-circle"></i> -->
               <h5>Property table</h5></a>
             </li>
         
-            <li class="nav-item" ><a class="nav-link" href="/new_prop_ent/<%=existingUser._id%>">
+            <li class="nav-item" ><a class="nav-link" href="/new_prop_ent/<%=existingUser._id%>" id="new_propmenucss">
               <!-- <i class="far fa-user-circle"></i> -->
               <h5>New Property</h5></a>
             </li>
@@ -25,10 +26,7 @@
 
 
 
-          <li class="nav-item" id="creat_user" ><a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3" >
-            <!-- <i class="far fa-user-circle"></i> -->
-            <h5>CreatUser</h5></a>
-          </li>
+         
           <!-- <li class="nav-item" id="user_apv" ><a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3">
             
             <h5>Pending user apv</h5></a>
@@ -38,7 +36,7 @@
             <h5>Pending prop apv</h5></a>
           </li> -->
 
-          <li class="nav-item" id="log_out"><a class="nav-link" href="logout">
+          <li class="nav-item" id="log_out"><a class="nav-link" href="/logout">
             <!-- <i class="far fa-user-circle"></i> -->
             <h5>Logout</h5></a>
           </li>

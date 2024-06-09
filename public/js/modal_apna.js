@@ -75,42 +75,42 @@
 // })
 
 //Creat user js
-const form = document.getElementById('creat_use');
+// const formq = document.getElementById('creat_use');
 
-// Add an event listener to the form for the submit event
-form.addEventListener('submit', async (e) => {
-  // Prevent the default form submission behavior
-  e.preventDefault();
+// // Add an event listener to the form for the submit event
+// formq.addEventListener('submit', async (e) => {
+//   // Prevent the default form submission behavior
+//   e.preventDefault();
  
 
 
-  // Serialize the form data
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData)
+//   // Serialize the form data
+//   const formData = new FormData(formq);
+//   const data = Object.fromEntries(formData)
 
 
-  fetch('/creatuser', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+//   fetch('/creatuser', {
+//     method: 'POST',
+   
+//     body: JSON.stringify(data)
 
-  }).then((response) => {
-    if (response.status == 400) {
-      alert('User already exists:');
-    }
-    if (response.status == 201) {
+//   }).then((response) => {
+//     if (response.status == 400) {
+//       alert('User already exists:');
+//     }
+//     if (response.status == 201) {
 
-      alert('New user created ');
-       window.location.reload()
+//       alert('New user created ');
+//        window.location.reload()
      
       
-    }
-    if (response.status == 403) {
-      alert('Wrong data entry, Phone no must be 10 digit and no space');
-    }
-  })
+//     }
+//     if (response.status == 403) {
+//       alert('Wrong data entry, Phone no must be 10 digit and no space');
+//     }
+//   })
 
-});
+// });
 
 //end
 
@@ -142,7 +142,7 @@ function approving_user(uid, cuid) {
 //delete user js
 function delete_user(uid) {
 
-  let person = prompt("Please type DELETE for Deleting user premanetly ", "UNDELETE");
+  let person = prompt("Please type DELETE for Deleting user premanetly ", "UN DELETE");
   if (person == 'DELETE') {
 
     fetch('/delete', {
@@ -153,6 +153,9 @@ function delete_user(uid) {
       if (response.status == 202) {
          alert('User Deleted!!')
          location.reload();
+      }else if(response.status == 302) {
+        alert('User not Deleted!!')
+        window.location.reload()
       }
     })
 

@@ -34,6 +34,10 @@ const UserSchema =new  mongoose.Schema({
         type: String,
         required: true
     },
+    count_prop: {
+        type: Number,
+        required: false
+    },
     approved_by: {
         type: String,
         required: false

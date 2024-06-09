@@ -69,6 +69,7 @@ userRouter.get('/forgot-password', (req, res) => {
 userRouter.get('/', auth, dashbord)
 userRouter.get('/dashbord', auth, dashbord)
 userRouter.get('/user_con', auth, user_con)
+
 userRouter.get('/prop_con', auth, prop_con)
 userRouter.get('/new_prop_ent/:id', auth, new_prop_ent)
 userRouter.get('/prop_aprov/:id', auth, prop_aprov)

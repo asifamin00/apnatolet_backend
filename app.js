@@ -32,8 +32,8 @@ app.use(flash());
 
 //middlewares
 
-app.use(bodyparser.urlencoded({ extended: false }))
-//app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({ extended: true }))
+app.use(bodyparser.json())
 app.use(cookieParser())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')

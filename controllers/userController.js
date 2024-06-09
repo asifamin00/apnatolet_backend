@@ -13,9 +13,10 @@ const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
 const { v4: uuidv4 } = require('uuid');
 const { myFunc } = require('../user_prop')
-const { reduceRight } = require('async')
+const { reduceRight, tryEach } = require('async')
 const { isNull } = require('util')
 const { isArrayBuffer } = require('util/types')
+const { log } = require('console')
 const cloudinary = require("cloudinary").v2
 
 
@@ -35,56 +36,21 @@ const dashbord = async (req, res) => {
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
-
-      let pending_count = await userModel.find({ status: "pending" }).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()   
+      let allprop_pending = await propModel.find({status: "pending"}).count()   
+      let allprop_Live = await propModel.find({live: "off"}).count()   
+      let allprop_Hold = await propModel.find({status: "Hold"}).count() 
+      let owner_count = await userModel.find({ role: 1298 }).count()
+      let user_count = await userModel.find({ role: 1714 }).count()
+      let agent_count = await userModel.find({ role: 2346 }).count()
 
 
       
 
-  
+      res.render('dashbord', { existingUser, alluser, pending_count, allprop,allprop_pending,allprop_Live,allprop_Hold,owner_count,user_count,agent_count })
 
-
-
-
-
-
-      res.render('dashbord', { existingUser, alluser, pending_count, allprop })
-
-      // const prop_table_pipeline = [
-      //   {
-      //     $lookup: {
-      //       from: 'usersches',           // The collection to join
-      //       localField: 'user_id',   // Field from the orders collection
-      //       foreignField: '_id',         // Field from the customers collection
-      //       as: 'propt_info'          // Alias for the joined data
-      //     }
-
-      //   },
-      //   {
-      //     $unwind: "$propt_info"       // Flatten the array to work with individual documents
-      //   },
-      //   {
-      //     $group: {
-      //       _id: {id:"$user_id",
-      //       Ph:"$propt_info.Phone",
-      //       email:"$propt_info.email",
-      //       role:"$propt_info.role",
-      //       status:"$propt_info.status",
-      //       approved_by:"$propt_info.approved_by",
-      //       userFname:"$propt_info.userFname",
-      //       userLname:"$propt_info.userLname",
-      //       updatedAt:"$propt_info.updatedAt",         
-          
-      //     },                                     // Group by the _id from collectionA
-      //       count: { $sum: 1 } , 
-            
-             
-      //     }
-      //   }
-      // ]
-      // const allprop_ds = await propModel.aggregate(prop_table_pipeline)
-
-      // console.log(allprop_ds[0]._id.Ph)
+     
+      
 
     }
   } catch (error) {
@@ -104,57 +70,20 @@ const user_con = async (req, res) => {
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
 
-
       let pending_count = await userModel.find({ status: "pending" }).count()
-      const prop_table_pipeline = [
-        {
-          $lookup: {
-            from: 'usersches',           // The collection to join
-            localField: 'user_id',   // Field from the orders collection
-            foreignField: '_id',         // Field from the customers collection
-            as: 'propt_info'          // Alias for the joined data
-          }
+      let allprop_pending = await propModel.find({status: "pending"}).count()   
+     
 
-        },
-        {
-          $unwind: "$propt_info"       // Flatten the array to work with individual documents
-        },
-        {
-          $group: {
-            _id: {id:"$user_id",
-            Ph:"$propt_info.Phone",
-            email:"$propt_info.email",
-            role:"$propt_info.role",
-            status:"$propt_info.status",
-            approved_by:"$propt_info.approved_by",
-            userFname:"$propt_info.userFname",
-            userLname:"$propt_info.userLname",
-            updatedAt:"$propt_info.updatedAt",         
-          
-          },                                     // Group by the _id from collectionA
-            count: { $sum: 1 } , 
-            
-             
-          }
-        }
-      ]
-      const allprop_ds = await propModel.aggregate(prop_table_pipeline)
-
-      console.log(allprop_ds[0]._id.Ph)
-
-
-
-
-
-
-
-      res.render('user_con', { existingUser, alluser,pending_count,allprop,allprop_ds })
+      
+      res.render('user_con', { existingUser, alluser,pending_count,allprop,allprop_pending })
 
     }
   } catch (error) {
     console.log(error)
   }
 }
+
+
 
 
 const prop_con = async (req, res) => {
@@ -165,7 +94,7 @@ const prop_con = async (req, res) => {
       let user = jwt.verify(token, SECRET_KEY)
 
       let existingUser = await userModel.findOne({ email: user.email })
-
+      let allprop_pending = await propModel.find({status: "pending"}).count()   
       let alluser = await userModel.find({})
 
 
@@ -186,6 +115,9 @@ const prop_con = async (req, res) => {
             users: { $first: "$propt_info" },
           }
         },
+        {
+          $unwind: "$propt_info"       // Flatten the array to work with individual documents
+        },
 
 
         {
@@ -205,11 +137,11 @@ const prop_con = async (req, res) => {
         }
       ]
       const allprop = await propModel.aggregate(prop_table_pipeline)
-      const allpropp = (allprop)
+      
      
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('prop_con', { existingUser, alluser, pending_count, allprop })
+      res.render('prop_con', { existingUser, alluser, pending_count, allprop ,allprop_pending})
     }
   } catch (error) {
     console.log(error)
@@ -230,10 +162,10 @@ const new_prop_ent = async (req, res) => {
       let allprop_user = await propModel.find({ user_id: user_id })
       let username = await userModel.findOne({ _id: user_id })
  
-
+      let allprop_pending = await propModel.find({status: "pending"}).count()
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('new_prop_ent', { existingUser, alluser, pending_count, allprop_user, username })
+      res.render('new_prop_ent', { existingUser, alluser, pending_count, allprop_user, username,allprop_pending })
 
     }
   } catch (error) {
@@ -254,7 +186,7 @@ const prop_aprov = async (req, res) => {
       let allprop = await propModel.find({})
 
       let pending_count = await userModel.find({ status: "pending" }).count()
-
+      let allprop_pending = await propModel.find({status: "pending"}).count()   
 
       const prop_approv_pipeline = [
         {
@@ -343,7 +275,7 @@ const prop_aprov = async (req, res) => {
 
 
 
-      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv, otherRoomt, amenitiest, differenceInDays, Availablet })
+      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv, otherRoomt, amenitiest, differenceInDays, Availablet,allprop_pending })
 
     }
   } catch (error) {
@@ -556,6 +488,7 @@ const createUser = async (req, res) => {
 
   const { first_name, last_name, email, phone, role, createdBy } = req.body
   try {
+  
     const existingUser = await userModel.findOne({
       $or: [{ email: email }, { Phone: phone }]
     });
@@ -572,13 +505,17 @@ const createUser = async (req, res) => {
       password: '123',
       email: email,
       role: role,
+      count_prop:0,
       status: "pending",
       createdBy: createdBy,
       approved_by: 'Approval_pending'
     })
 
-   
-    return res.sendStatus(201)
+    req.flash('success_msg', 'New user creat successfully ')
+
+    res.redirect('/user_con');
+
+    // return res.sendStatus(201)
 
   } catch (error) {
     console.log(error)
@@ -618,28 +555,32 @@ const edituser = (req, res) => {
 
 }
 
-const delete_user = (req, res) => {
-  const _id = req.body.id
+const delete_user =async (req, res) => {
+  const _idq = req.body.id
+  
+  const count=await propModel.countDocuments({user_id:_idq})
+  console.log(count);
+  try {
+   if(count == 0){
+ 
+    const gtl=await userModel.findByIdAndDelete(_idq )
 
-  userModel.deleteOne({ _id })
-    .then(user_user => {
 
-      res.sendStatus(202)
-    })
-    .catch(err => {
-      req.flash('error_msg', 'ERROR: ' + err)
-      res.redirect('/user_con');
-    });
+   res.sendStatus(202)
+   }else{
+    req.flash('error_msg', `${count}property linked !!! delete propery befor delete user ` )
+      res.sendStatus(302)
+   }
+  } catch (error) {
+    
+  }
+  
 }
 
 const approve_user = async (req, res) => {
-  const pass = otpGenerator.generate(8, {
-    upperCaseAlphabets: true,
-    lowerCaseAlphabets: true,
-    specialChars: true
-  })
-
-  const hashedPassword = await bcrypt.hash(pass, 10)
+  const pass = uuidv4();
+  try {
+    const hashedPassword = await bcrypt.hash(pass, 10)
   const _id = req.body.id
   const curid = req.body.curid
 
@@ -656,6 +597,17 @@ const approve_user = async (req, res) => {
     req.flash('success_msg', 'Approved.')
     res.sendStatus(202)
   })
+    
+  } catch (error) {
+    console.log(error)
+  }
+  // otpGenerator.generate(8, {
+  //   upperCaseAlphabets: true,
+  //   lowerCaseAlphabets: true,
+  //   specialChars: true
+  // })
+
+  
 }
 
 const newpropo = async (req, res) => {
@@ -753,7 +705,8 @@ const newpropo = async (req, res) => {
       status: "pending",
       live: 'off'
     })
-
+    await userModel.findByIdAndUpdate(user_id,{$inc:{count_prop:1}},{new:true})
+ 
 
     res.sendStatus(201)
 
@@ -787,7 +740,12 @@ const prop_delete = async (req, res) => {
       }
 
     }
+
+    const user_id_m=prop_details.user_id
+    await userModel.findByIdAndUpdate(user_id_m,{$inc:{count_prop:-1}},{new:true})
     const rmProduct = await propModel.findByIdAndDelete(prop_details._id);
+
+    
 
 
     req.flash('success_msg', 'Deleted successfully ')
@@ -876,6 +834,7 @@ const edit_prop = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+
 }
 
 const hjyu = async (req, res) => {
@@ -1101,7 +1060,8 @@ const hjyu = async (req, res) => {
 
 
 
-
+       req.flash('success_msg', 'Update successfully ')
+      res.redirect('/prop_con');
 
 
 
@@ -1123,5 +1083,5 @@ const hjyu = async (req, res) => {
 
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu,
 }

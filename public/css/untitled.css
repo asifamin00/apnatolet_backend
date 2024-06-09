@@ -332,6 +332,121 @@ p {
   overflow: hidden;
 } */
 
+.navbar-brand::selection {
+  color: #fff;
+  background: #187fcc;
+  text-shadow: 1px 1px 1px #333;
+}
+
+ol,
+ul,
+li {
+  list-style-type: none;
+}
+
+.totop {
+  position: fixed;
+  bottom: 0px;
+  right: 10px;
+  height: 45px;
+  width: 45px;
+  cursor: pointer;
+  display: none;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  border-radius: 5px 5px 0 0;
+  line-height: 47px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.totop:hover {
+  line-height: 40px;
+  color: #fff;
+  background: #194274;
+  text-shadow: 0 0 5px #000;
+}
+
+/* ==== Scoll  = End ===== */
+
+
+
+
+/* ==== Header  = Start ===== */
+.header_part {
+  background: #0c1e2e;
+  padding: 5px 80px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 9999;
+}
+
+.header_part h4 {
+  color: #fff;
+  padding: 10px;
+}
+
+.header_part img {
+  float: left;
+  height: 60px;
+  border-radius: 50%;
+}
+
+/* ==== Header  = End ===== */
+
+
+
+
+
+
+/* ==== Data table  = Start ===== */
+
+.data_table{
+ background: #fff;
+  padding: 15px;
+  box-shadow: 1px 3px 5px #aaa;
+  border-radius: 5px;
+}
+
+.data_table .btn{
+  padding: 5px 10px;
+  margin: 10px 3px 10px 0;
+}
+
+
+
+/* ==== Data table  = End  ===== */
+
+.dataTables_wrapper .dataTables_length select {
+  border: 1px solid #aaa;
+  border-radius: 3px;
+   padding: 0px; 
+  background-color: transparent;
+   padding-right: 30px; 
+}
+.dataTables_wrapper .dataTables_length {
+  float:none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

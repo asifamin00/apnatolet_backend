@@ -1,4 +1,10 @@
 <%- include('partials/head') -%>
+style="color: aliceblue;"
+<style>
+  #user_conmenucss {
+  color: #FCFF33;
+}
+</style>
 
 <body id="page-top">
   <div id="preloader">
@@ -104,7 +110,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id=creat_use>
+                  <form  action="/creatuser" method="post">
                     <div class="mb-3">
                       <label for="recipient-name" class="col-form-label">User firstname</label>
                       <input type="text" class="form-control" id="" name="first_name">
@@ -154,24 +160,34 @@
           <!---End modals-->
 
           <h1>user</h1>
-          <div class="mb-3"><%- include('partials/messages') -%></div>
+
+          
+
+          <!-- <div class="mb-3">           
+          </div> -->
+
+          <%- include('partials/messages') -%>
          
-              <div class="data_table">
+              <div class="data_table" style="margin: 5%;">
+                <div class="d-flex flex-row-reverse">
+                  <button type="button" class="btn btn-warning p-2" data-bs-toggle="modal" data-bs-target="#exampleModal3" id="creat_user">CreatUser</button>
+                </div>
+                
                 <table id="example" class="table table-striped table-bordered">
                   <thead class="table-dark">
                     <tr>
 
-                      <th>Id</th>
+                      <!-- <th>Id</th> -->
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>email</th>
-                      <th>phone</th>
+                      <th>Phone</th>
                       <th>Property</th>
                       <th>Role</th>
                       <th>Status</th>
                       <th>createdBy</th>
                       <th>approved_by</th>
-                      <th>approvoed_by</th>
+                      <th>edit & del</th>
                     </tr>
                   </thead>
                   
@@ -182,7 +198,7 @@
                      ++i
                      i
                      %>
-                    <%=i%>
+                   
 
 
 
@@ -191,7 +207,7 @@
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h1 class="modal-title fs-5">Edituu_User</h1>
+                            <h1 class="modal-title fs-5">Edit_User</h1>
 
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
@@ -247,9 +263,9 @@
 
 
                     <tr>
-                      <td>
+                      <!-- <td>
                         <%= alluser.id %>
-                      </td>
+                      </td> -->
                       <td>
                         <%= alluser.userFname %>
                       </td>
@@ -262,8 +278,8 @@
                       <td>
                         <%= alluser.Phone %>
                       </td>
-                      <td><a class="btn btn-warning" href="/new_prop_ent/<%=alluser._id%>" <% if
-                               ( alluser.role==1714) { %>hidden<% }%>><i class="material-icons">home</i>&nbsp;(<%=pending_count%>)</a></td>
+                      <td><a class="btn btn-warning" href="/new_prop_ent/<%=alluser.id%>" <% if
+                               ( alluser.role==1714) { %>hidden<% }%>><i class="material-icons">home</i>&nbsp;(<%=alluser.count_prop%>)</a></td>
                       <td>
                         <% if (alluser.role==2017) { %>Admin<% }%>
                         <% if (alluser.role==9012) { %>Editer<% }%>
@@ -273,6 +289,7 @@
                         <% if (alluser.role==1298) { %>owner<% }%>
                         <% if (alluser.role==1714) { %>User<% }%>
                       </td>
+                      
 
                       <td>
                         <% if (alluser.status=="pending" ) { %><a span style="color:red;" <% if
@@ -299,10 +316,9 @@
                   </tbody>
                 </table>
               </div>
-            </div>
-          </div>
-          </div>
-
+           
+          
+         
 
 
           <!---end user table-->
@@ -313,11 +329,13 @@
 
         </div>
         <!--id="content"end-->
-        <%- include('partials/foot') -%>
-        <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        <!-- <%- include('partials/foot') -%>
+        <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a> -->
       </div>
+    </div>
+  </div>
       <!--class="d-flex flex-column" id="content-wrapper" end-->
-    </div><!-- </div> id="wrapper"end -->
+   <!-- </div> id="wrapper"end -->
     <script src="/js/prop.js"></script>
     <script src="/js/maainmenus.js"></script>
     <script src="/js/modal_apna.js"></script>

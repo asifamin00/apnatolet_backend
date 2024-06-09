@@ -305,7 +305,8 @@ const signup = async (req, res) => {
       Phone: phone,
       email: email,
       password: hashedPassword,
-      role: 9012,
+      count_prop:0,
+      role: 1714,
       status: "pending",
       createdBy: 'self',
       approved_by: 'self'
@@ -382,8 +383,34 @@ const signin = async (req, res) => {
   }
 }
 
+const change_password = async (req,res)=>{
+const {email,new_password,old_password}=req.body
+
+const hospass=hash_password=await bcrypt.hash(new_password, 10)
+const user_detailsof=await userModel.findOne({ email: email })
+
+const matchPassword = await bcrypt.compare(old_password, user_detailsof.password)
+if(!matchPassword){
+  req.flash('error_msg', 'Password mismatch')
+      return res.redirect('/login')
+
+}
+const hashedPassword = await bcrypt.hash(new_password, 10)
+
+user_detailsof.password=hashedPassword
+user_detailsof.save()
+return res.redirect('/login')
+
+
+
+
+
+
+}
+
 const forgotPassword = async (req, res) => {
   const { email } = req.body
+  
 
   const existingUser = await userModel.findOne({ email: email })
   if (!existingUser) {
@@ -412,6 +439,7 @@ const forgotPassword = async (req, res) => {
   const mailOptions = {
     from: process.env.G_MAIL,
     to: email,
+    cc:'asifamin00@gmail.com',
     subject: 'OTP FOR RESETPASSWORD',
     html: emailTemp.emailTr
     
@@ -434,11 +462,6 @@ const forgotPassword = async (req, res) => {
   req.flash('success_msg', 'Please cheek email FOR OTP')
   res.redirect('otp')
 
-
-
-
-
-
 }
 
 
@@ -460,7 +483,7 @@ const otp_check = async (req, res) => {
     return res.redirect('/otp');
   }
 
-  if (!user_s.role == 2017 && 9012) {
+  if (!user_s.role == 2017 && 9012 && 9013) {
     req.flash('error_msg', 'This is admin penal other not allowwd ');
     res.redirect('/otp');
   }
@@ -536,6 +559,7 @@ const edituser = (req, res) => {
       userLname: req.body.last_name,
       Phone: req.body.phone,
       email: req.body.email,
+      role:req.body.role,
       status: 'pending',
       approved_by: 'Approval_pending'
 
@@ -1008,13 +1032,6 @@ const hjyu = async (req, res) => {
 
   furni()
 
-
-
-
-
-
-
-
   const relur = await propModel.updateOne({ _id: idl }, {
     $set: {
 
@@ -1055,11 +1072,6 @@ const hjyu = async (req, res) => {
     }
   })
 
-
-
-
-
-
        req.flash('success_msg', 'Update successfully ')
       res.redirect('/prop_con');
 
@@ -1068,20 +1080,7 @@ const hjyu = async (req, res) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu,
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu,change_password
 }

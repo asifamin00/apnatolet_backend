@@ -1,3 +1,73 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">User Profile</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">First name</label>
+            <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.userFname %>" disabled>
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Last name</label>
+            <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.userLname %>" disabled>
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Phone no</label>
+            <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.Phone %>" disabled>
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Email</label>
+            <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.email %>" disabled>
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Role</label>
+            <input type="text" class="form-control" id="" value="<% if (existingUser.role===9012) { %>Editer<% } else { %>Admin<% } %>" disabled>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal2 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel2">Change password</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/change_password">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Current password</label>
+            <input type="text" class="form-control" id="recipient-name" name="old_password">
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">New password</label>
+            <input type="text" class="form-control" id="recipient-name" name="new_password">
+          </div>
+          <input type="text" class="form-control" id="recipient-name" name="email" value="<%=existingUser.email%>" hidden>
+       
+            </div>
+            <div class="modal-footer">             
+              <button type="submit" class="btn btn-primary" id="myButton2">Change password</button>
+            </div>
+    </form>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+
+
+
 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar fixed-top">
     <div class="container-fluid">
    

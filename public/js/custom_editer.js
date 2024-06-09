@@ -4,17 +4,17 @@ $(document).ready(function(){
     
     var table = $('#example').DataTable({
         
-        buttons:['excel', 'pdf', 'print'],
+       // buttons:['excel', 'pdf', 'print'],
         //'copy', 'csv', 
-        // "columnDefs": [
-        //     {
+        "columnDefs": [
+            {
                
-        //         "targets": 3, // target the second column
-        //         "render": function(data, type, row, meta) {
-        //             return '**** **** **** ' + data.slice(-4); // mask all but the last 4 digits
-        //         }
-        //     }
-        // ],
+                "targets": 3, // target the second column
+                "render": function(data, type, row, meta) {
+                    return '**** **** **** ' + data.slice(-4); // mask all but the last 4 digits
+                }
+            }
+        ],
         
         
         

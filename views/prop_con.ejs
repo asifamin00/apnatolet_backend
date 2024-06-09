@@ -93,7 +93,9 @@
     <script src="/js/datatables.min.js"></script>
     <script src="/js/pdfmake.min.js"></script>
     <script src="/js/vfs_fonts.js"></script>
-    <script src="/js/custom.js"></script>
+    
+    <% if (existingUser.role ==9012 || existingUser.role ==9013) { %><script src="/js/custom_editer_prop.js"></script><% }%>
+    <% if (existingUser.role ==2017) { %><script src="/js/custom_admin.js"></script><% }%>
 
   </body>
 

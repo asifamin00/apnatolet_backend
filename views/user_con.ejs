@@ -33,73 +33,8 @@ style="color: aliceblue;"
         <div class="container-fluid col-sm-10" id='userinfo' style="display: block; padding-top:5rem;margin-left: 200px;">
           
           <!---start modals-->
-          <!-- modal1 -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">User Profile</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">First name</label>
-                      <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.userFname %>" disabled>
-                    </div>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Last name</label>
-                      <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.userLname %>" disabled>
-                    </div>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Phone no</label>
-                      <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.Phone %>" disabled>
-                    </div>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Email</label>
-                      <input type="text" class="form-control" id="recipient-name" value="<%=existingUser.email %>" disabled>
-                    </div>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Role</label>
-                      <input type="text" class="form-control" id="" value="<% if (existingUser.role===9012) { %>Editer<% } else { %>Admin<% } %>" disabled>
-                    </div>
-
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- modal2 -->
-          <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel2">Change password</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Current password</label>
-                      <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">New password</label>
-                      <input type="text" class="form-control" id="recipient-name">
-                    </div>
-
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="myButton2">Change password</button>
-                </div>
-              </div>
-            </div>
-          </div>
+         
+         
           <!--modal3-->
           <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -245,6 +180,21 @@ style="color: aliceblue;"
                                 <input type="text" class="form-control" id="" name="role" value="<% if (alluser.role==1714) { %>User<% }%><% if (alluser.role==1298) { %>owner<% }%><% if (alluser.role==2346) { %>Agent<% }%><% if (alluser.role==7210) { %>F.O<% }%><% if (alluser.role==9012) { %>Editer<% }%><% if (alluser.role==2017) { %>Admin<% }%>" disabled>
 
                               </div>
+                              
+                    <div class="mb-3">
+                      <label for="recipient-name" class="col-form-label">User Role</label>
+                      <select class="form-select form-select-sm" name="role">
+
+                        <% if (existingUser.role==2017) { %>
+                        <option value="9012">Editer</option>
+                        <% }%>
+                        <option value="9013"<%= alluser.role==9013? 'selected' : '' %>>Sub editer</option>
+                        <option value="7210"<%= alluser.role==7210? 'selected' : '' %>>Fo</option>
+                        <option value="2346"<%= alluser.role==2346? 'selected' : '' %>>Agent</option>
+                        <option value="1298" <%= alluser.role==1298? 'selected' : '' %>>owner</option>
+                        <option value="1714" <%= alluser.role==1714? 'selected' : '' %>>user</option>
+                      </select>
+                    </div>
 
 
 
@@ -293,7 +243,7 @@ style="color: aliceblue;"
 
                       <td>
                         <% if (alluser.status=="pending" ) { %><a span style="color:red;" <% if
-                                 (existingUser.role==2017) { %> href='#' onclick="approving_user('<%= alluser.id %>','<%=existingUser.userFname %>')" <% }%>>Pending</span></a>
+                                 (existingUser.role==2017 || existingUser.role==9012 ) { %> href='#' onclick="approving_user('<%= alluser.id %>','<%=existingUser.userFname %>')" <% }%>>Pending</span></a>
                         <% }else { %> <span style="color:Green;">Approved</span>
                         <% } %>
                       </td>
@@ -351,8 +301,9 @@ style="color: aliceblue;"
     <script src="/js/datatables.min.js"></script>
     <script src="/js/pdfmake.min.js"></script>
     <script src="/js/vfs_fonts.js"></script>
-    <script src="/js/custom.js"></script>
-
+    
+    <% if (existingUser.role ==9012) { %><script src="/js/custom_editer.js"></script><% }%>
+    <% if (existingUser.role ==2017) { %><script src="/js/custom_admin.js"></script><% }%>
 </body>
 
 </html>

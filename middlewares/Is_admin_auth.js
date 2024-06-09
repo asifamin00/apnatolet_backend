@@ -10,7 +10,7 @@ const Is_admin_auth = (req, res, next) => {
 
             req.userId = user.id
             req.role = user.role
-            if(user.role !=2017)
+            if(user.role !=2017 && user.role !=9012)
                 {req.flash('error_msg', 'User not allowed')
             res.redirect('/dashbord')
         

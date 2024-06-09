@@ -1,7 +1,7 @@
 const express = require('express')
 const userRouter = express.Router()
 const { signup, signin, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov,prop_delete,approve_prop,edit_prop,hjyu } = require('../controllers/userController')
+     approve_user, newpropo,user_con,prop_con,new_prop_ent,prop_aprov,prop_delete,approve_prop,edit_prop,hjyu,change_password } = require('../controllers/userController')
      
 const auth = require('../middlewares/auth')
 const Is_admin_auth = require('../middlewares/Is_admin_auth')
@@ -65,10 +65,11 @@ userRouter.put('/approving', auth, approve_user);
 userRouter.get('/forgot-password', (req, res) => {
     res.render('forgot-password')
 })
+userRouter.post('/change_password',auth,change_password)
 
 userRouter.get('/', auth, dashbord)
 userRouter.get('/dashbord', auth, dashbord)
-userRouter.get('/user_con', auth, user_con)
+userRouter.get('/user_con', auth,Is_admin_auth, user_con)
 
 userRouter.get('/prop_con', auth, prop_con)
 userRouter.get('/new_prop_ent/:id', auth, new_prop_ent)

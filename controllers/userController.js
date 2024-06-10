@@ -401,11 +401,6 @@ user_detailsof.password=hashedPassword
 user_detailsof.save()
 return res.redirect('/login')
 
-
-
-
-
-
 }
 
 const forgotPassword = async (req, res) => {

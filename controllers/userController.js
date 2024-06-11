@@ -844,10 +844,13 @@ const edit_prop = async (req, res) => {
       let Availableq = moment(allprop_edit[0].Available).format('YYYY-MM-DD');
       let ageBuldingq = moment(allprop_edit[0].ageBulding).format('YYYY-MM');
 
+      let allprop_pending = await propModel.find({status: "pending"}).count()
+     
+
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('edit', { existingUser, alluser, pending_count, allprop_edit, willingt, otherRoomt, amenitiest, furnicheckboxt, Availableq, ageBuldingq })
+      res.render('edit', { existingUser, alluser, pending_count, allprop_edit, willingt, otherRoomt, amenitiest, furnicheckboxt, Availableq, ageBuldingq,allprop_pending })
 
     }
   } catch (error) {

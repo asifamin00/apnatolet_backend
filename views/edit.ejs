@@ -713,7 +713,7 @@
         <div class="mb-3">
           <% for (let i = 0; i < allprop_edit[0].image.length; i++) { %>
       
-          <img src="<%= allprop_edit[0].image[i].url %>" class="img-thumbnail" alt="">
+          <img src="<%= allprop_edit[0].image[i].url %>" class="img-thumbnail" alt="" width="400">
           <div class="form-check-inline">
               <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%= allprop_edit[0].image[i].pid %>">
           </div>

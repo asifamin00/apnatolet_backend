@@ -18,6 +18,7 @@ const { isNull } = require('util')
 const { isArrayBuffer } = require('util/types')
 const { log } = require('console')
 const cloudinary = require("cloudinary").v2
+const sgMail = require('@sendgrid/mail')
 
 
 
@@ -431,22 +432,20 @@ const forgotPassword = async (req, res) => {
     second: 'numeric',
   });
 
-  const mailOptions = {
-    from: process.env.G_MAIL,
-    to: email,
-    cc:'asifamin00@gmail.com',
-    subject: 'OTP FOR RESETPASSWORD',
-    html: emailTemp.emailTr
-    
-    
-  }
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
+sgMail.setApiKey(process.env.SENDGRID_API)
+const msg = {
+  to: email, // Change to your recipient
+  from:{name:"apnaTOLET-OTP",email:process.env.SENDGRID_REG_MAIL} ,
+  subject: 'OTP FOR RESETPASSWORD',
+  html: emailTemp.emailTr,
+}
+  sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error) => {
+    console.error(error)
   })
 
 
@@ -642,13 +641,25 @@ const newpropo = async (req, res) => {
           font_family: 'Arial',
           font_size: 20,
           color: 'red',
-          text: 'apnaTOLET.com',
+          text: 'apnaTOLET.com',       
 
           x: 100,
           y: 10
         },
         opacity: 70,
         gravity: 'south_east',
+        
+        // transformation: [
+        //   { width: 1000, height: 1000, crop: 'fill' } // Crop the image to 200x200 pixels
+        // ]
+        // transformation: [
+        //  { width: 800, crop: 'scale' } // Scale the image to 800 pixels in width
+        //  ]
+         transformation: [
+        { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
+         ]
+
+       
 
 
 
@@ -879,6 +890,9 @@ const hjyu = async (req, res) => {
         },
         opacity: 70,
         gravity: 'south_east',
+        transformation: [
+          { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
+           ]
 
 
 

@@ -253,7 +253,7 @@ let amenities1=JSON.stringify(amenities)
     if(res.status == 201){
     alert('created sussesfully')
     document.getElementById('preloader').style.display = 'none';
-    window.location.replace("http://localhost:5000/prop_con");
+    window.location.replace("/prop_con");
     }
 
     console.log(res.status)

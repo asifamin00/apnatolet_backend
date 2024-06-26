@@ -120,7 +120,7 @@ const prop_con = async (req, res) => {
           $unwind: "$propt_info"       // Flatten the array to work with individual documents
         },
 
-
+       
         {
           $project: {
             "atlprop_id": 1,
@@ -135,9 +135,15 @@ const prop_con = async (req, res) => {
             "live": 1
 
           }
-        }
+        },
+        {
+           $sort: { "atlprop_id": -1 } 
+          }
+        
       ]
       const allprop = await propModel.aggregate(prop_table_pipeline)
+
+      
       
      
       let pending_count = await userModel.find({ status: "pending" }).count()
@@ -655,9 +661,10 @@ const newpropo = async (req, res) => {
         // transformation: [
         //  { width: 800, crop: 'scale' } // Scale the image to 800 pixels in width
         //  ]
-         transformation: [
-        { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
-         ]
+        //  transformation: [
+        // { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
+        //  ]
+        transformation: [{ width: 777, height: 585, crop: 'fill', quality: 'auto' }]
 
        
 
@@ -890,10 +897,10 @@ const hjyu = async (req, res) => {
         },
         opacity: 70,
         gravity: 'south_east',
-        transformation: [
-          { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
-           ]
-
+        // transformation: [
+        //   { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
+        //    ]
+        transformation: [{ width: 777, height: 585, crop: 'fill', quality: 'auto' }]
 
 
       },)

@@ -3,6 +3,7 @@
 $(document).ready(function(){
     
     var table = $('#example').DataTable({
+        "order": [[0, "desc"]],
         
         buttons:['excel', 'pdf', 'print'],
         //'copy', 'csv', 

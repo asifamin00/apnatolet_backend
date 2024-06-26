@@ -664,7 +664,7 @@ const newpropo = async (req, res) => {
         //  transformation: [
         // { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
         //  ]
-        transformation: [{ width: 777, height: 585, crop: 'fill', quality: 'auto' }]
+        transformation: [{ width: 800, height: 600, crop: 'fill', quality: 'auto' }]
 
        
 
@@ -900,7 +900,7 @@ const hjyu = async (req, res) => {
         // transformation: [
         //   { aspect_ratio: "16:9", crop: 'crop' } // Crop the image to a 16:9 aspect ratio
         //    ]
-        transformation: [{ width: 777, height: 585, crop: 'fill', quality: 'auto' }]
+        transformation: [{ width: 800, height: 600, crop: 'fill', quality: 'auto' }]
 
 
       },)

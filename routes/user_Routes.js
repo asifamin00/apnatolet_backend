@@ -51,7 +51,7 @@ userRouter.get('/pending', (req, res) => {
     res.render('pending')
 })
 
-userRouter.get('/register', (req, res) => {
+userRouter.get('/register',auth, (req, res) => {
     res.render('register')
 })
 userRouter.post('/creatuser', auth, createUser)

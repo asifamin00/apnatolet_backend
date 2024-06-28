@@ -112,3 +112,7 @@ userRouter.post("/newprop", upload.array("files", 10),auth, newpropo);
 
 
 module.exports = userRouter
+
+
+
+

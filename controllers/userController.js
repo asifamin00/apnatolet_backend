@@ -521,6 +521,14 @@ const createUser = async (req, res) => {
       return res.sendStatus(400)
 
     }
+    const defult_val=''
+    if (role==1714||role==1298){
+      defult_val="Approved"
+
+    }else{
+      defult_val="pending"
+    }
+    
     const result = await userModel.create({
       userFname: first_name,
       userLname: last_name,
@@ -529,7 +537,7 @@ const createUser = async (req, res) => {
       email: email,
       role: role,
       count_prop:0,
-      status: "pending",
+      status:defult_val ,
       createdBy: createdBy,
       approved_by: 'Approval_pending'
     })

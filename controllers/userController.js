@@ -521,12 +521,15 @@ const createUser = async (req, res) => {
       return res.sendStatus(400)
 
     }
-    const defult_val=''
-    if (role==1714||role==1298){
+    let defult_val=''
+    let approved_byP=''
+    if (req.body.role==1714||req.body.role==1298){
       defult_val="Approved"
-
+      approved_byP='Auto'
+  
     }else{
       defult_val="pending"
+      approved_byP='Approval_pending'
     }
 
     const result = await userModel.create({
@@ -537,9 +540,9 @@ const createUser = async (req, res) => {
       email: email,
       role: role,
       count_prop:0,
-      status:defult_val ,
+      status:defult_val,
       createdBy: createdBy,
-      approved_by: 'Approval_pending'
+      approved_by:approved_byP
     })
 
     req.flash('success_msg', 'New user creat successfully ')
@@ -559,6 +562,16 @@ const createUser = async (req, res) => {
 const edituser = (req, res) => {
   let searchQuery = { _id: req.params.id };
 
+  let defult_val=''
+  let approved_byP=''
+  if (req.body.role==1714||req.body.role==1298){
+    defult_val="Approved"
+    approved_byP='Auto'
+
+  }else{
+    defult_val="pending"
+    approved_byP='Approval_pending'
+  }
 
 
   userModel.updateOne(searchQuery, {
@@ -568,8 +581,8 @@ const edituser = (req, res) => {
       Phone: req.body.phone,
       email: req.body.email,
       role:req.body.role,
-      status: 'pending',
-      approved_by: 'Approval_pending'
+      status: defult_val,
+      approved_by: approved_byP
 
     }
   })

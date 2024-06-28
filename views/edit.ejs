@@ -1,5 +1,6 @@
 <%- include('partials/head') -%>
 
+
   <body id="page-top">
     <div id="preloader">
       <center><img src="../uploads/imag_loader.gif" alt=""></center>
@@ -138,8 +139,13 @@
           <label for="">Pin code</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="City" placeholder="City" name="City" value="<%=allprop_edit[0].City%>">
-          <label for="">City</label>
+          >
+          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="City"name="City">
+            
+            <option  value="Bhubaneswar" <%= allprop_edit[0].City === 'Bhubaneswar' ? 'Selected' : '' %>>Bhubaneswar</option>
+            <option  value="Cuttack" <%= allprop_edit[0].City === 'Cuttack' ? 'Selected' : '' %>>Cuttack</option>
+            
+          </select>
         </div>
         <div class="vl2"></div>
         <h3>GPS Location</h3>

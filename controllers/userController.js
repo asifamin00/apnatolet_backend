@@ -528,7 +528,7 @@ const createUser = async (req, res) => {
     }else{
       defult_val="pending"
     }
-    
+
     const result = await userModel.create({
       userFname: first_name,
       userLname: last_name,

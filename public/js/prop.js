@@ -132,6 +132,9 @@ propForm.addEventListener('submit', (e) => {
    const Add_info_text=document.getElementById('Add_info_text').value
    const deposit=document.getElementById('deposit').value
 
+   
+
+  //  const City=document.querySelector('input[name="City"]:selected').value
 
    const Bedrooms=document.querySelector('input[name="Bedrooms"]:checked').value
    const Bathrooms=document.querySelector('input[name="Bathrooms"]:checked').value
@@ -145,7 +148,7 @@ propForm.addEventListener('submit', (e) => {
    const Society=document.getElementById('Society').value
    const Locality=document.getElementById('Locality').value
    const Pin_code=document.getElementById('Pin_code').value
-   const City=document.getElementById('City').value
+  const City=document.getElementById('City').value
    const Latitude=document.getElementById('Latitude').value
    const Longitude=document.getElementById('Longitude').value
    const Bult_up_Area=document.getElementById('Bult_up_Area').value

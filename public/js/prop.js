@@ -72,43 +72,43 @@ console.log(photoParh)
 }
 //////////////////////selected photo display///////////////////////
 
-const fileInput = document.getElementById('files');
+// const fileInput = document.getElementById('files');
 	
-const preview = document.getElementById('preview');
+// const preview = document.getElementById('preview');
 
 
-fileInput.addEventListener('change', function() {
+// fileInput.addEventListener('change', function() {
 
-  preview.innerHTML = '';
-  const files = this.files;
-  let lala=[];
+//   preview.innerHTML = '';
+//   const files = this.files;
+//   let lala=[];
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    lala=file;
-    if (file) {
-      const reader = new FileReader();
+//   for (let i = 0; i < files.length; i++) {
+//     const file = files[i];
+//     lala=file;
+//     if (file) {
+//       const reader = new FileReader();
 
-      reader.addEventListener('load', function() {
-        const image = new Image();
-        image.src = this.result;
+//       reader.addEventListener('load', function() {
+//         const image = new Image();
+//         image.src = this.result;
 
-        const previewImage = document.createElement('div');
-        previewImage.classList.add('preview-image');
-        previewImage.appendChild(image);
+//         const previewImage = document.createElement('div');
+//         previewImage.classList.add('preview-image');
+//         previewImage.appendChild(image);
         
-        preview.appendChild(previewImage);
+//         preview.appendChild(previewImage);
   
   
-      });
+//       });
 
-      reader.readAsDataURL(file);
-    }
+//       reader.readAsDataURL(file);
+//     }
 
-  }
+//   }
 
  
-});
+// });
 
 
 
@@ -275,6 +275,53 @@ function Prop_apprv_pending(_id){
 
 alert(_id)
 }
+
+document.getElementById('file-input').addEventListener('change', function(event) {
+  const fileList = document.getElementById('file-list');
+  fileList.innerHTML = '';
+  
+  Array.from(event.target.files).forEach((file, index) => {
+      const fileItem = document.createElement('div');
+      fileItem.classList.add('file-item');
+      
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      img.alt = file.name;
+      img.id = 'hhjh';
+      
+      const fileName = document.createElement('span');
+      fileName.textContent = file.name;
+      
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'X';
+      removeButton.classList.add('remove-btn');
+      removeButton.addEventListener('click', () => {
+          removeFile(index);
+      });
+      
+      fileItem.appendChild(img);
+      // fileItem.appendChild(fileName);
+      fileItem.appendChild(removeButton);
+      fileList.appendChild(fileItem);
+  });
+});
+
+function removeFile(index) {
+  const fileInput = document.getElementById('file-input');
+  const dt = new DataTransfer();
+  
+  Array.from(fileInput.files).forEach((file, i) => {
+      if (index !== i) {
+          dt.items.add(file);
+      }
+  });
+  
+  fileInput.files = dt.files;
+  document.getElementById('file-input').dispatchEvent(new Event('change'));
+}
+
+
+
 
 
 

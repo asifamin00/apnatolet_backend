@@ -1,23 +1,25 @@
 <%- include('partials/head') -%>
-style="color: aliceblue;"
+
+
+
 <style>
   #user_conmenucss {
   color: #FCFF33;
 }
 </style>
 
-<body id="page-top">
+<body id="page-top" >
   <div id="preloader">
     <center><img src="../uploads/imag_loader.gif" alt=""></center>
   </div>
 
-  <div id="wrapper">
+  <div id="wrapper"  >
 
 
     <%- include('partials/nav') -%>
 
-    <
-    <div class="d-flex flex-column" id="content-wrapper">
+   
+    <div class="d-flex flex-column " id="content-wrapper">
       <div id="content">
         
 
@@ -30,7 +32,7 @@ style="color: aliceblue;"
 
         <!---start user table-->
 
-        <div class="container-fluid col-sm-10" id='userinfo' style="display: block; padding-top:5rem;margin-left: 200px;">
+        <div class="col-md-9 scrollmenu" id='userinfo' style="display: block; padding-top:5rem;margin-left:18rem;">
           
           <!---start modals-->
          
@@ -94,7 +96,7 @@ style="color: aliceblue;"
           </div>
           <!---End modals-->
 
-          <h1>user</h1>
+          <!-- <h1>user</h1> -->
 
           
 
@@ -103,7 +105,7 @@ style="color: aliceblue;"
 
           <%- include('partials/messages') -%>
          
-              <div class="data_table" style="margin: 5%;">
+           
                 <div class="d-flex flex-row-reverse">
                   <button type="button" class="btn btn-warning p-2" data-bs-toggle="modal" data-bs-target="#exampleModal3" id="creat_user">CreatUser</button>
                 </div>
@@ -263,7 +265,7 @@ style="color: aliceblue;"
 
                   </tbody>
                 </table>
-              </div>
+             
            
           
          
@@ -302,6 +304,14 @@ style="color: aliceblue;"
     
     <% if (existingUser.role ==9012) { %><script src="/js/custom_editer.js"></script><% }%>
     <% if (existingUser.role ==2017) { %><script src="/js/custom_admin.js"></script><% }%>
+    <script>
+       window.addEventListener('load', () => {
+      let scrollElement = document.querySelector('.scrollmenu');
+      scrollElement.scrollLeft =  (scrollElement.scrollWidth - 
+      scrollElement.clientWidth ) / 2;
+    });
+
+    </script>
 </body>
 
 </html>

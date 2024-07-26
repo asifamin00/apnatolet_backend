@@ -5,7 +5,7 @@ const userModel = require("../models/userSch")
 const propModel = require("../models/propertySchema")
 const counterModel = require("../models/counterSch")
 //const helper = require('../user_prop');
-const emailTemp=require('../emailtemplet')
+const emailTemp = require('../emailtemplet')
 const moment = require('moment')
 const fs = require('fs');
 const bcrypt = require("bcrypt")
@@ -37,21 +37,21 @@ const dashbord = async (req, res) => {
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
-      let pending_count = await userModel.find({ status: "pending" }).count()   
-      let allprop_pending = await propModel.find({status: "pending"}).count()   
-      let allprop_Live = await propModel.find({live: "off"}).count()   
-      let allprop_Hold = await propModel.find({status: "Hold"}).count() 
+      let pending_count = await userModel.find({ status: "pending" }).count()
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
+      let allprop_Live = await propModel.find({ live: "off" }).count()
+      let allprop_Hold = await propModel.find({ status: "Hold" }).count()
       let owner_count = await userModel.find({ role: 1298 }).count()
       let user_count = await userModel.find({ role: 1714 }).count()
       let agent_count = await userModel.find({ role: 2346 }).count()
 
 
-      
 
-      res.render('dashbord', { existingUser, alluser, pending_count, allprop,allprop_pending,allprop_Live,allprop_Hold,owner_count,user_count,agent_count })
 
-     
-      
+      res.render('dashbord', { existingUser, alluser, pending_count, allprop, allprop_pending, allprop_Live, allprop_Hold, owner_count, user_count, agent_count })
+
+
+
 
     }
   } catch (error) {
@@ -72,11 +72,11 @@ const user_con = async (req, res) => {
       let allprop = await propModel.find({})
 
       let pending_count = await userModel.find({ status: "pending" }).count()
-      let allprop_pending = await propModel.find({status: "pending"}).count()   
-     
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
 
-      
-      res.render('user_con', { existingUser, alluser,pending_count,allprop,allprop_pending })
+
+
+      res.render('user_con', { existingUser, alluser, pending_count, allprop, allprop_pending })
 
     }
   } catch (error) {
@@ -95,7 +95,7 @@ const prop_con = async (req, res) => {
       let user = jwt.verify(token, SECRET_KEY)
 
       let existingUser = await userModel.findOne({ email: user.email })
-      let allprop_pending = await propModel.find({status: "pending"}).count()   
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
       let alluser = await userModel.find({})
 
 
@@ -120,7 +120,7 @@ const prop_con = async (req, res) => {
           $unwind: "$propt_info"       // Flatten the array to work with individual documents
         },
 
-       
+
         {
           $project: {
             "atlprop_id": 1,
@@ -137,18 +137,18 @@ const prop_con = async (req, res) => {
           }
         },
         {
-           $sort: { "atlprop_id": -1 } 
-          }
-        
+          $sort: { "atlprop_id": -1 }
+        }
+
       ]
       const allprop = await propModel.aggregate(prop_table_pipeline)
 
-      
-      
-     
+
+
+
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('prop_con', { existingUser, alluser, pending_count, allprop ,allprop_pending})
+      res.render('prop_con', { existingUser, alluser, pending_count, allprop, allprop_pending })
     }
   } catch (error) {
     console.log(error)
@@ -164,21 +164,94 @@ const new_prop_ent = async (req, res) => {
 
       let existingUser = await userModel.findOne({ email: user.email })
       const user_id = req.params.id
-      
+
       let alluser = await userModel.find({})
       let allprop_user = await propModel.find({ user_id: user_id })
       let username = await userModel.findOne({ _id: user_id })
- 
-      let allprop_pending = await propModel.find({status: "pending"}).count()
+
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('new_prop_ent', { existingUser, alluser, pending_count, allprop_user, username,allprop_pending })
+      res.render('new_prop_ent', { existingUser, alluser, pending_count, allprop_user, username, allprop_pending })
 
     }
   } catch (error) {
     console.log(error)
   }
 }
+const SelectUser = async (req, res) => {
+  try {
+    let token = req.cookies.token
+    if (token) {
+      let user = jwt.verify(token, SECRET_KEY)
+      let existingUser = await userModel.findOne({ email: user.email })
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()
+      res.render('SelectUser', { existingUser, pending_count, allprop_pending, allprop_user: '' })
+    }
+  } catch (error) {
+    console.log(error)
+
+  }
+}
+const SelectUser_result = async (req, res) => {
+  try {
+    let token = req.cookies.token
+    if (token) {
+      let user = jwt.verify(token, SECRET_KEY)
+      let existingUser = await userModel.findOne({ email: user.email })
+      let allprop_pending = await propModel.find({status: "pending"}).count()
+      let pending_count = await userModel.find({ status: "pending" }).count()
+
+
+      let email_id = req.query.email_id 
+      let Phone_no= req.query.Phone_no
+
+     if(email_id || Phone_no ){
+      let alluser = await userModel.findOne({ $or: [{ Phone:Phone_no }, { email: email_id }] })      
+     
+
+      let idstrng=(alluser._id).toString()
+      
+       //let allprop_user = await propModel.find({ user_id:idstrng })
+
+      propModel.find({user_id:idstrng })
+      .then(allprop_user => {
+        res.render('SelectUser', { existingUser,pending_count,allprop_pending ,allprop_user,idstrng})
+    })
+    .catch(err => {
+      
+      req.flash('error_msg', 'User not found')
+      res.redirect('/SelectUser');
+    });
+      
+     }else{
+      req.flash('error_msg', 'Enter email or phone number')
+      res.redirect('/SelectUser');
+     }
+      
+
+     
+
+
+     
+
+
+    
+
+   
+
+      // res.render('SelectUser', { existingUser,pending_count,allprop_pending ,allprop_user})
+      
+    }
+  } catch (error) {
+    req.flash('error_msg', 'User not found')
+      res.redirect('/SelectUser');
+      console.log(error)
+    
+  }
+}
+
 const prop_aprov = async (req, res) => {
   try {
     let token = req.cookies.token
@@ -193,7 +266,7 @@ const prop_aprov = async (req, res) => {
       let allprop = await propModel.find({})
 
       let pending_count = await userModel.find({ status: "pending" }).count()
-      let allprop_pending = await propModel.find({status: "pending"}).count()   
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
 
       const prop_approv_pipeline = [
         {
@@ -282,7 +355,7 @@ const prop_aprov = async (req, res) => {
 
 
 
-      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv, otherRoomt, amenitiest, differenceInDays, Availablet,allprop_pending })
+      res.render('prop_aprov', { existingUser, alluser, pending_count, prop_approv, otherRoomt, amenitiest, differenceInDays, Availablet, allprop_pending })
 
     }
   } catch (error) {
@@ -312,7 +385,7 @@ const signup = async (req, res) => {
       Phone: phone,
       email: email,
       password: hashedPassword,
-      count_prop:0,
+      count_prop: 0,
       role: 1714,
       status: "pending",
       createdBy: 'self',
@@ -390,36 +463,36 @@ const signin = async (req, res) => {
   }
 }
 
-const change_password = async (req,res)=>{
-const {email,new_password,old_password}=req.body
+const change_password = async (req, res) => {
+  const { email, new_password, old_password } = req.body
 
-const hospass=hash_password=await bcrypt.hash(new_password, 10)
-const user_detailsof=await userModel.findOne({ email: email })
+  const hospass = hash_password = await bcrypt.hash(new_password, 10)
+  const user_detailsof = await userModel.findOne({ email: email })
 
-const matchPassword = await bcrypt.compare(old_password, user_detailsof.password)
-if(!matchPassword){
-  req.flash('error_msg', 'Password mismatch')
-      return res.redirect('/login')
+  const matchPassword = await bcrypt.compare(old_password, user_detailsof.password)
+  if (!matchPassword) {
+    req.flash('error_msg', 'Password mismatch')
+    return res.redirect('/login')
 
-}
-const hashedPassword = await bcrypt.hash(new_password, 10)
+  }
+  const hashedPassword = await bcrypt.hash(new_password, 10)
 
-user_detailsof.password=hashedPassword
-user_detailsof.save()
-return res.redirect('/login')
+  user_detailsof.password = hashedPassword
+  user_detailsof.save()
+  return res.redirect('/login')
 
 }
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body
-  
+
 
   const existingUser = await userModel.findOne({ email: email })
   if (!existingUser) {
     req.flash('error_msg', 'Üser not found')
     return res.redirect('/forgot-password')
   }
-  
+
   console.log(emailTemp.otp)
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -438,21 +511,21 @@ const forgotPassword = async (req, res) => {
     second: 'numeric',
   });
 
-sgMail.setApiKey(process.env.SENDGRID_API)
-const msg = {
-  to: email, // Change to your recipient
-  from:{name:"apnaTOLET-OTP",email:process.env.SENDGRID_REG_MAIL} ,
-  subject: 'OTP FOR RESETPASSWORD',
-  html: emailTemp.emailTr,
-}
+  sgMail.setApiKey(process.env.SENDGRID_API)
+  const msg = {
+    to: email, // Change to your recipient
+    from: { name: "apnaTOLET-OTP", email: process.env.SENDGRID_REG_MAIL },
+    subject: 'OTP FOR RESETPASSWORD',
+    html: emailTemp.emailTr,
+  }
   sgMail
-  .send(msg)
-  .then(() => {
-    console.log('Email sent')
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+    .send(msg)
+    .then(() => {
+      console.log('Email sent')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 
 
   existingUser.resetPasswordToken = emailTemp.otp;
@@ -511,7 +584,7 @@ const createUser = async (req, res) => {
 
   const { first_name, last_name, email, phone, role, createdBy } = req.body
   try {
-  
+
     const existingUser = await userModel.findOne({
       $or: [{ email: email }, { Phone: phone }]
     });
@@ -521,15 +594,15 @@ const createUser = async (req, res) => {
       return res.sendStatus(400)
 
     }
-    let defult_val=''
-    let approved_byP=''
-    if (req.body.role==1714||req.body.role==1298){
-      defult_val="Approved"
-      approved_byP='Auto'
-  
-    }else{
-      defult_val="pending"
-      approved_byP='Approval_pending'
+    let defult_val = ''
+    let approved_byP = ''
+    if (req.body.role == 1714 || req.body.role == 1298) {
+      defult_val = "Approved"
+      approved_byP = 'Auto'
+
+    } else {
+      defult_val = "pending"
+      approved_byP = 'Approval_pending'
     }
 
     const result = await userModel.create({
@@ -539,10 +612,10 @@ const createUser = async (req, res) => {
       password: '123',
       email: email,
       role: role,
-      count_prop:0,
-      status:defult_val,
+      count_prop: 0,
+      status: defult_val,
       createdBy: createdBy,
-      approved_by:approved_byP
+      approved_by: approved_byP
     })
 
     req.flash('success_msg', 'New user creat successfully ')
@@ -562,15 +635,15 @@ const createUser = async (req, res) => {
 const edituser = (req, res) => {
   let searchQuery = { _id: req.params.id };
 
-  let defult_val=''
-  let approved_byP=''
-  if (req.body.role==1714||req.body.role==1298){
-    defult_val="Approved"
-    approved_byP='Auto'
+  let defult_val = ''
+  let approved_byP = ''
+  if (req.body.role == 1714 || req.body.role == 1298) {
+    defult_val = "Approved"
+    approved_byP = 'Auto'
 
-  }else{
-    defult_val="pending"
-    approved_byP='Approval_pending'
+  } else {
+    defult_val = "pending"
+    approved_byP = 'Approval_pending'
   }
 
 
@@ -580,7 +653,7 @@ const edituser = (req, res) => {
       userLname: req.body.last_name,
       Phone: req.body.phone,
       email: req.body.email,
-      role:req.body.role,
+      role: req.body.role,
       status: defult_val,
       approved_by: approved_byP
 
@@ -600,49 +673,49 @@ const edituser = (req, res) => {
 
 }
 
-const delete_user =async (req, res) => {
+const delete_user = async (req, res) => {
   const _idq = req.body.id
-  
-  const count=await propModel.countDocuments({user_id:_idq})
+
+  const count = await propModel.countDocuments({ user_id: _idq })
   console.log(count);
   try {
-   if(count == 0){
- 
-    const gtl=await userModel.findByIdAndDelete(_idq )
+    if (count == 0) {
+
+      const gtl = await userModel.findByIdAndDelete(_idq)
 
 
-   res.sendStatus(202)
-   }else{
-    req.flash('error_msg', `${count}property linked !!! delete propery befor delete user ` )
+      res.sendStatus(202)
+    } else {
+      req.flash('error_msg', `${count}property linked !!! delete propery befor delete user `)
       res.sendStatus(302)
-   }
+    }
   } catch (error) {
-    
+
   }
-  
+
 }
 
 const approve_user = async (req, res) => {
   const pass = uuidv4();
   try {
     const hashedPassword = await bcrypt.hash(pass, 10)
-  const _id = req.body.id
-  const curid = req.body.curid
+    const _id = req.body.id
+    const curid = req.body.curid
 
 
-  userModel.updateOne({ _id }, {
-    $set: {
-      status: 'Approved',
-      approved_by: curid,
-      password: hashedPassword
+    userModel.updateOne({ _id }, {
+      $set: {
+        status: 'Approved',
+        approved_by: curid,
+        password: hashedPassword
 
-    }
-  }).then(user_user => {
+      }
+    }).then(user_user => {
 
-    req.flash('success_msg', 'Approved.')
-    res.sendStatus(202)
-  })
-    
+      req.flash('success_msg', 'Approved.')
+      res.sendStatus(202)
+    })
+
   } catch (error) {
     console.log(error)
   }
@@ -652,11 +725,11 @@ const approve_user = async (req, res) => {
   //   specialChars: true
   // })
 
-  
+
 }
 
 const newpropo = async (req, res) => {
- 
+
   const uploadedImages = [];
   try {
     for (let i = 0; i < req.files.length; i++) {
@@ -668,14 +741,14 @@ const newpropo = async (req, res) => {
           font_family: 'Arial',
           font_size: 20,
           color: 'red',
-          text: 'apnaTOLET.com',       
+          text: 'apnaTOLET.com',
 
           x: 100,
           y: 10
         },
         opacity: 70,
         gravity: 'south_east',
-        
+
         // transformation: [
         //   { width: 1000, height: 1000, crop: 'fill' } // Crop the image to 200x200 pixels
         // ]
@@ -687,7 +760,7 @@ const newpropo = async (req, res) => {
         //  ]
         transformation: [{ width: 800, height: 600, crop: 'fill', quality: 'auto' }]
 
-       
+
 
 
 
@@ -763,8 +836,8 @@ const newpropo = async (req, res) => {
       status: "pending",
       live: 'off'
     })
-    await userModel.findByIdAndUpdate(user_id,{$inc:{count_prop:1}},{new:true})
- 
+    await userModel.findByIdAndUpdate(user_id, { $inc: { count_prop: 1 } }, { new: true })
+
 
     res.sendStatus(201)
 
@@ -799,11 +872,11 @@ const prop_delete = async (req, res) => {
 
     }
 
-    const user_id_m=prop_details.user_id
-    await userModel.findByIdAndUpdate(user_id_m,{$inc:{count_prop:-1}},{new:true})
+    const user_id_m = prop_details.user_id
+    await userModel.findByIdAndUpdate(user_id_m, { $inc: { count_prop: -1 } }, { new: true })
     const rmProduct = await propModel.findByIdAndDelete(prop_details._id);
 
-    
+
 
 
     req.flash('success_msg', 'Deleted successfully ')
@@ -849,7 +922,7 @@ const approve_prop = async (req, res) => {
     .then(user_user => {
 
       req.flash('success_msg', 'Update successfully ')
-     
+
 
       res.redirect('/prop_con');
 
@@ -883,13 +956,13 @@ const edit_prop = async (req, res) => {
       let Availableq = moment(allprop_edit[0].Available).format('YYYY-MM-DD');
       let ageBuldingq = moment(allprop_edit[0].ageBulding).format('YYYY-MM');
 
-      let allprop_pending = await propModel.find({status: "pending"}).count()
-     
+      let allprop_pending = await propModel.find({ status: "pending" }).count()
+
 
 
       let pending_count = await userModel.find({ status: "pending" }).count()
 
-      res.render('edit', { existingUser, alluser, pending_count, allprop_edit, willingt, otherRoomt, amenitiest, furnicheckboxt, Availableq, ageBuldingq,allprop_pending })
+      res.render('edit', { existingUser, alluser, pending_count, allprop_edit, willingt, otherRoomt, amenitiest, furnicheckboxt, Availableq, ageBuldingq, allprop_pending })
 
     }
   } catch (error) {
@@ -1112,8 +1185,8 @@ const hjyu = async (req, res) => {
     }
   })
 
-       req.flash('success_msg', 'Update successfully ')
-      res.redirect('/prop_con');
+  req.flash('success_msg', 'Update successfully ')
+  res.redirect('/prop_con');
 
 
 
@@ -1122,5 +1195,5 @@ const hjyu = async (req, res) => {
 
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu,change_password
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu, change_password, SelectUser,SelectUser_result
 }

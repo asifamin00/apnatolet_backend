@@ -1,0 +1,61 @@
+
+
+
+
+/* ==== Data table  = Start ===== */
+
+.data_table{
+   background: #fff;
+    padding: 15px;
+    box-shadow: 1px 3px 5px #aaa;
+    border-radius: 5px;
+}
+
+.data_table .btn{
+    padding: 5px 10px;
+    margin: 10px 3px 10px 0;
+}
+
+
+
+/* ==== Data table  = End  ===== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ul>
+                  <li class="nav-item" id="creat_user" ><a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3" >
+                    <!-- <i class="far fa-user-circle"></i> -->
+                    <h5>CreatUser</h5></a>
+                  </li>
+                </ul>
+				
+				1714
+				new_propmenucss
+				user_con_nomenucss
+				
+				<style>
+    #dashmenucss {
+    color: #FCFF33;
+  }
+  </style>
+				

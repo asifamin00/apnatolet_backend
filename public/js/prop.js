@@ -40,6 +40,43 @@ function furwnishing(see) {
   }
 
 }
+
+function residential() {
+  document.querySelector("#PG_room").style.display = "none";
+  document.querySelector("#Hostel").style.display = "none";
+  document.querySelector("#Show_room").style.display = "none";
+  document.querySelector("#Shop").style.display = "none";
+  document.querySelector("#Flat_Apartment").style.display = "block";
+  document.querySelector("#Independent_House_Villa").style.display = "block";
+  document.querySelector("#Studio_Apartment").style.display = "block";
+  document.querySelector("#Serviced_Apartment").style.display = "block";
+  document.querySelector("#Tell_us_about_your_property").style.display = "block";
+  document.querySelector("#otherRooms").style.display = "block";
+
+  document.querySelector("#Amenities_for_Commercial_ntt").style.display = "none";
+  document.querySelector("#Amenities_for_residential_ntt").style.display = "block";
+  document.querySelector("#total_property").style.display = "block";
+}
+
+function commercial(){
+  document.querySelector("#Flat_Apartment").style.display = "none";
+  document.querySelector("#Independent_House_Villa").style.display = "none";
+  document.querySelector("#Studio_Apartment").style.display = "none";
+  document.querySelector("#Serviced_Apartment").style.display = "none";
+  document.querySelector("#PG_room").style.display = "block";
+  document.querySelector("#Hostel").style.display = "block";
+  document.querySelector("#Show_room").style.display = "block";
+  document.querySelector("#Shop").style.display = "block";
+
+  document.querySelector("#Tell_us_about_your_property").style.display = "none";
+  document.querySelector("#otherRooms").style.display = "none";
+
+  document.querySelector("#Amenities_for_Commercial_ntt").style.display = "block";
+  document.querySelector("#Amenities_for_residential_ntt").style.display = "none";
+  document.querySelector("#total_property").style.display = "block";
+
+
+}
 ////////////////////////////////////
 function ageBuld(v){
 // Get the current date
@@ -126,11 +163,19 @@ propForm.addEventListener('submit', (e) => {
 
   
    const prop_kind=document.querySelector('input[name="kind_of_prop"]:checked').value
+   
    const prop_type=document.querySelector('input[name="prop_type"]:checked').value
 
    const Add_info_radio=document.querySelector('input[name="Add_info_radio"]:checked').value
    const Add_info_text=document.getElementById('Add_info_text').value
    const deposit=document.getElementById('deposit').value
+
+   if(prop_type === 'prop_none'){
+    alert('Property Type must be Selected')
+    document.getElementById('preloader').style.display = 'none';
+    // window.location.replace("/prop_con");
+    return
+   }
 
    
 
@@ -233,7 +278,7 @@ let amenities1=JSON.stringify(amenities)
     formData.append("Add_info_text", Add_info_text);
     formData.append("deposit", deposit);
 
-    const files = document.getElementById("files");
+    const files = document.getElementById("file-input");
     // const formData = new FormData();
     // // Creates empty formData object
     //

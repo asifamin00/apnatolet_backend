@@ -1,3 +1,14 @@
+div.scrollmenu {
+ 
+  overflow: auto;
+  white-space: nowrap;
+  
+}
+
+
+
+
+
 .sidebar.sidebar-dark.accordion.bg-gradient-primary {
   background: rgb(217,20,66);
 }
@@ -21,7 +32,7 @@
   top: 100;
   right: 0;
   left: 0;
-  z-index: 1;
+  z-index: 9;
 }
 
 html {
@@ -267,70 +278,7 @@ p {
   z-index: 2; /* Ensure the preloader appears on top of other content */
   /* Additional styling (e.g., centering, spinner styles) */
 }
-/*property card start*/
-/* 44body {
-  background-color: mintcream;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.card {
-  max-width: 30em;
-  flex-direction: row;
-  background-color: #696969;
-  border: 0;
-  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.18);
-  margin: 3em auto;
-}
-.card.dark {
-  color: #fff;
-}
-.card.card.bg-light-subtle .card-title {
-  color: dimgrey;
-}
 
-.card img {
-  max-width: 25%;
-  margin: auto;
-  padding: 0.5em;
-  border-radius: 0.7em;
-}
-.card-body {
-  display: flex;
-  justify-content: space-between;
-}
-.text-section {
-  max-width: 60%;
-}
-.cta-section {
-  max-width: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-.cta-section .btn {
-  padding: 0.3em 0.5em;
-  /* color: #696969; 
-}
-.card.bg-light-subtle .cta-section .btn {
-  background-color: #898989;
-  border-color: #898989;
-}
- @media screen and (max-width: 475px) {
-  .card {
-    font-size: 0.9em;
-  }
-}  */
-
-/* property card end */
-
-/* .carousel-inner {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-} */
 
 .navbar-brand::selection {
   color: #fff;
@@ -408,6 +356,7 @@ li {
   padding: 15px;
   box-shadow: 1px 3px 5px #aaa;
   border-radius: 5px;
+  margin-bottom: 5rem;
 }
 
 .data_table .btn{
@@ -427,7 +376,24 @@ li {
    padding-right: 30px; 
 }
 .dataTables_wrapper .dataTables_length {
-  float:none;
+  float: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+      width: 12vw !important;
+     
+  }
+  h5, .h5 {
+    font-size: 1rem !important;
+}
+h4, .h4 {
+  font-size: 1rem !important;
+}
+td, .td {
+  font-size: .9rem !important;
+}
+
 }
 
 

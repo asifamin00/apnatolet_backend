@@ -179,7 +179,7 @@ const new_prop_ent = async (req, res) => {
     console.log(error)
   }
 }
-const SelectUser = async (req, res) => {
+const selectuser = async (req, res) => {
   try {
     let token = req.cookies.token
     if (token) {
@@ -187,14 +187,14 @@ const SelectUser = async (req, res) => {
       let existingUser = await userModel.findOne({ email: user.email })
       let allprop_pending = await propModel.find({ status: "pending" }).count()
       let pending_count = await userModel.find({ status: "pending" }).count()
-      res.render('SelectUser', { existingUser, pending_count, allprop_pending, allprop_user: '' })
+      res.render('selectuser', { existingUser, pending_count, allprop_pending, allprop_user: '' })
     }
   } catch (error) {
     console.log(error)
 
   }
 }
-const SelectUser_result = async (req, res) => {
+const selectuser_result = async (req, res) => {
   try {
     let token = req.cookies.token
     if (token) {
@@ -217,17 +217,17 @@ const SelectUser_result = async (req, res) => {
 
       propModel.find({user_id:idstrng })
       .then(allprop_user => {
-        res.render('SelectUser', { existingUser,pending_count,allprop_pending ,allprop_user,idstrng})
+        res.render('selectuser', { existingUser,pending_count,allprop_pending ,allprop_user,idstrng})
     })
     .catch(err => {
       
       req.flash('error_msg', 'User not found')
-      res.redirect('/SelectUser');
+      res.redirect('/selectuser');
     });
       
      }else{
       req.flash('error_msg', 'Enter email or phone number')
-      res.redirect('/SelectUser');
+      res.redirect('/selectuser');
      }
       
 
@@ -241,12 +241,12 @@ const SelectUser_result = async (req, res) => {
 
    
 
-      // res.render('SelectUser', { existingUser,pending_count,allprop_pending ,allprop_user})
+      // res.render('selectuser', { existingUser,pending_count,allprop_pending ,allprop_user})
       
     }
   } catch (error) {
     req.flash('error_msg', 'User not found')
-      res.redirect('/SelectUser');
+      res.redirect('/selectuser');
       console.log(error)
     
   }
@@ -1195,5 +1195,5 @@ const hjyu = async (req, res) => {
 
 module.exports = {
   signin, signup, dashbord, forgotPassword, otp_check, createUser, edituser, delete_user,
-  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu, change_password, SelectUser,SelectUser_result
+  approve_user, newpropo, user_con, prop_con, new_prop_ent, prop_aprov, prop_delete, approve_prop, edit_prop, hjyu, change_password, selectuser,selectuser_result
 }

@@ -8,7 +8,7 @@ const counterModel = require("../models/counterSch")
 const emailTemp = require('../emailtemplet')
 const moment = require('moment')
 const fs = require('fs');
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 const { cache } = require("ejs")
 const jwt = require("jsonwebtoken")
 const { v4: uuidv4 } = require('uuid');
@@ -37,13 +37,13 @@ const dashbord = async (req, res) => {
 
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
-      let pending_count = await userModel.find({ status: "pending" }).count()
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
-      let allprop_Live = await propModel.find({ live: "off" }).count()
-      let allprop_Hold = await propModel.find({ status: "Hold" }).count()
-      let owner_count = await userModel.find({ role: 1298 }).count()
-      let user_count = await userModel.find({ role: 1714 }).count()
-      let agent_count = await userModel.find({ role: 2346 }).count()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
+      let allprop_Live = await propModel.find({ live: "off" }).countDocuments()
+      let allprop_Hold = await propModel.find({ status: "Hold" }).countDocuments()
+      let owner_count = await userModel.find({ role: 1298 }).countDocuments()
+      let user_count = await userModel.find({ role: 1714 }).countDocuments()
+      let agent_count = await userModel.find({ role: 2346 }).countDocuments()
 
 
 
@@ -71,8 +71,8 @@ const user_con = async (req, res) => {
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
 
-      let pending_count = await userModel.find({ status: "pending" }).count()
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
 
 
 
@@ -95,7 +95,7 @@ const prop_con = async (req, res) => {
       let user = jwt.verify(token, SECRET_KEY)
 
       let existingUser = await userModel.findOne({ email: user.email })
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
       let alluser = await userModel.find({})
 
 
@@ -146,7 +146,7 @@ const prop_con = async (req, res) => {
 
 
 
-      let pending_count = await userModel.find({ status: "pending" }).count()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
 
       res.render('prop_con', { existingUser, alluser, pending_count, allprop, allprop_pending })
     }
@@ -169,8 +169,8 @@ const new_prop_ent = async (req, res) => {
       let allprop_user = await propModel.find({ user_id: user_id })
       let username = await userModel.findOne({ _id: user_id })
 
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
-      let pending_count = await userModel.find({ status: "pending" }).count()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
 
       res.render('new_prop_ent', { existingUser, alluser, pending_count, allprop_user, username, allprop_pending })
 
@@ -185,8 +185,8 @@ const selectuser = async (req, res) => {
     if (token) {
       let user = jwt.verify(token, SECRET_KEY)
       let existingUser = await userModel.findOne({ email: user.email })
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
-      let pending_count = await userModel.find({ status: "pending" }).count()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
       res.render('selectuser', { existingUser, pending_count, allprop_pending, allprop_user: '' })
     }
   } catch (error) {
@@ -200,19 +200,19 @@ const selectuser_result = async (req, res) => {
     if (token) {
       let user = jwt.verify(token, SECRET_KEY)
       let existingUser = await userModel.findOne({ email: user.email })
-      let allprop_pending = await propModel.find({status: "pending"}).count()
-      let pending_count = await userModel.find({ status: "pending" }).count()
+      let allprop_pending = await propModel.find({status: "pending"}).countDocuments()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
 
 
-      let email_id = req.query.email_id 
+      let email_id = req.query.email_id
       let Phone_no= req.query.Phone_no
 
      if(email_id || Phone_no ){
-      let alluser = await userModel.findOne({ $or: [{ Phone:Phone_no }, { email: email_id }] })      
-     
+      let alluser = await userModel.findOne({ $or: [{ Phone:Phone_no }, { email: email_id }] })
+
 
       let idstrng=(alluser._id).toString()
-      
+
        //let allprop_user = await propModel.find({ user_id:idstrng })
 
       propModel.find({user_id:idstrng })
@@ -220,35 +220,35 @@ const selectuser_result = async (req, res) => {
         res.render('selectuser', { existingUser,pending_count,allprop_pending ,allprop_user,idstrng})
     })
     .catch(err => {
-      
+
       req.flash('error_msg', 'User not found')
       res.redirect('/selectuser');
     });
-      
+
      }else{
       req.flash('error_msg', 'Enter email or phone number')
       res.redirect('/selectuser');
      }
-      
-
-     
 
 
-     
 
 
-    
 
-   
+
+
+
+
+
+
 
       // res.render('selectuser', { existingUser,pending_count,allprop_pending ,allprop_user})
-      
+
     }
   } catch (error) {
     req.flash('error_msg', 'User not found')
       res.redirect('/selectuser');
       console.log(error)
-    
+
   }
 }
 
@@ -265,8 +265,8 @@ const prop_aprov = async (req, res) => {
       let alluser = await userModel.find({})
       let allprop = await propModel.find({})
 
-      let pending_count = await userModel.find({ status: "pending" }).count()
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
 
       const prop_approv_pipeline = [
         {
@@ -676,7 +676,7 @@ const edituser = (req, res) => {
 const delete_user = async (req, res) => {
   const _idq = req.body.id
 
-  const count = await propModel.countDocuments({ user_id: _idq })
+  const count = await propModel.countDocumentsDocuments({ user_id: _idq })
   console.log(count);
   try {
     if (count == 0) {
@@ -956,11 +956,11 @@ const edit_prop = async (req, res) => {
       let Availableq = moment(allprop_edit[0].Available).format('YYYY-MM-DD');
       let ageBuldingq = moment(allprop_edit[0].ageBulding).format('YYYY-MM');
 
-      let allprop_pending = await propModel.find({ status: "pending" }).count()
+      let allprop_pending = await propModel.find({ status: "pending" }).countDocuments()
 
 
 
-      let pending_count = await userModel.find({ status: "pending" }).count()
+      let pending_count = await userModel.find({ status: "pending" }).countDocuments()
 
       res.render('edit', { existingUser, alluser, pending_count, allprop_edit, willingt, otherRoomt, amenitiest, furnicheckboxt, Availableq, ageBuldingq, allprop_pending })
 

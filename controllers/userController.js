@@ -676,7 +676,7 @@ const edituser = (req, res) => {
 const delete_user = async (req, res) => {
   const _idq = req.body.id
 
-  const count = await propModel.countDocumentsDocuments({ user_id: _idq })
+  const count = await propModel.countDocuments({ user_id: _idq })
   console.log(count);
   try {
     if (count == 0) {
